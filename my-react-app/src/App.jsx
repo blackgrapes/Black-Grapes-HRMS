@@ -1,12 +1,18 @@
-
-import './App.css'
-import Signup from './Signup'
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Login from "./Login";
+import Home from "./Home"; // Import the Home component
 
 function App() {
-
   return (
-   <Signup />
-  )
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/home" element={<Home />} />
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;
+

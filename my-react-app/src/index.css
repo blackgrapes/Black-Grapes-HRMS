@@ -25,14 +25,18 @@ a:hover {
 body {
   margin: 0;
   display: flex;
-  place-items: center;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
   min-width: 320px;
   min-height: 100vh;
+  background-color: #242424; /* Dark background */
+  color: rgba(255, 255, 255, 0.87); /* Light text color */
 }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+  text-align: center; /* Center the heading text */
 }
 
 button {
@@ -45,10 +49,14 @@ button {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
+  display: inline-block; /* Make sure button is inline */
+  margin-top: 10px; /* Space between buttons or elements */
 }
+
 button:hover {
   border-color: #646cff;
 }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
