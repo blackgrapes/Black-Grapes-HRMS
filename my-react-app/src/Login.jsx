@@ -11,6 +11,7 @@ const Login = () => {
   const [isSignup, setIsSignup] = useState(false); // State to toggle between Login and Signup
   const [isForgotPassword, setIsForgotPassword] = useState(false); // State to toggle between Login and ForgotPassword
   const [isLoginFailed, setIsLoginFailed] = useState(false); // State to track login failure
+  const [passwordVisible, setPasswordVisible] = useState(false); // State to track password visibility
   const navigate = useNavigate(); // Use navigate hook for redirection
 
   const correctPassword = "password123"; // Simulated correct password
@@ -41,6 +42,10 @@ const Login = () => {
     setIsSignup(false); // Reset signup form when switching
   };
 
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible); // Toggle password visibility
+  };
+
   return (
     <div className="page-container">
       <div className="login-container">
@@ -63,12 +68,21 @@ const Login = () => {
               </div>
               <div>
                 <label>Password:</label>
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter your password"
-                />
+                <div className="password-container">
+                  <input
+                    type={passwordVisible ? "text" : "password"} // Toggle between text and password
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Enter your password"
+                  />
+                  <button
+                    type="button"
+                    className="view-password-button"
+                    onClick={togglePasswordVisibility} // Toggle password visibility on click
+                  >
+                    {passwordVisible ? "Hide" : "Show"} {/* Change button text based on visibility */}
+                  </button>
+                </div>
               </div>
               {error && <div className="error-message">{error}</div>}
               <button type="submit" className="login-button">

@@ -154,3 +154,23 @@
     font-size: 12px;
   }
 }
+.password-container {
+  position: relative;
+}
+
+.view-password-button {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: #0e000e;
+}
+
+.view-password-button:hover {
+  text-decoration: underline;
+}
+
