@@ -1,23 +1,38 @@
-/* General Styles */
+/* General Layout Styles */
 body {
-    font-family: Arial, sans-serif;
     margin: 0;
-    padding: 0;
+    font-family: Arial, sans-serif;
     background-color: #f4f4f4;
   }
   
-  /* Employee List Styles */
+  .app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+  
+  /* Main Content Layout */
+  .main-content {
+    display: flex;
+    /* margin-top: 60px; Account for navbar height */
+  }
+  
+  .employee-container {
+    margin-left: 220px; /* Account for sidebar width */
+    padding: 20px;
+    flex-grow: 1;
+  }
+  
   h2 {
     text-align: center;
     color: #333;
-    margin-top: 20px;
   }
   
+  /* Employee List Styling */
   .employee-list {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 20px;
   }
   
   .employee-details {
