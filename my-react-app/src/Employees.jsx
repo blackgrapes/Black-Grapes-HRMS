@@ -6,7 +6,9 @@ const Employees = () => {
   const employeeList = [
     { id: 1, name: "Shrivanshu Dubey", role: "Software Engineer" },
     { id: 2, name: "Sneha Chouhan", role: "Software Engineer" },
-    { id: 3, name: "Sourabh Pandey", role: "Software Engineer" }
+    { id: 3, name: "Sourabh Pandey", role: "Software Engineer" },
+    { id: 4, name: "Suraj", role: "Software Engineer" },
+    { id: 5, name: "Shivani", role: "Software Engineer" }
   ]
 
   

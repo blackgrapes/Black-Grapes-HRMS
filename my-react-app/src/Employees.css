@@ -1,26 +1,37 @@
 /* General Layout Styles */
-body {
+body, html {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
+    height: 100%;
+    overflow: hidden; /* Disable scrolling */
   }
   
   .app {
     display: flex;
     flex-direction: column;
     height: 100vh;
+    overflow: hidden; /* Prevent scrolling in app */
   }
   
   /* Main Content Layout */
   .main-content {
     display: flex;
-    /* margin-top: 60px; Account for navbar height */
+    height: calc(100vh - 60px); /* Full height minus the navbar height */
+    width: 100%;
+    margin: 0%;
   }
   
+  /* Employee Container */
   .employee-container {
     margin-left: 220px; /* Account for sidebar width */
     padding: 20px;
     flex-grow: 1;
+    display: flex;
+    flex-direction: row; /* Changed from column to row */
+    flex-wrap: wrap; /* Allow wrapping if the items exceed the container width */
+    justify-content: flex-start; /* Align items at the start of the row */
+    overflow-y: auto; /* Allow scrolling for the content inside employee container */
   }
   
   h2 {
@@ -40,9 +51,13 @@ body {
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 300px;
-    margin: 10px 0;
+    margin: 10px;
     padding: 20px;
     text-align: left;
+    /* Flex styling for employee details */
+    display: flex;
+    flex-direction: column; /* Keep the details in a column */
+    align-items: flex-start; /* Align text to the left */
   }
   
   .employee-details p {
