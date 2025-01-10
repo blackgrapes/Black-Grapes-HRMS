@@ -11,11 +11,11 @@ const Home = () => (
     <Navbar />
     <div className="main-container">
       <Sidebar />
-      <div className="content">
+      {/* <div className="content">
         <Employees />
         <Attendance />
         <Reports />
-      </div>
+      </div> */}
     </div>
   </div>
 );
