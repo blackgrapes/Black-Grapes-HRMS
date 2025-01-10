@@ -5,10 +5,10 @@
   align-items: center; /* Center the login-container vertically */
   height: 100vh; /* Full viewport height */
   background-color: #f0f0f0; /* Solid background color for the page */
-  background: linear-gradient(135deg, #3f2a3f, #3d003d); /* Gradient background */
+  background: linear-gradient(135deg, #0e000e, #120012); /* Gradient background */
   margin: 0; /* Remove default margin */
   font-family: Arial, sans-serif; /* Default font family */
-  color: #1e021f; /* Default text color */
+  color: #0e010e; /* Default text color */
   overflow: hidden; /* Prevent scrollbars */
 }
 
