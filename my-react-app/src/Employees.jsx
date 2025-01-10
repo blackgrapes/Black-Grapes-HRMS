@@ -1,5 +1,5 @@
 import React from "react";
-
+import "./Employees.css"
 const Employees = () => {
   const employeeList = [
     { id: 1, name: "John Doe", role: "Software Engineer" },
