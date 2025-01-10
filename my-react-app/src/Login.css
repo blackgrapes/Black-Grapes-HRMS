@@ -4,10 +4,12 @@
   justify-content: center; /* Center the login-container horizontally */
   align-items: center; /* Center the login-container vertically */
   height: 100vh; /* Full viewport height */
+  background-color: #f0f0f0; /* Solid background color for the page */
   background: linear-gradient(135deg, #3f2a3f, #3d003d); /* Gradient background */
   margin: 0; /* Remove default margin */
   font-family: Arial, sans-serif; /* Default font family */
   color: #1e021f; /* Default text color */
+  overflow: hidden; /* Prevent scrollbars */
 }
 
 /* Login form container */
@@ -23,18 +25,12 @@
   background-size: 100px; /* Adjust logo size */
   background-position: top center; /* Center the logo */
   background-repeat: no-repeat;
-  padding-top: 180px; /* Increased padding to add space below the logo */
+  padding-top: 140px; /* Adjusted padding to balance logo and form */
+  text-align: center; /* Center the contents of the form */
 }
-
-.login-container h2 {
-  text-align: center;
-  margin-top: 20px; /* Add extra margin below the logo */
-}
-
 
 /* Heading */
 .login-container h2 {
-  text-align: center;
   margin-top: 0;
   margin-bottom: 20px;
   font-size: 24px;
@@ -45,11 +41,13 @@
 .login-form {
   display: flex;
   flex-direction: column;
+  align-items: center; /* Center the inputs horizontally */
 }
 
 /* Form input containers */
 .login-form div {
   margin-bottom: 15px;
+  width: 100%; /* Ensure input fields occupy full width */
 }
 
 /* Input labels */
@@ -77,6 +75,7 @@
   color: #ff4d4d; /* Red text for errors */
   font-size: 12px;
   margin-bottom: 10px;
+  text-align: center; /* Center the error message */
 }
 
 /* Buttons */

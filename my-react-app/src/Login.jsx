@@ -42,65 +42,67 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
-      {isForgotPassword ? (
-        <ForgotPassword /> // Show ForgotPassword component if isForgotPassword is true
-      ) : isSignup ? (
-        <Signup /> // Show Signup component if isSignup is true
-      ) : (
-        <>
-          <h2>Login</h2>
-          <form onSubmit={handleLogin} className="login-form">
-            <div>
-              <label>Email:</label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
-              />
-            </div>
-            <div>
-              <label>Password:</label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter your password"
-              />
-            </div>
-            {error && <div className="error-message">{error}</div>}
-            <button type="submit" className="login-button">
-              Login
-            </button>
-            {isLoginFailed && (
-              <div className="retry-options">
-                <button
-                  type="button"
-                  className="retry-button"
-                  onClick={() => setIsLoginFailed(false)} // Reset the error message on retry
-                >
-                  Retry
-                </button>
-                <button
-                  type="button"
-                  className="forgot-password-button"
-                  onClick={toggleForgotPassword}
-                >
-                  Forgot Password?
-                </button>
+    <div className="page-container">
+      <div className="login-container">
+        {isForgotPassword ? (
+          <ForgotPassword /> // Show ForgotPassword component if isForgotPassword is true
+        ) : isSignup ? (
+          <Signup /> // Show Signup component if isSignup is true
+        ) : (
+          <>
+            <h2>Login</h2>
+            <form onSubmit={handleLogin} className="login-form">
+              <div>
+                <label>Email:</label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email"
+                />
               </div>
-            )}
-            <button
-              type="button"
-              className="toggle-form-button"
-              onClick={toggleForm}
-            >
-              Don't have an account? Signup
-            </button>
-          </form>
-        </>
-      )}
+              <div>
+                <label>Password:</label>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter your password"
+                />
+              </div>
+              {error && <div className="error-message">{error}</div>}
+              <button type="submit" className="login-button">
+                Login
+              </button>
+              {isLoginFailed && (
+                <div className="retry-options">
+                  <button
+                    type="button"
+                    className="retry-button"
+                    onClick={() => setIsLoginFailed(false)} // Reset the error message on retry
+                  >
+                    Retry
+                  </button>
+                  <button
+                    type="button"
+                    className="forgot-password-button"
+                    onClick={toggleForgotPassword}
+                  >
+                    Forgot Password?
+                  </button>
+                </div>
+              )}
+              <button
+                type="button"
+                className="toggle-form-button"
+                onClick={toggleForm}
+              >
+                Don't have an account? Signup
+              </button>
+            </form>
+          </>
+        )}
+      </div>
     </div>
   );
 };
