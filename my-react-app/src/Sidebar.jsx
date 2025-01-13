@@ -6,7 +6,7 @@ const Sidebar = () => (
   <div className="sidebar">
     <h2 className="sidebar-title">HRMS</h2>
     <ul className="sidebar-list">
-
+    <li><Link to="/payroll" className="sidebar-item">payroll</Link></li>
       <li><Link to="/employees" className="sidebar-item">Employees</Link></li>
       <li><Link to="/attendance" className="sidebar-item">Attendance</Link></li>
       <li><Link to="/reports" className="sidebar-item">Reports</Link></li>

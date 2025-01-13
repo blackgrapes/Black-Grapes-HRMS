@@ -6,8 +6,7 @@ const Calendar = () => {
   const currentDate = new Date();
   const [selectedDate, setSelectedDate] = useState(currentDate);
   const [meetings, setMeetings] = useState({}); // Store meetings for each day
-  const [newMeeting, setNewMeeting] = useState({ title: "", time: "", description: "" });
-  const [weekView, setWeekView] = useState(false); // Week view toggle
+  const [newMeeting, setNewMeeting] = useState({ title: "", time: "", description: "" }); // New meeting form state
 
   const months = [
     "January", "February", "March", "April", "May", "June", 
@@ -38,25 +37,6 @@ const Calendar = () => {
     return calendarDays;
   };
 
-  // Get the start and end of the current week
-  const getWeekDates = (date) => {
-    const start = new Date(date);
-    const end = new Date(date);
-    const dayOfWeek = start.getDay();
-    
-    start.setDate(start.getDate() - dayOfWeek); // Start of week (Sunday)
-    end.setDate(end.getDate() + (6 - dayOfWeek)); // End of week (Saturday)
-
-    const weekDates = [];
-    for (let i = 0; i < 7; i++) {
-      const currentDay = new Date(start);
-      currentDay.setDate(start.getDate() + i);
-      weekDates.push(currentDay);
-    }
-
-    return weekDates;
-  };
-
   const handleMonthChange = (direction) => {
     const newDate = new Date(selectedDate);
     if (direction === "prev") {
@@ -67,37 +47,45 @@ const Calendar = () => {
     setSelectedDate(newDate);
   };
 
-  const handleWeekChange = (direction) => {
-    const newDate = new Date(selectedDate);
-    if (direction === "prev") {
-      newDate.setDate(newDate.getDate() - 7);
-    } else if (direction === "next") {
-      newDate.setDate(newDate.getDate() + 7);
-    }
-    setSelectedDate(newDate);
-  };
-
-  const handleAddMeeting = (day) => {
-    const dateString = `${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${day}`;
-    const newMeetings = { ...meetings };
-
-    if (!newMeetings[dateString]) {
-      newMeetings[dateString] = [];
-    }
-
-    newMeetings[dateString].push(newMeeting);
-
-    setMeetings(newMeetings);
-    setNewMeeting({ title: "", time: "", description: "" }); // Reset input fields
-  };
-
+  // Function to handle meeting form changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewMeeting((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Function to handle adding a new meeting
+  const handleAddMeeting = (day) => {
+    const dateString = `${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${day}`;
+    const newMeetings = { ...meetings };
+
+    // Add the meeting to the selected day's array
+    if (!newMeetings[dateString]) {
+      newMeetings[dateString] = [];
+    }
+
+    newMeetings[dateString].push(newMeeting);
+    setMeetings(newMeetings);
+    setNewMeeting({ title: "", time: "", description: "" }); // Reset form after submission
+  };
+
+  // Function to handle deleting a meeting
+  const handleDeleteMeeting = (day, index) => {
+    const dateString = `${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${day}`;
+    const newMeetings = { ...meetings };
+
+    // Remove the selected meeting
+    newMeetings[dateString].splice(index, 1);
+
+    // If there are no more meetings for that day, delete the array
+    if (newMeetings[dateString].length === 0) {
+      delete newMeetings[dateString];
+    }
+
+    setMeetings(newMeetings);
+  };
+
+  // Generate the calendar days
   const calendarDays = generateCalendar(selectedDate.getMonth(), selectedDate.getFullYear());
-  const weekDates = getWeekDates(selectedDate);
 
   return (
     <div className="calendar-container">
@@ -105,57 +93,44 @@ const Calendar = () => {
         <button onClick={() => handleMonthChange("prev")}>&lt;</button>
         <h2>{months[selectedDate.getMonth()]} {selectedDate.getFullYear()}</h2>
         <button onClick={() => handleMonthChange("next")}>&gt;</button>
-        <button onClick={() => setWeekView(!weekView)}>{weekView ? "Month View" : "Week View"}</button>
       </div>
 
-      {weekView ? (
-        <div className="week-view">
-          <button onClick={() => handleWeekChange("prev")}>&lt;</button>
-          <h3>{weekDates[0].toLocaleDateString()} - {weekDates[6].toLocaleDateString()}</h3>
-          <button onClick={() => handleWeekChange("next")}>&gt;</button>
+      <div className="calendar">
+        <div className="calendar-weekdays">
+          {daysOfWeek.map((day, index) => (
+            <div key={index} className="calendar-weekday">
+              {day}
+            </div>
+          ))}
+        </div>
 
-          <div className="week-days">
-            {weekDates.map((date, index) => (
-              <div key={index} className="week-day">
-                <h4>{date.toLocaleDateString()}</h4>
-                <ul>
-                  {(meetings[date.toISOString().split('T')[0]] || []).map((meeting, i) => (
-                    <li key={i}>
+        <div className="calendar-days">
+          {calendarDays.map((day, index) => (
+            <div
+              key={index}
+              className={`calendar-day ${day ? "" : "empty"}`}
+              onClick={day ? () => setNewMeeting({ ...newMeeting, day }) : null}
+            >
+              {day || ""}
+              {day && meetings[`${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${day}`] && (
+                <div className="meetings-list">
+                  {meetings[`${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${day}`].map((meeting, i) => (
+                    <div key={i} className="meeting-item">
                       <strong>{meeting.title}</strong> ({meeting.time})
                       <p>{meeting.description}</p>
-                    </li>
+                      <button onClick={() => handleDeleteMeeting(day, i)}>Delete</button>
+                    </div>
                   ))}
-                </ul>
-              </div>
-            ))}
-          </div>
+                </div>
+              )}
+            </div>
+          ))}
         </div>
-      ) : (
-        <div className="calendar">
-          <div className="calendar-weekdays">
-            {daysOfWeek.map((day, index) => (
-              <div key={index} className="calendar-weekday">
-                {day}
-              </div>
-            ))}
-          </div>
+      </div>
 
-          <div className="calendar-days">
-            {calendarDays.map((day, index) => (
-              <div
-                key={index}
-                className={`calendar-day ${day ? "" : "empty"}`}
-                onClick={day ? () => alert(`Selected Date: ${day}/${selectedDate.getMonth() + 1}/${selectedDate.getFullYear()}`) : null}
-              >
-                {day || ""}
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
+      {/* Meeting Form */}
       <div className="meeting-form">
-        <h3>Add Meeting</h3>
+        <h3>Add Meeting for {newMeeting.day}/{selectedDate.getMonth() + 1}/{selectedDate.getFullYear()}</h3>
         <input
           type="text"
           name="title"
@@ -175,7 +150,7 @@ const Calendar = () => {
           onChange={handleInputChange}
           placeholder="Meeting Description"
         />
-        <button onClick={() => handleAddMeeting(selectedDate.getDate())}>Add Meeting</button>
+        <button onClick={() => handleAddMeeting(newMeeting.day)}>Add Meeting</button>
       </div>
     </div>
   );

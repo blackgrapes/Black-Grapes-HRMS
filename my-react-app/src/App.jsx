@@ -5,7 +5,7 @@ import Home from "./Home"; // Import the Home component
 import Employees from "./Employees";
 import Attendance from "./Attendance";
 import Calendar from "./Calendar";
-
+import Payroll from "./Payroll";
 
 function App() {
   return (
@@ -16,6 +16,7 @@ function App() {
         <Route path="/employees" element={<Employees/>}/>
         <Route path="/attendance" element={<Attendance/>}/>
         <Route path="/Calendar" element={<Calendar/>}/>
+        <Route path="/payroll" element={<Payroll/>}/>
       </Routes>
     </Router>
   );
