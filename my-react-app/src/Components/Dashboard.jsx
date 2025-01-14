@@ -83,7 +83,6 @@ const Dashboard = () => {
               {/* Calendar Link */}
               <li className="w-100">
                 <Link
-                da
                   to="/dashboard/calendar"
                   className="nav-link px-0 align-middle text-white"
                 >
@@ -91,6 +90,18 @@ const Dashboard = () => {
                   <span className="ms-2 d-none d-sm-inline">Calendar</span>
                 </Link>
               </li>
+              
+              
+              <li className="w-100">
+                <Link
+                  to="/dashboard/LeaveManagement"
+                  className="nav-link px-0 align-middle text-white"
+                >
+                  <i className=""></i>
+                  <span className="fs-4 bi-clock ms-2">LeaveManagement</span>
+                </Link>
+              </li>
+
 
               <li className="w-100" onClick={handleLogout}>
                 <Link

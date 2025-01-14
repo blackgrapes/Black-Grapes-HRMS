@@ -16,6 +16,7 @@ import CustomCalendar from './Components/CustomCalendar';
 import EmployeeLogin from './Components/EmployeeLogin'
 import EmployeeDetail from './Components/EmployeeDetail'
 import PrivateRoute from './Components/PrivateRoute'
+import LeaveManagement from './Components/LeaveManagement'
 
 
 
@@ -39,8 +40,8 @@ function App() {
         <Route path='/dashboard/add_category' element={<AddCategory />}></Route>
         <Route path='/dashboard/add_employee' element={<AddEmployee />}></Route>
         <Route path='/dashboard/edit_employee/:id' element={<EditEmployee />}></Route>
-        <Route path='/dashboard/payroll' element={<Payroll/>}></Route>     
-        <Route path='/dashboard/calendar' element={<CustomCalendar/>}></Route>   
+        <Route path='/dashboard/payroll' element={<Payroll/>}></Route>  
+        <Route path='/dashboard/LeaveManagement' element={<LeaveManagement/>}></Route>    
          </Route>
     </Routes>
     </BrowserRouter>
