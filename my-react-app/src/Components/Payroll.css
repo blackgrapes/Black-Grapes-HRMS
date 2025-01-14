@@ -1,28 +1,107 @@
+/* General page container */
 .payroll-container {
-    margin: 20px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-  }
-  
-  h1 {
-    text-align: center;
-  }
-  
-  .payroll-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
-  
-  .payroll-table th,
-  .payroll-table td {
-    padding: 12px;
-    border: 1px solid #ddd;
-    text-align: center;
-  }
-  
-  .payroll-table th {
-    background-color: #f4f4f4;
-  }
-  
+  background-color: #f0f4f8;
+  font-family: 'Arial', sans-serif;
+  padding: 30px;
+  border-radius: 10px;
+  max-width: 1200px;
+  margin: 50px auto;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Page Title */
+h1 {
+  text-align: center;
+  font-size: 36px;
+  color: #2e3a59;
+  margin-bottom: 30px;
+}
+
+/* Table styling */
+.payroll-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Table header styling */
+.payroll-table thead {
+  background: linear-gradient(45deg, #ff6f61, #ff3b30);
+  color: white;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.payroll-table th {
+  padding: 15px;
+  border-bottom: 2px solid #f1f1f1;
+}
+
+/* Table row and cell styling */
+.payroll-table tbody {
+  background-color: #ffffff;
+}
+
+.payroll-table tbody tr {
+  text-align: center;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.payroll-table tbody tr:hover {
+  background-color: #f9f9f9;
+  transform: scale(1.02);
+}
+
+/* Table data cell styling */
+.payroll-table td {
+  padding: 12px;
+  font-size: 16px;
+  color: #333;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.payroll-table td:first-child {
+  color: #007bff;
+  font-weight: bold;
+}
+
+/* Total Salary Cell Styling */
+.payroll-table td:last-child {
+  color: #2e8b57;
+  font-weight: bold;
+}
+
+/* Adding some spacing to table and the container */
+.payroll-container table {
+  margin-top: 20px;
+}
+
+.payroll-table tr:nth-child(even) {
+  background-color: #f4f4f4;
+}
+
+.payroll-table tr:nth-child(odd) {
+  background-color: #fafafa;
+}
+
+.payroll-container table td {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* Hover effects */
+.payroll-table tbody tr:hover {
+  background-color: #ebf2fb;
+  cursor: pointer;
+  transform: translateY(-3px);
+}
+
+.payroll-container h1 {
+  color: #4a5568;
+  text-align: center;
+  margin-bottom: 30px;
+}
