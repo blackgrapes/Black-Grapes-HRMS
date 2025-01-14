@@ -15,7 +15,6 @@ import Payroll from './Components/payroll';
 import EmployeeLogin from './Components/EmployeeLogin'
 import EmployeeDetail from './Components/EmployeeDetail'
 import PrivateRoute from './Components/PrivateRoute'
-import CustomCalendar from './Components/CustomCalendar'
 
 
 
@@ -40,7 +39,6 @@ function App() {
         <Route path='/dashboard/add_employee' element={<AddEmployee />}></Route>
         <Route path='/dashboard/edit_employee/:id' element={<EditEmployee />}></Route>
         <Route path='/dashboard/payroll' element={<Payroll/>}></Route>     
-        <Route path='/dashboard/calendar' element={<CustomCalendar/>}></Route>     
          </Route>
     </Routes>
     </BrowserRouter>
