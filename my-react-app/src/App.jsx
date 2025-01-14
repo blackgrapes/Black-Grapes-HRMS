@@ -41,7 +41,9 @@ function App() {
         <Route path='/dashboard/add_employee' element={<AddEmployee />}></Route>
         <Route path='/dashboard/edit_employee/:id' element={<EditEmployee />}></Route>
         <Route path='/dashboard/payroll' element={<Payroll/>}></Route>  
-        <Route path='/dashboard/LeaveManagement' element={<LeaveManagement/>}></Route>    
+        <Route path='/dashboard/LeaveManagement' element={<LeaveManagement/>}></Route>  
+        <Route path='/dashboard/calendar' element={<CustomCalendar/>}></Route>  
+
          </Route>
     </Routes>
     </BrowserRouter>
