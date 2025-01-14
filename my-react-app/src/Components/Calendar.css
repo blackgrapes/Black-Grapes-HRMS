@@ -1,75 +1,146 @@
-/* calendar.css */
+/* General container styles */
 .calendar-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 20px;
-  }
-  
-  .calendar {
-    margin-bottom: 20px;
-  }
-  
-  .calendar-tile {
-    background-color: #f0f0f0;
-    border-radius: 4px;
-    padding: 8px;
-  }
-  
-  .meeting-scheduler {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .meeting-scheduler input,
-  .meeting-scheduler button {
-    margin-top: 10px;
-    padding: 8px;
-    width: 250px;
-  }
-  
-  .meeting-scheduler input {
-    margin-bottom: 10px;
-  }
-  
-  .meeting-scheduler button {
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .meeting-scheduler button:hover {
-    background-color: #45a049;
-  }
-  
-  .scheduled-meetings {
-    width: 100%;
-    max-width: 600px;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .scheduled-meetings ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .scheduled-meetings li {
-    margin-bottom: 10px;
-  }
-  
-  .scheduled-meetings li strong {
-    font-weight: bold;
-  }
-  
-  .scheduled-meetings li p {
-    margin: 0;
-    color: #555;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f9f9f9;
+  padding: 30px;
+  border-radius: 10px;
+  max-width: 800px;
+  margin: 50px auto;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Header styling */
+h3 {
+  color: #4a5568;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+/* Calendar section styles */
+.calendar {
+  margin-bottom: 30px;
+}
+
+.react-calendar {
+  border: none;
+  border-radius: 10px;
+}
+
+.react-calendar__tile {
+  transition: transform 0.2s ease;
+}
+
+.react-calendar__tile:hover {
+  transform: scale(1.1);
+  background-color: #ff6f61;
+  color: white;
+}
+
+.react-calendar__tile:active {
+  background-color: #ff3b30;
+  color: white;
+}
+
+/* Meeting scheduler section styles */
+.meeting-scheduler {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 30px;
+}
+
+.meeting-scheduler input,
+.meeting-scheduler button,
+.meeting-scheduler .react-datepicker-wrapper {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  margin: 10px 0;
+}
+
+.meeting-scheduler input {
+  border-color: #4caf50;
+}
+
+.meeting-scheduler button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.meeting-scheduler button:hover {
+  background-color: #388e3c;
+}
+
+/* Scheduled meetings list styles */
+.scheduled-meetings {
+  width: 100%;
+  max-width: 600px;
+}
+
+.scheduled-meetings ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.scheduled-meetings li {
+  background-color: #f4f7f6;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+}
+
+.scheduled-meetings li strong {
+  color: #4caf50;
+}
+
+.scheduled-meetings li:hover {
+  background-color: #ebf2eb;
+  transform: scale(1.02);
+}
+
+/* No meetings scheduled message */
+.scheduled-meetings p {
+  text-align: center;
+  color: #888;
+}
+
+/* Custom styling for the DatePicker */
+.react-datepicker-wrapper {
+  display: block;
+  width: 100%;
+}
+
+.react-datepicker__input-container input {
+  font-size: 16px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 100%;
+}
+
+/* Styles for the calendar container and tiles */
+.react-calendar__tile--now {
+  background-color: #ffcc00;
+  color: #fff;
+  font-weight: bold;
+}
+
+.react-calendar__tile--active {
+  background-color: #ff6f61;
+  color: white;
+  font-weight: bold;
+}
