@@ -1,0 +1,77 @@
+.leave-management-container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  h2 {
+    text-align: center;
+    color: #2c3e50;
+  }
+  
+  .leave-balance {
+    margin-bottom: 20px;
+    font-size: 1.2em;
+  }
+  
+  .leave-form {
+    margin-bottom: 30px;
+  }
+  
+  .leave-form label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .leave-form select,
+  .leave-form input,
+  .leave-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .leave-form button {
+    background-color: #27ae60;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .leave-form button:hover {
+    background-color: #2ecc71;
+  }
+  
+  .leave-requests {
+    margin-top: 30px;
+  }
+  
+  .leave-requests table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .leave-requests th, .leave-requests td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .leave-requests th {
+    background-color: #ecf0f1;
+  }
+  
+  .leave-requests td {
+    background-color: #f9f9f9;
+  }
+  
+  .leave-requests tr:hover {
+    background-color: #f1f1f1;
+  }
+  
