@@ -97,8 +97,8 @@ const Dashboard = () => {
                   to="/dashboard/LeaveManagement"
                   className="nav-link px-0 align-middle text-white"
                 >
-                  <i className=""></i>
-                  <span className="fs-4 bi-clock ms-2">LeaveManagement</span>
+                  <i className="fs-4 bi-clock ms-2"></i>
+                  <span className="ms-2 d-none d-sm-inline">Leave Management</span>
                 </Link>
               </li>
 
