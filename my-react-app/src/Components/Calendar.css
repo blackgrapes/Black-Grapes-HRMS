@@ -1,0 +1,75 @@
+/* calendar.css */
+.calendar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+  }
+  
+  .calendar {
+    margin-bottom: 20px;
+  }
+  
+  .calendar-tile {
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    padding: 8px;
+  }
+  
+  .meeting-scheduler {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .meeting-scheduler input,
+  .meeting-scheduler button {
+    margin-top: 10px;
+    padding: 8px;
+    width: 250px;
+  }
+  
+  .meeting-scheduler input {
+    margin-bottom: 10px;
+  }
+  
+  .meeting-scheduler button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .meeting-scheduler button:hover {
+    background-color: #45a049;
+  }
+  
+  .scheduled-meetings {
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .scheduled-meetings ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .scheduled-meetings li {
+    margin-bottom: 10px;
+  }
+  
+  .scheduled-meetings li strong {
+    font-weight: bold;
+  }
+  
+  .scheduled-meetings li p {
+    margin: 0;
+    color: #555;
+  }
+  
