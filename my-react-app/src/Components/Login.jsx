@@ -36,7 +36,7 @@ const Login = () => {
         <div className="logo-section d-flex flex-column align-items-center justify-content-center">
           <img
             src="./public/asset/logo.png"
-            // Replace with the actual path to your logo
+               // Replace with the actual path to your logo
             alt="Black Grapes Softech Logo"
             className="logo"
           />
