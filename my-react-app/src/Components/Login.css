@@ -39,7 +39,7 @@ body, html {
   h2 {
     font-size: 1.8rem;
     margin-bottom: 20px;
-    color: #ffd700; /* Bright yellow for heading */
+    color: #0008ff; /* Bright yellow for heading */
   }
   
   /* Input Fields */
@@ -52,9 +52,9 @@ body, html {
   }
   
   .form-control:focus {
-    border-color: #ffd700;
+    border-color: #2b00ff;
     outline: none;
-    box-shadow: 0 0 5px rgba(255, 215, 0, 0.8);
+    box-shadow: 0 0 5px rgba(0, 94, 255, 0.8);
   }
   
   input::placeholder {
@@ -63,7 +63,7 @@ body, html {
   
   /* Login Button */
   .btn-success {
-    background-color: #ffd700; /* Bright yellow button */
+    background-color: #0008ff; /* Bright yellow button */
     color: #000; /* Black text */
     border: none;
     padding: 10px;
@@ -73,7 +73,7 @@ body, html {
   }
   
   .btn-success:hover {
-    background-color: #ffdb4d; /* Lighter yellow on hover */
+    background-color: #534dff; /* Lighter yellow on hover */
     transform: scale(1.05);
   }
   
@@ -116,6 +116,6 @@ body, html {
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    border: 2px solid #ffd700; /* Gold border */
+    border: 2px solid #005eff; /* Gold border */
   }
   

@@ -1,0 +1,90 @@
+/* Global styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f8ff;
+    color: #333;
+}
+
+/* Container for login page */
+.loginPage {
+    background: linear-gradient(to right, #ff7e5f, #feb47b);
+}
+
+/* Login Form Styling */
+.loginForm {
+    background: #fff;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+/* Heading */
+h2 {
+    color: #ff6f61;
+    margin-bottom: 20px;
+}
+
+/* Error Message */
+.text-warning {
+    color: #ff0000;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+/* Input fields */
+input[type="email"], input[type="password"] {
+    padding: 12px;
+    font-size: 16px;
+    border: 2px solid #ff7e5f;
+    border-radius: 5px;
+    width: 100%;
+    margin-bottom: 15px;
+    transition: border 0.3s ease-in-out;
+}
+
+input[type="email"]:focus, input[type="password"]:focus {
+    border-color: #feb47b;
+    outline: none;
+}
+
+/* Checkbox Styling */
+input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+label {
+    color: #555;
+    font-size: 14px;
+}
+
+/* Button Styling */
+button {
+    background-color: #ff7e5f;
+    color: white;
+    border: none;
+    padding: 12px 0;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    margin-bottom: 20px;
+}
+
+button:hover {
+    background-color: #feb47b;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .loginForm {
+        width: 90%;
+        padding: 20px;
+    }
+}
