@@ -1,61 +1,71 @@
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const EditEmployee = () => {
-    const {id} = useParams()
-    const [employee, setEmployee] = useState({
-        name: "",
-        email: "",
-        salary: "",
-        address: "",
-        category_id: "",
-      });
-      const [category, setCategory] = useState([])
-      const navigate = useNavigate()
+  const { id } = useParams();
+  const navigate = useNavigate();
 
-      useEffect(()=> {
-        axios.get('http://localhost:3000/auth/category')
-        .then(result => {
-            if(result.data.Status) {
-                setCategory(result.data.Result);
-            } else {
-                alert(result.data.Error)
-            }
-        }).catch(err => console.log(err))
+  const [employee, setEmployee] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    salary: '',
+    address: '',
+    designation: '',
+    image: '',
+  });
 
-        axios.get('http://localhost:3000/auth/employee/'+id)
-        .then(result => {
-            setEmployee({
-                ...employee,
-                name: result.data.Result[0].name,
-                email: result.data.Result[0].email,
-                address: result.data.Result[0].address,
-                salary: result.data.Result[0].salary,
-                category_id: result.data.Result[0].category_id,
-            })
-        }).catch(err => console.log(err))
-    }, [])
+  useEffect(() => {
+    // Fetch employee details
+    axios
+      .get(`http://localhost:3000/auth/employee/${id}`)
+      .then((result) => {
+        const data = result.data.Result[0];
+        setEmployee({
+          name: data.name,
+          email: data.email,
+          phone: data.phone || '',
+          salary: data.salary,
+          address: data.address,
+          designation: data.designation || '', // Default to empty if not present
+          image: '', // Image needs to be re-uploaded
+        });
+      })
+      .catch((err) => console.log(err));
+  }, [id]);
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        axios.put('http://localhost:3000/auth/edit_employee/'+id, employee)
-        .then(result => {
-            if(result.data.Status) {
-                navigate('/dashboard/employee')
-            } else {
-                alert(result.data.Error)
-            }
-        }).catch(err => console.log(err))
-    }
-    
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('name', employee.name);
+    formData.append('email', employee.email);
+    formData.append('phone', employee.phone);
+    formData.append('salary', employee.salary);
+    formData.append('address', employee.address);
+    formData.append('designation', employee.designation);
+    if (employee.image) formData.append('image', employee.image);
+
+    axios
+      .put(`http://localhost:3000/auth/edit_employee/${id}`, formData)
+      .then((result) => {
+        if (result.data.Status) {
+          navigate('/dashboard/employee');
+        } else {
+          alert(result.data.Error);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <div className="d-flex justify-content-center align-items-center mt-3">
       <div className="p-3 rounded w-50 border">
         <h3 className="text-center">Edit Employee</h3>
         <form className="row g-1" onSubmit={handleSubmit}>
+          {/* Name */}
           <div className="col-12">
-            <label for="inputName" className="form-label">
+            <label htmlFor="inputName" className="form-label">
               Name
             </label>
             <input
@@ -64,19 +74,19 @@ const EditEmployee = () => {
               id="inputName"
               placeholder="Enter Name"
               value={employee.name}
-              onChange={(e) =>
-                setEmployee({ ...employee, name: e.target.value })
-              }
+              onChange={(e) => setEmployee({ ...employee, name: e.target.value })}
             />
           </div>
+
+          {/* Email */}
           <div className="col-12">
-            <label for="inputEmail4" className="form-label">
+            <label htmlFor="inputEmail" className="form-label">
               Email
             </label>
             <input
               type="email"
               className="form-control rounded-0"
-              id="inputEmail4"
+              id="inputEmail"
               placeholder="Enter Email"
               autoComplete="off"
               value={employee.email}
@@ -85,8 +95,45 @@ const EditEmployee = () => {
               }
             />
           </div>
-          <div className='col-12'>
-            <label for="inputSalary" className="form-label">
+
+          {/* Phone */}
+          <div className="col-12">
+            <label htmlFor="inputPhone" className="form-label">
+              Phone Number
+            </label>
+            <input
+              type="text"
+              className="form-control rounded-0"
+              id="inputPhone"
+              placeholder="Enter Phone Number"
+              autoComplete="off"
+              value={employee.phone}
+              onChange={(e) =>
+                setEmployee({ ...employee, phone: e.target.value })
+              }
+            />
+          </div>
+
+          {/* Designation */}
+          <div className="col-12">
+            <label htmlFor="inputDesignation" className="form-label">
+              Designation
+            </label>
+            <input
+              type="text"
+              className="form-control rounded-0"
+              id="inputDesignation"
+              placeholder="Enter Designation"
+              value={employee.designation}
+              onChange={(e) =>
+                setEmployee({ ...employee, designation: e.target.value })
+              }
+            />
+          </div>
+
+          {/* Salary */}
+          <div className="col-12">
+            <label htmlFor="inputSalary" className="form-label">
               Salary
             </label>
             <input
@@ -101,8 +148,10 @@ const EditEmployee = () => {
               }
             />
           </div>
+
+          {/* Address */}
           <div className="col-12">
-            <label for="inputAddress" className="form-label">
+            <label htmlFor="inputAddress" className="form-label">
               Address
             </label>
             <input
@@ -117,18 +166,24 @@ const EditEmployee = () => {
               }
             />
           </div>
-          <div className="col-12">
-            <label for="category" className="form-label">
-              Category
+
+          {/* Image Upload */}
+          <div className="col-12 mb-3">
+            <label className="form-label" htmlFor="inputGroupFile01">
+              Select Image
             </label>
-            <select name="category" id="category" className="form-select"
-                onChange={(e) => setEmployee({...employee, category_id: e.target.value})}>
-              {category.map((c) => {
-                return <option value={c.id}>{c.name}</option>;
-              })}
-            </select>
+            <input
+              type="file"
+              className="form-control rounded-0"
+              id="inputGroupFile01"
+              name="image"
+              onChange={(e) =>
+                setEmployee({ ...employee, image: e.target.files[0] })
+              }
+            />
           </div>
-          
+
+          {/* Submit Button */}
           <div className="col-12">
             <button type="submit" className="btn btn-primary w-100">
               Edit Employee
@@ -137,7 +192,7 @@ const EditEmployee = () => {
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default EditEmployee
+export default EditEmployee;
