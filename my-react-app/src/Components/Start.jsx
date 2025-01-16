@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import './Start.css'; // Import the new CSS file
 
 const Start = () => {
   const navigate = useNavigate();
@@ -20,18 +21,26 @@ const Start = () => {
   }, []);
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100 loginPage">
-      <div className="p-3 rounded w-25 border loginForm">
+    <div className="container">
+      {/* Heading outside the login box */}
+      <div className="heading">
+        <h1>HUMAN RESOURCE MANAGEMENT SYSTEM</h1>
+      </div>
+
+      <div className="login-form">
         {/* Logo Image */}
-        <div className="text-center mb-4">
-          <img src="./src/assets/logo.png" alt="Logo" className="img-fluid" style={{ maxWidth: '150px' }} />
+        <div className="logo">
+          <img src="./src/assets/logo.png" alt="Logo" />
         </div>
-        <h2 className="text-center">Login As</h2>
-        <div className="d-flex justify-content-between mt-5 mb-2">
-          <button type="button" className="btn btn-primary" onClick={() => { navigate('/employee_login') }}>
+        <h2>Login As</h2>
+        <div className="button-group">
+          <button className="btn btn-employee" onClick={() => navigate('/employee_login')}>
             Employee
           </button>
-          <button type="button" className="btn btn-success" onClick={() => { navigate('/adminlogin') }}>
+          <button className="btn btn-superadmin" onClick={() => navigate('/')}>
+            Super Admin
+          </button>
+          <button className="btn btn-adminlogin" onClick={() => navigate('/adminlogin')}>
             Admin
           </button>
         </div>
