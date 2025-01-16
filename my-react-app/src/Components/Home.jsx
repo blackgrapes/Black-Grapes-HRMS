@@ -1,58 +1,61 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
-import './Home.css'
+import React, { useEffect, useState } from 'react';
+import { PieChart, Pie, Tooltip, Cell, Legend } from 'recharts';
+import './Home.css';
 
 const Home = () => {
-  const [adminTotal, setAdminTotal] = useState(0)
-  const [employeeTotal, setemployeeTotal] = useState(0)
-  const [salaryTotal, setSalaryTotal] = useState(0)
-  const [admins, setAdmins] = useState([])
+  const [adminTotal, setAdminTotal] = useState(0);
+  const [employeeTotal, setemployeeTotal] = useState(0);
+  const [salaryTotal, setSalaryTotal] = useState(0);
+  const [admins, setAdmins] = useState([]);
+
+  // Hardcoded employee category data for the first pie chart
+  const [employeeCategories, setEmployeeCategories] = useState([
+    { name: 'HR', value: 10 },
+    { name: 'Engineer', value: 25 },
+    { name: 'Sales', value: 15 },
+    { name: 'Marketing', value: 5 }
+  ]);
+
+  // New pie chart data for employee distribution by role
+  const [roleDistribution, setRoleDistribution] = useState([
+    { name: 'Manager', value: 20 },
+    { name: 'Developer', value: 40 },
+    { name: 'Designer', value: 15 },
+    { name: 'QA', value: 25 }
+  ]);
 
   useEffect(() => {
     adminCount();
     employeeCount();
     salaryCount();
     AdminRecords();
-  }, [])
+  }, []);
 
   const AdminRecords = () => {
-    axios.get('http://localhost:3000/auth/admin_records')
-    .then(result => {
-      if(result.data.Status) {
-        setAdmins(result.data.Result)
-      } else {
-         alert(result.data.Error)
-      }
-    })
+    const result = {
+      Status: true,
+      Result: [
+        { email: 'admin1@example.com' },
+        { email: 'admin2@example.com' },
+      ]
+    }
+    if(result.Status) {
+      setAdmins(result.Result);
+    } else {
+      alert(result.Error);
+    }
   }
-  
+
   const adminCount = () => {
-    axios.get('http://localhost:3000/auth/admin_count')
-    .then(result => {
-      if(result.data.Status) {
-        setAdminTotal(result.data.Result[0].admin)
-      }
-    })
+    setAdminTotal(5);
   }
 
   const employeeCount = () => {
-    axios.get('http://localhost:3000/auth/employee_count')
-    .then(result => {
-      if(result.data.Status) {
-        setemployeeTotal(result.data.Result[0].employee)
-      }
-    })
+    setemployeeTotal(50);
   }
 
   const salaryCount = () => {
-    axios.get('http://localhost:3000/auth/salary_count')
-    .then(result => {
-      if(result.data.Status) {
-        setSalaryTotal(result.data.Result[0].salaryOFEmp)
-      } else {
-        alert(result.data.Error)
-      }
-    })
+    setSalaryTotal(100000);
   }
 
   return (
@@ -92,6 +95,53 @@ const Home = () => {
           <button className="btn salary-btn">Salary Action</button>
         </div>
       </div>
+
+      {/* Pie Chart for Employee Categories and Role Distribution in One Row */}
+      <div className="pie-charts-row">
+        <div className="pie-chart-container">
+          <h3>Employee Category Distribution</h3>
+          <PieChart width={300} height={300}>
+            <Pie
+              data={employeeCategories}
+              dataKey="value"
+              nameKey="name"
+              cx="50%"
+              cy="50%"
+              outerRadius={120}
+              label
+            >
+              {employeeCategories.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={['#0088FE', '#00C49F', '#FFBB28', '#FF8042'][index % 4]} />
+              ))}
+            </Pie>
+            <Tooltip />
+            <Legend />
+          </PieChart>
+        </div>
+
+        <div className="pie-chart-container">
+          <h3>Employee Role Distribution</h3>
+          <PieChart width={300} height={300}>
+            <Pie
+              data={roleDistribution}
+              dataKey="value"
+              nameKey="name"
+              cx="50%"
+              cy="50%"
+              outerRadius={120}
+              label
+            >
+              {roleDistribution.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={['#FF6347', '#48C9B0', '#F39C12', '#8E44AD'][index % 4]} />
+              ))}
+            </Pie>
+            <Tooltip />
+            <Legend />
+          </PieChart>
+        </div>
+      </div>
+
+      {/* Admin List Table */}
       <div className='mt-4 px-5 pt-3'>
         <h3>List of Admins</h3>
         <table className='table'>
@@ -121,7 +171,7 @@ const Home = () => {
         </table>
       </div>
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;
