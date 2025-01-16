@@ -63,6 +63,7 @@ body, html {
     border: 1px solid #ddd;
     border-radius: 8px;
     transition: 0.3s;
+    
   }
   
   .form-group input:focus {
