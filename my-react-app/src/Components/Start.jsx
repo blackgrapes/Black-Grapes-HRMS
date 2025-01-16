@@ -24,7 +24,7 @@ const Start = () => {
     <div className="container">
       {/* Heading outside the login box */}
       <div className="heading">
-        <h1>HRMS</h1>
+        <h1>HUMAN RESOURCE MANAGEMENT SYSTEM</h1>
       </div>
 
       <div className="login-form">

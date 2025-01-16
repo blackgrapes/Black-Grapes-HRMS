@@ -4,7 +4,7 @@ body, html {
     padding: 0;
     font-family: 'Roboto', Arial, sans-serif;
     height: 100%;
-    background: linear-gradient(135deg, #ff7eb3, #ff758c, #ffbf86);
+    background: linear-gradient(135deg, #c3d9fa, #d1e2fc, #cfe2ff);
     background-size: 400% 400%;
     animation: gradientBG 10s ease infinite;
   }
@@ -41,7 +41,7 @@ body, html {
   h2 {
     font-size: 24px;
     margin-bottom: 20px;
-    color: #ff758c;
+    color: #c3d9fa;
   }
   
   .form-group {
@@ -67,8 +67,8 @@ body, html {
   
   .form-group input:focus {
     outline: none;
-    border-color: #ff758c;
-    box-shadow: 0 0 5px rgba(255, 117, 140, 0.5);
+    border-color: #b8d2fa;
+    box-shadow: 0 0 5px rgba(108, 218, 249, 0.5);
   }
   
   .login-button {
@@ -76,7 +76,7 @@ body, html {
     padding: 12px;
     font-size: 16px;
     color: #fff;
-    background: linear-gradient(90deg, #ff758c, #ffbf86);
+    background: linear-gradient(90deg, #6ca4f7, #abcbfa);
     border: none;
     border-radius: 8px;
     cursor: pointer;
@@ -84,8 +84,9 @@ body, html {
   }
   
   .login-button:hover {
-    background: linear-gradient(90deg, #ffbf86, #ff758c);
+    background: linear-gradient(90deg, #abcbfa, #6ca4f7);
     transform: scale(1.05);
+    color: #555;
   }
   
   /* Responsive design */
