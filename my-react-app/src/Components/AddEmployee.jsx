@@ -14,10 +14,18 @@ const AddEmployee = () => {
     image: "",
   });
 
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Simple validation
+    if (!employee.name || !employee.email || !employee.password || !employee.salary || !employee.phone || !employee.designation || !employee.image) {
+      setErrorMessage("Please fill all fields.");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("name", employee.name);
     formData.append("email", employee.email);
@@ -44,6 +52,7 @@ const AddEmployee = () => {
     <div className="d-flex justify-content-center align-items-center mt-3">
       <div className="p-3 rounded w-50 border">
         <h3 className="text-center">Add Employee</h3>
+        {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
         <form className="row g-1" onSubmit={handleSubmit}>
           <div className="col-12">
             <label htmlFor="inputName" className="form-label">

@@ -1,171 +1,177 @@
-/* General styles */
-body {
-  background-color: #f3f4f9;
-  font-family: 'Arial', sans-serif;
-  color: #333;
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-}
-
-/* Container for the page content */
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 40px;
-}
-
-/* Card container */
-.card {
-  padding: 25px;
-  border-radius: 15px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  width: 30%;
-  background: linear-gradient(135deg, #ffffff, #f1f1f1);
-  margin: 15px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  text-align: center;
-  position: relative;
-}
-
-.card:hover {
-  transform: translateY(-15px);
-  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.15);
-}
-
-.card h4 {
-  font-size: 24px;
-  color: #333;
-  font-weight: bold;
-  margin-bottom: 20px;
-}
-
-.card h5 {
-  font-size: 20px;
-  color: #777;
-  font-weight: 500;
-}
-
-/* Button styles */
-.card button {
-  margin-top: 20px;
-  font-weight: 600;
-  padding: 16px 30px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  transition: all 0.4s ease;
-  font-size: 16px;
-}
-
-.admin-btn {
-  background: linear-gradient(45deg, #ff6f61, #ff3b36);
-  color: white;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-}
-
-.admin-btn:hover {
-  background: linear-gradient(45deg, #ff3b36, #ff6f61);
-  transform: translateY(-5px);
-}
-
-.employee-btn {
-  background: linear-gradient(45deg, #4caf50, #2d6a29);
-  color: white;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-}
-
-.employee-btn:hover {
-  background: linear-gradient(45deg, #2d6a29, #4caf50);
-  transform: translateY(-5px);
-}
-
-.salary-btn {
-  background: linear-gradient(45deg, #fbc02d, #f57c00);
-  color: white;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-}
-
-.salary-btn:hover {
-  background: linear-gradient(45deg, #f57c00, #fbc02d);
-  transform: translateY(-5px);
-}
-
-/* Pie Chart Section */
-.mt-4 {
-  margin-top: 40px;
-}
-
+/* Container for the Pie charts */
 .pie-charts-row {
   display: flex;
   justify-content: space-between;
-  gap: 40px;
-  margin-top: 40px;
-  flex-wrap: wrap; /* Ensures it wraps on smaller screens */
+  flex-wrap: wrap;
+  gap: 20px;  /* Added gap for consistent spacing between pie charts */
+  margin-top: 30px;
 }
 
 .pie-chart-container {
-  background-color: #fff;
-  border-radius: 15px;
-  padding: 30px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  flex: 1;
-  text-align: center;
-  min-width: 300px;
-  max-width: 500px;
-  position: relative;
+  flex-basis: 45%;  /* Ensures pie charts are side by side */
+  margin: 15px 0;
 }
 
 .pie-chart-container h3 {
-  font-size: 24px;
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 18px;
   color: #333;
-  font-weight: bold;
+}
+
+/* Button color adjustments with full screen width */
+.admin-btn, .employee-btn, .salary-btn {
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;  /* Full width for buttons */
+  max-width: 100%; /* Ensure buttons stretch to full width */
+  margin: 0 auto; /* Center buttons within their container */
+  display: block;
+}
+
+/* Specific colors for each button */
+.admin-btn {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.employee-btn {
+  background-color: #2196F3;
+  color: white;
+}
+
+.salary-btn {
+  background-color: #FF9800;
+  color: white;
+}
+
+/* Button hover effects */
+.admin-btn:hover {
+  background-color: #45a049;
+}
+
+.employee-btn:hover {
+  background-color: #1976D2;
+}
+
+.salary-btn:hover {
+  background-color: #FB8C00;
+}
+
+/* Styling for the card components */
+.card {
+  width: 100%;
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  background-color: #fff;
+  transition: all 0.3s ease-in-out;
   margin-bottom: 20px;
 }
 
-/* Tooltip Styles */
-.recharts-tooltip-wrapper {
-  background-color: rgba(0, 0, 0, 0.8);
+.card:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px);
+}
+
+/* Styling for card headers and content */
+.card h4 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #333;
+}
+
+.card .text-center {
+  margin-bottom: 15px;
+}
+
+.card .d-flex {
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Table Styles for Admin List */
+.table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+.table th, .table td {
+  text-align: left;
   padding: 12px;
-  border-radius: 8px;
-  color: white;
+  border-bottom: 1px solid #ddd;
+}
+
+.table th {
+  background-color: #f2f2f2;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.table td {
   font-size: 14px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  color: #555;
 }
 
-/* Hover Effects on Pie Slices */
-.recharts-pie-slice {
-  transition: all 0.3s ease;
-}
-
-.recharts-pie-slice:hover {
-  transform: scale(1.15);
-  opacity: 0.85;
+.table button {
+  padding: 8px 15px;
+  font-size: 14px;
+  background-color: #2196F3;
+  color: white;
+  border: none;
   cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
 }
 
-/* Responsive Layout for Pie Charts */
+.table button:hover {
+  background-color: #1976D2;
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
   .pie-charts-row {
-    flex-direction: column;
-    gap: 40px;
+    flex-direction: column; /* Stack pie charts vertically on smaller screens */
+    align-items: center;
   }
 
   .pie-chart-container {
-    width: 100%;
-    margin: 0;
+    width: 100%;  /* Make pie charts full width on smaller screens */
   }
 
   .card {
-    width: 100%;
-    margin: 10px 0;
+    width: 100%;  /* Make cards full width */
   }
 
-  .btn {
-    font-size: 16px;
-    padding: 12px 25px;
+  /* Full screen width for buttons */
+  .admin-btn, .employee-btn, .salary-btn {
+    width: 100%; /* Ensure buttons are full screen width */
+    min-width: 160px;
+    max-width: 100%; /* Ensure they occupy the full width */
+    margin: 10px 0; /* Margin between buttons */
+  }
+}
+
+@media (max-width: 480px) {
+  .pie-chart-container h3 {
+    font-size: 16px; /* Reduce font size for small screens */
+  }
+
+  .card {
+    padding: 15px; /* Adjust padding for small screens */
+  }
+
+  /* For very small screens, keep the buttons responsive */
+  .admin-btn, .employee-btn, .salary-btn {
+    min-width: 140px;
+    max-width: 100%;
   }
 }

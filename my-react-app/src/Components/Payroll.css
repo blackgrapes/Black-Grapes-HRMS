@@ -1,107 +1,103 @@
-/* General page container */
 .payroll-container {
-  background-color: #f0f4f8;
-  font-family: 'Arial', sans-serif;
-  padding: 30px;
-  border-radius: 10px;
-  max-width: 1200px;
-  margin: 50px auto;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
 }
 
-/* Page Title */
 h1 {
   text-align: center;
-  font-size: 36px;
-  color: #2e3a59;
-  margin-bottom: 30px;
+  color: #333;
 }
 
-/* Table styling */
+.search-bar {
+  width: 100%;
+  padding: 10px;
+  margin: 20px 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.add-employee-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.add-employee-form input {
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: calc(25% - 15px);
+}
+
+.add-employee-form button {
+  padding: 12px 20px;
+  font-size: 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.add-employee-form button:hover {
+  background-color: #45a049;
+}
+
 .payroll-table {
   width: 100%;
-  border-collapse: collapse;
   margin-top: 20px;
-  border-radius: 8px;
-  overflow: hidden;
+  border-collapse: collapse;
 }
 
-/* Table header styling */
-.payroll-table thead {
-  background: linear-gradient(45deg, #ff6f61, #ff3b30);
-  color: white;
-  text-align: center;
-  font-size: 18px;
-  font-weight: bold;
-  text-transform: uppercase;
+.payroll-table th, .payroll-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
 }
 
 .payroll-table th {
-  padding: 15px;
-  border-bottom: 2px solid #f1f1f1;
+  background-color: #f2f2f2;
 }
 
-/* Table row and cell styling */
-.payroll-table tbody {
-  background-color: #ffffff;
-}
-
-.payroll-table tbody tr {
-  text-align: center;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.payroll-table tbody tr:hover {
-  background-color: #f9f9f9;
-  transform: scale(1.02);
-}
-
-/* Table data cell styling */
 .payroll-table td {
-  padding: 12px;
-  font-size: 16px;
-  color: #333;
-  border-bottom: 1px solid #f1f1f1;
+  font-size: 14px;
+  color: #555;
 }
 
-.payroll-table td:first-child {
-  color: #007bff;
-  font-weight: bold;
-}
-
-/* Total Salary Cell Styling */
-.payroll-table td:last-child {
-  color: #2e8b57;
-  font-weight: bold;
-}
-
-/* Adding some spacing to table and the container */
-.payroll-container table {
-  margin-top: 20px;
-}
-
-.payroll-table tr:nth-child(even) {
-  background-color: #f4f4f4;
-}
-
-.payroll-table tr:nth-child(odd) {
-  background-color: #fafafa;
-}
-
-.payroll-container table td {
-  font-size: 16px;
-  font-weight: 500;
-}
-
-/* Hover effects */
-.payroll-table tbody tr:hover {
-  background-color: #ebf2fb;
+.edit-btn, .delete-btn {
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-size: 14px;
   cursor: pointer;
-  transform: translateY(-3px);
+  border: none;
+  margin-right: 10px;
 }
 
-.payroll-container h1 {
-  color: #4a5568;
-  text-align: center;
-  margin-bottom: 30px;
+.edit-btn {
+  background-color: #2196F3;
+  color: white;
+}
+
+.delete-btn {
+  background-color: #FF5733;
+  color: white;
+}
+
+.edit-btn:hover {
+  background-color: #1976D2;
+}
+
+.delete-btn:hover {
+  background-color: #D32F2F;
+}
+
+@media (max-width: 768px) {
+  .add-employee-form input {
+    width: 100%;
+    margin-bottom: 10px;
+  }
 }

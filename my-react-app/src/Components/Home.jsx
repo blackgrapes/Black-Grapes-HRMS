@@ -25,13 +25,13 @@ const Home = () => {
   ]);
 
   useEffect(() => {
-    adminCount();
-    employeeCount();
-    salaryCount();
-    AdminRecords();
+    fetchAdminData();
+    fetchEmployeeData();
+    fetchSalaryData();
   }, []);
 
-  const AdminRecords = () => {
+  const fetchAdminData = () => {
+    // Simulating an API call for admin data
     const result = {
       Status: true,
       Result: [
@@ -39,23 +39,24 @@ const Home = () => {
         { email: 'admin2@example.com' },
       ]
     }
-    if(result.Status) {
+    if (result.Status) {
       setAdmins(result.Result);
+      setAdminTotal(result.Result.length);
     } else {
       alert(result.Error);
     }
   }
 
-  const adminCount = () => {
-    setAdminTotal(5);
+  const fetchEmployeeData = () => {
+    // Simulating an API call for employee count
+    const employeeCount = 50; // This would be fetched from an API
+    setemployeeTotal(employeeCount);
   }
 
-  const employeeCount = () => {
-    setemployeeTotal(50);
-  }
-
-  const salaryCount = () => {
-    setSalaryTotal(100000);
+  const fetchSalaryData = () => {
+    // Simulating an API call for salary data
+    const totalSalary = 100000; // This would be fetched from an API
+    setSalaryTotal(totalSalary);
   }
 
   return (
