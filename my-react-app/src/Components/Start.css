@@ -1,0 +1,99 @@
+/* Container for the entire page */
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #cfe2ff; /* Light blue background */
+    margin: 0;
+  }
+  
+  /* HRMS Heading */
+  .heading h1 {
+    color: #2c3e50;
+    font-weight: bold;
+    font-size: 2.5rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+  
+  /* Login Form Container */
+  .login-form {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+  }
+  
+  /* Logo Image */
+  .logo img {
+    max-width: 150px;
+    margin-bottom: 20px;
+  }
+  
+  /* Login Form Heading */
+  .login-form h2 {
+    color: #34495e;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+  
+  /* Button Group */
+  .button-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  
+  /* Buttons */
+  .button-group .btn {
+    flex: 1;
+    font-size: 1rem;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-adminlogin {
+    background-color: #007bff;
+    color: #ffffff;
+  }
+  
+  .btn-superadmin {
+    background-color: #ffc107;
+    color: #ffffff;
+  }
+  
+  .btn-employee {
+    background-color: #28a745;
+    color: #ffffff;
+  }
+  
+  .button-group .btn:hover {
+    opacity: 0.9;
+    transform: scale(1.05);
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .login-form {
+      width: 90%;
+    }
+  
+    .heading h1 {
+      font-size: 2rem;
+    }
+  
+    .button-group {
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
+  
