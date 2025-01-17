@@ -37,7 +37,7 @@ const Home = () => {
         { email: 'admin1@example.com' },
         { email: 'admin2@example.com' },
       ]
-    };
+    }
     if (result.Status) {
       setAdmins(result.Result);
       setAdminTotal(result.Result.length);
@@ -153,7 +153,7 @@ const Home = () => {
       {/* Admin List Table */}
       <div className="mt-4 px-5 pt-3">
         <h3>List of Admins</h3>
-        <table className="admin-table">
+        <table className="table">
           <thead>
             <tr>
               <th>Email</th>

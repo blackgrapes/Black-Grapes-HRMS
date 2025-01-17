@@ -18,11 +18,11 @@ const EmployeeDetail = () => {
             address: '123 Main St, Springfield, USA',
             dob: '1990-08-15', // Date of Birth
             joinDate: '2015-06-01', // Joining Date
-            manager: 'John Doe', // Manager's Name
+            manager: 'Shrivanshu', // Manager's Name
             role: 'Software Engineer', // Employee's Role
             skills: ['JavaScript', 'React', 'Node.js'], // Skills
-            projects: ['Project A', 'Project B'], // Projects
-            performanceRating: 'Excellent', // Performance Rating
+            performanceRating : 'Kamchor'
+            
         };
 
         setEmployee(hardcodedEmployee);
@@ -73,18 +73,7 @@ const EmployeeDetail = () => {
                     <h3>Date of Birth: {employee.dob}</h3>
                     <h3>Joining Date: {employee.joinDate}</h3>
                     <h3>Performance Rating: {employee.performanceRating}</h3>
-                    <h4>Skills:</h4>
-                    <ul>
-                        {employee.skills.map((skill, index) => (
-                            <li key={index}>{skill}</li>
-                        ))}
-                    </ul>
-                    <h4>Projects:</h4>
-                    <ul>
-                        {employee.projects.map((project, index) => (
-                            <li key={index}>{project}</li>
-                        ))}
-                    </ul>
+                    
                 </div>
                 <div className="employee-actions">
                     <button className="btn btn-primary" onClick={handleEdit}>
