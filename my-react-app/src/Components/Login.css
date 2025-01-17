@@ -4,7 +4,7 @@ body, html {
   padding: 0;
   font-family: 'Roboto', Arial, sans-serif;
   height: 100%;
-  background: linear-gradient(135deg, #ff7eb3, #ff758c, #ffbf86);
+  background: linear-gradient(135deg, #cfe2ff, #cfe2ff, #cfe2ff);
   background-size: 400% 400%;
   animation: gradientBG 10s ease infinite;
 }
