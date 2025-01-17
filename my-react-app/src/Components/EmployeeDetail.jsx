@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './EmployeeDetail.css'; // Import the separate CSS file
 
 const EmployeeDetail = () => {
     const [employee, setEmployee] = useState({});
@@ -8,41 +9,60 @@ const EmployeeDetail = () => {
     useEffect(() => {
         // Simulating API response with hardcoded data
         const hardcodedEmployee = {
-            name: 'John Doe',
-            email: 'johndoe@example.com',
-            salary: 50000,
-            image: 'default.png', // Ensure this image exists in your server or replace with a valid URL
+            name: 'Sourabh Pandey',
+            email: 'sourabh@example.com',
+            salary: 500000,
+            image: 'default.png', // Replace with a valid image URL or path
+            department: 'Engineering',
+            contact: '123-456-7890',
+            address: '123 Main St, Springfield, USA',
         };
 
-        // Set hardcoded data instead of making an API call
         setEmployee(hardcodedEmployee);
     }, []);
 
     const handleLogout = () => {
-        // Simulate logout functionality
-        localStorage.removeItem("valid");
+        localStorage.removeItem('valid');
         navigate('/');
     };
 
+    const handleEdit = () => {
+        alert('Edit functionality is under development.');
+    };
+
+    const handleLeave = () => {
+        alert('Leave application functionality is under development.');
+    };
+
     return (
-        <div>
-            <div className="p-2 d-flex justify-content-center shadow">
+        <div className="employee-detail-container">
+            <header className="header">
                 <h4>Employee Management System</h4>
-            </div>
-            <div className="d-flex justify-content-center flex-column align-items-center mt-3">
+            </header>
+            <div className="employee-card">
                 <img
                     src={`http://localhost:3000/Images/${employee.image}`}
-                    className="emp_det_image"
+                    className="employee-image"
                     alt="Employee"
                 />
-                <div className="d-flex align-items-center flex-column mt-5">
+                <div className="employee-info">
                     <h3>Name: {employee.name}</h3>
                     <h3>Email: {employee.email}</h3>
                     <h3>Salary: ${employee.salary}</h3>
+                    <h3>Department: {employee.department}</h3>
+                    <h3>Contact: {employee.contact}</h3>
+                    <h3>Address: {employee.address}</h3>
                 </div>
-                <div>
-                    <button className="btn btn-primary me-2">Edit</button>
-                    <button className="btn btn-danger" onClick={handleLogout}>Logout</button>
+                <div className="employee-actions">
+                    <button className="btn btn-primary" onClick={handleEdit}>
+                        Edit
+                    </button>
+                    <button className="btn btn-secondary" onClick={handleLeave}>
+                        Leave
+                    </button>
+                    <button className="btn btn-danger" onClick={handleLogout}>
+                        Logout
+                    </button>
                 </div>
             </div>
         </div>
