@@ -1,10 +1,9 @@
 /* Container for the entire page */
 .container {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh; /* Ensures the container spans the full height of the viewport */
+  justify-content: center; /* Centers the content horizontally */
+  align-items: center;     /* Centers the content vertically */
+  min-height: 100vh;       /* Ensures the container spans the full height of the viewport */
   background-color: #cfe2ff; /* Light blue background */
   margin: 0;
   padding: 10px; /* Adds some padding for smaller screens */
@@ -31,6 +30,7 @@
   max-width: 400px;
   text-align: center;
   box-sizing: border-box; /* Ensures padding is included in width calculation */
+  margin: auto; /* Ensures the form is centered */
 }
 
 /* Logo Image */
