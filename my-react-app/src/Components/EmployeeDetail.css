@@ -1,115 +1,209 @@
-/* General Reset */
-body {
+/* General Styles */
+* {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
     font-family: 'Arial', sans-serif;
-    background-color: #f4f4f9;
+    background-color: #cfe2ff; /* Light blue background */
     color: #333;
-}
-
-/* Header Styling */
-.header {
-    background-color: #007bff;
-    color: white;
-    padding: 1rem;
-    text-align: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-/* Container Styling */
-.employee-detail-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
-    padding: 2rem;
+    height: 100vh;
+    padding: 15px; /* Increased body padding for better spacing */
 }
 
-/* Card Styling */
-.employee-card {
-    background-color: white;
-    width: 100%;
-    max-width: 600px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 2rem;
+/* Header */
+.header {
+    background-color: #4CAF50; /* Green header */
+    color: white;
+    padding: 15px; /* Increased padding */
     text-align: center;
+    font-size: 20px; /* Slightly increased font size */
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.1); /* More pronounced shadow */
+    width: 100%;
+    margin-bottom: 20px; /* Increased margin for better separation */
+    border-radius: 8px; /* Rounded corners */
 }
 
-/* Image Styling */
+/* Employee Detail Container */
+.employee-detail-container {
+    width: 100%;
+    max-width: 700px; /* Fixed max width for consistency */
+    padding: 20px; /* Increased padding for better spacing */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 12px; /* Slightly rounded corners */
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1); /* Improved shadow */
+}
+
+/* Employee Card */
+.employee-card {
+    background-color: #ffffff;
+    width: 100%;
+    padding: 15px; /* Increased padding for better spacing */
+    border-radius: 8px;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1); /* More prominent shadow */
+    display: flex;
+    gap: 20px; /* Increased gap between image and information */
+    flex-wrap: wrap;
+    margin-top: 15px;
+    transition: all 0.3s ease;
+}
+
+.employee-card:hover {
+    transform: translateY(-4px); /* Slightly stronger hover effect */
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Employee Image */
 .employee-image {
-    width: 150px;
-    height: 150px;
+    width: 120px; /* Increased image size */
+    height: 120px; /* Increased image size */
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid #007bff;
-    margin-bottom: 1rem;
+    border: 4px solid #4CAF50; /* Green border */
+    transition: transform 0.3s ease;
 }
 
-/* Employee Info Styling */
+.employee-image:hover {
+    transform: scale(1.1); /* Slightly stronger zoom effect */
+}
+
+/* Employee Info */
+.employee-info {
+    flex: 1;
+    font-size: 15px; /* Slightly increased font size */
+    line-height: 1.5; /* Improved line height for readability */
+    color: #555;
+}
+
 .employee-info h3 {
-    margin: 0.5rem 0;
-    font-size: 1.1rem;
+    margin-bottom: 10px; /* Increased margin for spacing */
+    font-weight: 500;
+    font-size: 18px; /* Increased font size */
 }
 
-/* Actions Section */
+.employee-info h3 span {
+    font-weight: normal;
+    color: #888;
+}
+
+/* Employee Actions */
 .employee-actions {
-    margin-top: 1.5rem;
+    flex-basis: 100%;
     display: flex;
-    justify-content: space-around;
-    gap: 1rem;
+    justify-content: center;
+    gap: 12px; /* Adjusted gap */
+    margin-top: 15px;
 }
 
-.employee-actions .btn {
-    padding: 0.5rem 1.5rem;
-    font-size: 1rem;
+.employee-actions button {
+    padding: 10px 20px; /* Increased padding for better button feel */
+    font-size: 14px; /* Slightly larger font size */
+    font-weight: 600;
+    border-radius: 6px;
     border: none;
-    border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
+    width: 130px; /* Slightly larger width */
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-/* Primary Button */
+/* Button Styles */
 .btn-primary {
-    background-color: #007bff;
+    background-color: #3498db; /* Blue */
     color: white;
 }
 
 .btn-primary:hover {
-    background-color: #0056b3;
+    background-color: #2980b9;
+    transform: scale(1.05);
 }
 
-/* Secondary Button */
-.btn-secondary {
-    background-color: #ffc107;
-    color: black;
+.btn-warning {
+    background-color: #f39c12; /* Yellow */
+    color: white;
 }
 
-.btn-secondary:hover {
-    background-color: #e0a800;
+.btn-warning:hover {
+    background-color: #e67e22;
+    transform: scale(1.05);
 }
 
-/* Danger Button */
 .btn-danger {
-    background-color: #dc3545;
+    background-color: #e74c3c; /* Red */
     color: white;
 }
 
 .btn-danger:hover {
-    background-color: #a71d2a;
+    background-color: #c0392b;
+    transform: scale(1.05);
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .employee-card {
-        padding: 1.5rem;
+        width: 100%;
+        padding: 12px;
+    }
+
+    .employee-image {
+        width: 100px; /* Slightly reduced size for medium screens */
+        height: 100px;
     }
 
     .employee-info h3 {
-        font-size: 1rem;
+        font-size: 16px; /* Slightly reduced font size for medium screens */
+    }
+}
+
+@media (max-width: 768px) {
+    .employee-card {
+        width: 100%;
+        padding: 12px;
     }
 
-    .employee-actions .btn {
-        font-size: 0.9rem;
-        padding: 0.4rem 1rem;
+    .employee-info {
+        font-size: 13px; /* Slightly smaller font size for smaller screens */
+    }
+
+    .employee-actions button {
+        width: 100%;
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    .employee-info h3 {
+        font-size: 14px; /* Further reduced font size for smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        font-size: 18px; /* Slightly reduced font size */
+    }
+
+    .employee-info {
+        font-size: 12px; /* Further reduced font size */
+    }
+
+    .employee-actions button {
+        font-size: 12px;
+        padding: 10px;
+    }
+
+    .employee-image {
+        width: 90px; /* Reduced image size for smaller screens */
+        height: 90px;
     }
 }

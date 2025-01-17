@@ -28,7 +28,7 @@ const EmployeeDetail = () => {
         setEmployee(hardcodedEmployee);
     }, []);
 
-    const handleLogout = () => {
+ const handleLogout = () => {
         localStorage.removeItem('valid');
         navigate('/');
     };
