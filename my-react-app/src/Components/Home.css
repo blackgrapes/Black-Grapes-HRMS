@@ -1,177 +1,195 @@
-/* Container for the Pie charts */
-.pie-charts-row {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 20px;  /* Added gap for consistent spacing between pie charts */
-  margin-top: 30px;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Button Layout</title>
+  <style>
+    /* Ensure proper spacing and layout */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-.pie-chart-container {
-  flex-basis: 45%;  /* Ensures pie charts are side by side */
-  margin: 15px 0;
-}
+    body {
+      overflow-x: hidden; /* Prevent horizontal scrolling */
+      font-family: Arial, sans-serif;
+    }
 
-.pie-chart-container h3 {
-  text-align: center;
-  margin-bottom: 15px;
-  font-size: 18px;
-  color: #333;
-}
+    /* Align buttons in a row */
+    .button-row {
+      display: flex;
+      justify-content: flex-start; /* Align buttons to the left */
+      flex-wrap: wrap; /* Allow buttons to wrap to the next line when necessary */
+      gap: 15px; /* Add space between buttons */
+      overflow-x: hidden; /* Ensure no horizontal scrolling */
+    }
 
-/* Button color adjustments with full screen width */
-.admin-btn, .employee-btn, .salary-btn {
-  padding: 12px 20px;
-  font-size: 16px;
-  font-weight: 600;
-  border: none;
-  border-radius: 5px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  width: 100%;  /* Full width for buttons */
-  max-width: 100%; /* Ensure buttons stretch to full width */
-  margin: 0 auto; /* Center buttons within their container */
-  display: block;
-}
+    /* Card styling */
+    .card {
+      width: 180px;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      margin: 10px;
+      display: flex;
+      justify-content: center;
+    }
 
-/* Specific colors for each button */
-.admin-btn {
-  background-color: #4CAF50;
-  color: white;
-}
+    /* Common button styles */
+    .btn {
+      width: 100%;
+      padding: 12px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 8px; /* Rounded corners */
+      border: none; /* Remove border */
+      cursor: pointer; /* Pointer on hover */
+      transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transitions for background color and transform */
+      text-transform: uppercase; /* Uppercase text */
+      display: inline-block;
+      margin-top: 10px; /* Add top margin for spacing */
+    }
 
-.employee-btn {
-  background-color: #2196F3;
-  color: white;
-}
+    /* Standard Hover Effect */
+    .btn:hover {
+      transform: translateY(-3px); /* Slightly lift the button when hovered */
+    }
 
-.salary-btn {
-  background-color: #FF9800;
-  color: white;
-}
+    .btn:active {
+      transform: translateY(0); /* Reset lifting effect on click */
+    }
 
-/* Button hover effects */
-.admin-btn:hover {
-  background-color: #45a049;
-}
+    /* Button Colors (All buttons are similar in size/style, but different colors) */
+    .admin-btn {
+      background-color: #4CAF50; /* Green */
+      color: white;
+    }
 
-.employee-btn:hover {
-  background-color: #1976D2;
-}
+    .employee-btn {
+      background-color: #2196F3; /* Blue */
+      color: white;
+    }
 
-.salary-btn:hover {
-  background-color: #FB8C00;
-}
+    .salary-btn {
+      background-color: #f39c12; /* Yellow */
+      color: white;
+    }
 
-/* Styling for the card components */
-.card {
-  width: 100%;
-  padding: 20px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  background-color: #fff;
-  transition: all 0.3s ease-in-out;
-  margin-bottom: 20px;
-}
+    .leave-btn {
+      background-color: #e67e22; /* Orange */
+      color: white;
+    }
 
-.card:hover {
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-  transform: translateY(-5px);
-}
+    /* Button Hover and Active Effects */
+    .btn:hover {
+      background-color: #333; /* Darker shade on hover for all buttons */
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add shadow on hover */
+    }
 
-/* Styling for card headers and content */
-.card h4 {
-  font-size: 22px;
-  font-weight: 700;
-  color: #333;
-}
+    .btn:focus {
+      outline: none; /* Remove outline on focus */
+      box-shadow: 0 0 5px rgba(255, 165, 0, 0.7); /* Glow effect on focus */
+    }
 
-.card .text-center {
-  margin-bottom: 15px;
-}
+    /* Button placement in the card */
+    .card .btn-container {
+      display: flex;
+      justify-content: center;
+    }
 
-.card .d-flex {
-  justify-content: space-between;
-  align-items: center;
-}
+    /* Responsive Adjustments for Smaller Screens */
+    @media (max-width: 768px) {
+      .card {
+        width: 100%;
+        margin-bottom: 15px;
+      }
 
-/* Table Styles for Admin List */
-.table {
-  width: 100%;
-  margin-top: 20px;
-  border-collapse: collapse;
-}
+      .btn {
+        width: 100%; /* Ensure the button takes full width on smaller screens */
+        padding: 15px 0; /* More padding for touch-friendly interfaces */
+      }
+    }
 
-.table th, .table td {
-  text-align: left;
-  padding: 12px;
-  border-bottom: 1px solid #ddd;
-}
+    /* Additional styling */
+    .pie-charts-row {
+      display: flex;
+      justify-content: space-around;
+      gap: 30px;
+      margin-top: 30px;
+    }
 
-.table th {
-  background-color: #f2f2f2;
-  font-size: 16px;
-  font-weight: 600;
-  color: #333;
-}
+    .pie-chart-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
-.table td {
-  font-size: 14px;
-  color: #555;
-}
+    .pie-chart-border {
+      border: 2px solid #ddd;
+      border-radius: 10px;
+      padding: 10px;
+    }
 
-.table button {
-  padding: 8px 15px;
-  font-size: 14px;
-  background-color: #2196F3;
-  color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
-}
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
 
-.table button:hover {
-  background-color: #1976D2;
-}
+    table th, table td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .pie-charts-row {
-    flex-direction: column; /* Stack pie charts vertically on smaller screens */
-    align-items: center;
-  }
+    table th {
+      background-color: #f8f9fa;
+      font-weight: bold;
+    }
 
-  .pie-chart-container {
-    width: 100%;  /* Make pie charts full width on smaller screens */
-  }
+    .btn-info, .btn-warning {
+      padding: 6px 12px;
+      border-radius: 5px;
+    }
 
-  .card {
-    width: 100%;  /* Make cards full width */
-  }
+    .btn-info {
+      background-color: #17a2b8;
+      color: white;
+    }
 
-  /* Full screen width for buttons */
-  .admin-btn, .employee-btn, .salary-btn {
-    width: 100%; /* Ensure buttons are full screen width */
-    min-width: 160px;
-    max-width: 100%; /* Ensure they occupy the full width */
-    margin: 10px 0; /* Margin between buttons */
-  }
-}
+    .btn-info:hover {
+      background-color: #138496;
+    }
 
-@media (max-width: 480px) {
-  .pie-chart-container h3 {
-    font-size: 16px; /* Reduce font size for small screens */
-  }
+    .btn-warning {
+      background-color: #ffc107;
+      color: white;
+    }
 
-  .card {
-    padding: 15px; /* Adjust padding for small screens */
-  }
+    .btn-warning:hover {
+      background-color: #e0a800;
+    }
+  </style>
+</head>
+<body>
 
-  /* For very small screens, keep the buttons responsive */
-  .admin-btn, .employee-btn, .salary-btn {
-    min-width: 140px;
-    max-width: 100%;
-  }
-}
+  <!-- Button Row with Cards -->
+  <div class="button-row">
+    <div class="card">
+      <button class="btn admin-btn">Admin</button>
+    </div>
+    <div class="card">
+      <button class="btn employee-btn">Employee</button>
+    </div>
+    <div class="card">
+      <button class="btn salary-btn">Salary</button>
+    </div>
+    <div class="card">
+      <button class="btn leave-btn">Leave</button>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -31,7 +31,6 @@ const Home = () => {
   }, []);
 
   const fetchAdminData = () => {
-    // Simulating an API call for admin data
     const result = {
       Status: true,
       Result: [
@@ -48,52 +47,61 @@ const Home = () => {
   }
 
   const fetchEmployeeData = () => {
-    // Simulating an API call for employee count
     const employeeCount = 50; // This would be fetched from an API
     setemployeeTotal(employeeCount);
   }
 
   const fetchSalaryData = () => {
-    // Simulating an API call for salary data
     const totalSalary = 100000; // This would be fetched from an API
     setSalaryTotal(totalSalary);
   }
 
   return (
     <div>
-      <div className='p-3 d-flex justify-content-around mt-3'>
-        <div className='card'>
-          <div className='text-center pb-1'>
+      <div className="button-row p-3 mt-3">
+        <div className="card">
+          <div className="text-center pb-1">
             <h4>Admin</h4>
           </div>
           <hr />
-          <div className='d-flex justify-content-between'>
+          <div className="d-flex justify-content-between">
             <h5>Total:</h5>
             <h5>{adminTotal}</h5>
           </div>
           <button className="btn admin-btn">Admin Action</button>
         </div>
-        <div className='card'>
-          <div className='text-center pb-1'>
+        <div className="card">
+          <div className="text-center pb-1">
             <h4>Employee</h4>
           </div>
           <hr />
-          <div className='d-flex justify-content-between'>
+          <div className="d-flex justify-content-between">
             <h5>Total:</h5>
             <h5>{employeeTotal}</h5>
           </div>
           <button className="btn employee-btn">Employee Action</button>
         </div>
-        <div className='card'>
-          <div className='text-center pb-1'>
+        <div className="card">
+          <div className="text-center pb-1">
             <h4>Salary</h4>
           </div>
           <hr />
-          <div className='d-flex justify-content-between'>
+          <div className="d-flex justify-content-between">
             <h5>Total:</h5>
             <h5>${salaryTotal}</h5>
           </div>
-          <button className="btn salary-btn">Salary Action</button>
+          <div className="d-flex justify-content-start">
+            <button className="btn salary-btn">Salary Action</button>
+          </div>
+        </div>
+        <div className="card">
+          <div className="text-center pb-1">
+            <h4>Leave</h4>
+          </div>
+          <hr />
+          <div className="d-flex justify-content-start">
+            <button className="btn btn-warning">Leave</button>
+          </div>
         </div>
       </div>
 
@@ -101,7 +109,7 @@ const Home = () => {
       <div className="pie-charts-row">
         <div className="pie-chart-container">
           <h3>Employee Category Distribution</h3>
-          <PieChart width={300} height={300}>
+          <PieChart width={300} height={300} className="pie-chart-border">
             <Pie
               data={employeeCategories}
               dataKey="value"
@@ -122,7 +130,7 @@ const Home = () => {
 
         <div className="pie-chart-container">
           <h3>Employee Role Distribution</h3>
-          <PieChart width={300} height={300}>
+          <PieChart width={300} height={300} className="pie-chart-border">
             <Pie
               data={roleDistribution}
               dataKey="value"
@@ -143,9 +151,9 @@ const Home = () => {
       </div>
 
       {/* Admin List Table */}
-      <div className='mt-4 px-5 pt-3'>
+      <div className="mt-4 px-5 pt-3">
         <h3>List of Admins</h3>
-        <table className='table'>
+        <table className="table">
           <thead>
             <tr>
               <th>Email</th>
@@ -153,26 +161,20 @@ const Home = () => {
             </tr>
           </thead>
           <tbody>
-            {
-              admins.map(a => (
-                <tr key={a.email}>
-                  <td>{a.email}</td>
-                  <td>
-                    <button className="btn btn-info btn-sm me-2">
-                      Edit
-                    </button>
-                    <button className="btn btn-warning btn-sm">
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))
-            }
+            {admins.map((a) => (
+              <tr key={a.email}>
+                <td>{a.email}</td>
+                <td>
+                  <button className="btn btn-info btn-sm me-2">Edit</button>
+                  <button className="btn btn-warning btn-sm">Delete</button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
     </div>
   );
-}
+};
 
 export default Home;
