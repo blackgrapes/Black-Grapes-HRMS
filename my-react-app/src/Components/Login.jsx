@@ -78,15 +78,6 @@ const Login = () => {
             <button className="btn btn-success w-100 rounded-0 mb-2">
               Log in
             </button>
-            <div className="mb-1">
-              <input type="checkbox" name="tick" id="tick" className="me-2" />
-              <label htmlFor="password">
-                You are Agree with terms & conditions
-              </label>
-            </div>
-            <div className="signup-link">
-              Don’t have an account? <a href="/signup">SIGNUP</a>
-            </div>
           </form>
         </div>
       </div>
