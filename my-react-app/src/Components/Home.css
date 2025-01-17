@@ -1,195 +1,159 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Button Layout</title>
-  <style>
-    /* Ensure proper spacing and layout */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+/* Ensure proper spacing and layout */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-    body {
-      overflow-x: hidden; /* Prevent horizontal scrolling */
-      font-family: Arial, sans-serif;
-    }
+body {
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  font-family: Arial, sans-serif;
+}
 
-    /* Align buttons in a row */
-    .button-row {
-      display: flex;
-      justify-content: flex-start; /* Align buttons to the left */
-      flex-wrap: wrap; /* Allow buttons to wrap to the next line when necessary */
-      gap: 15px; /* Add space between buttons */
-      overflow-x: hidden; /* Ensure no horizontal scrolling */
-    }
+/* Align buttons in a row */
+.button-row {
+  display: flex;
+  justify-content: flex-start; /* Align buttons to the left */
+  flex-wrap: wrap; /* Allow buttons to wrap to the next line when necessary */
+  gap: 15px; /* Add space between buttons */
+  overflow-x: hidden; /* Ensure no horizontal scrolling */
+}
 
-    /* Card styling */
-    .card {
-      width: 180px;
-      padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-      margin: 10px;
-      display: flex;
-      justify-content: center;
-    }
+/* Card styling */
+.card {
+  width: 180px;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+}
 
-    /* Common button styles */
-    .btn {
-      width: 100%;
-      padding: 12px 20px;
-      font-size: 1rem;
-      font-weight: 600;
-      border-radius: 8px; /* Rounded corners */
-      border: none; /* Remove border */
-      cursor: pointer; /* Pointer on hover */
-      transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transitions for background color and transform */
-      text-transform: uppercase; /* Uppercase text */
-      display: inline-block;
-      margin-top: 10px; /* Add top margin for spacing */
-    }
+/* Common button styles */
+.btn {
+  width: 100%;
+  padding: 10px 18px; /* Slightly reduced padding for smaller buttons */
+  font-size: 0.875rem; /* Smaller font size (from 1rem to 0.875rem) */
+  font-weight: 600;
+  text-align: center; /* Center text in buttons */
+  border-radius: 8px; /* Rounded corners */
+  border: none; /* Remove border */
+  cursor: pointer; /* Pointer on hover */
+  transition: all 0.3s ease; /* Smooth transitions for background and transform */
+  text-transform: uppercase; /* Uppercase text */
+  display: inline-block;
+  margin-top: 10px; /* Add top margin for spacing */
+}
 
-    /* Standard Hover Effect */
-    .btn:hover {
-      transform: translateY(-3px); /* Slightly lift the button when hovered */
-    }
+/* Standard Hover Effect */
+.btn:hover {
+  background-color: #c9c4c4; /* Darker shade on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Slightly stronger shadow on hover */
+}
 
-    .btn:active {
-      transform: translateY(0); /* Reset lifting effect on click */
-    }
+.btn:active {
+  background-color: #555; /* Subtle change on click instead of lifting */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Reduced shadow on active */
+  transform: none; /* Remove the transform effect on active */
+}
 
-    /* Button Colors (All buttons are similar in size/style, but different colors) */
-    .admin-btn {
-      background-color: #4CAF50; /* Green */
-      color: white;
-    }
+/* Button Colors (All buttons are similar in size/style, but different colors) */
+.admin-btn {
+  background-color: #4CAF50; /* Green */
+  color: white;
+}
 
-    .employee-btn {
-      background-color: #2196F3; /* Blue */
-      color: white;
-    }
+.employee-btn {
+  background-color: #2196F3; /* Blue */
+  color: white;
+}
 
-    .salary-btn {
-      background-color: #f39c12; /* Yellow */
-      color: white;
-    }
+.salary-btn {
+  background-color: #f39c12; /* Yellow */
+  color: white;
+}
 
-    .leave-btn {
-      background-color: #e67e22; /* Orange */
-      color: white;
-    }
+.leave-btn {
+  background-color: #e67e22; /* Orange */
+  color: white;
+}
 
-    /* Button Hover and Active Effects */
-    .btn:hover {
-      background-color: #333; /* Darker shade on hover for all buttons */
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add shadow on hover */
-    }
+/* Focus Effect */
+.btn:focus {
+  outline: none; /* Remove outline on focus */
+  box-shadow: 0 0 8px rgba(17, 17, 17, 0.7); /* Glow effect on focus */
+}
 
-    .btn:focus {
-      outline: none; /* Remove outline on focus */
-      box-shadow: 0 0 5px rgba(255, 165, 0, 0.7); /* Glow effect on focus */
-    }
+/* Responsive Adjustments for Smaller Screens */
+@media (max-width: 768px) {
+  .card {
+    width: 100%;
+    margin-bottom: 15px;
+  }
 
-    /* Button placement in the card */
-    .card .btn-container {
-      display: flex;
-      justify-content: center;
-    }
+  .btn {
+    width: 100%; /* Ensure the button takes full width on smaller screens */
+    padding: 15px 0; /* More padding for touch-friendly interfaces */
+  }
+}
 
-    /* Responsive Adjustments for Smaller Screens */
-    @media (max-width: 768px) {
-      .card {
-        width: 100%;
-        margin-bottom: 15px;
-      }
+/* Additional styling */
+.pie-charts-row {
+  display: flex;
+  justify-content: space-around;
+  gap: 30px;
+  margin-top: 30px;
+}
 
-      .btn {
-        width: 100%; /* Ensure the button takes full width on smaller screens */
-        padding: 15px 0; /* More padding for touch-friendly interfaces */
-      }
-    }
+.pie-chart-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-    /* Additional styling */
-    .pie-charts-row {
-      display: flex;
-      justify-content: space-around;
-      gap: 30px;
-      margin-top: 30px;
-    }
+.pie-chart-border {
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  padding: 10px;
+}
 
-    .pie-chart-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
 
-    .pie-chart-border {
-      border: 2px solid #ddd;
-      border-radius: 10px;
-      padding: 10px;
-    }
+table th, table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
+table th {
+  background-color: #f8f9fa;
+  font-weight: bold;
+}
 
-    table th, table td {
-      padding: 12px;
-      text-align: left;
-      border-bottom: 1px solid #ddd;
-    }
+.btn-info, .btn-warning {
+  padding: 6px 12px;
+  border-radius: 5px;
+}
 
-    table th {
-      background-color: #f8f9fa;
-      font-weight: bold;
-    }
+.btn-info {
+  background-color: #17a2b8;
+  color: white;
+}
 
-    .btn-info, .btn-warning {
-      padding: 6px 12px;
-      border-radius: 5px;
-    }
+.btn-info:hover {
+  background-color: #138496;
+}
 
-    .btn-info {
-      background-color: #17a2b8;
-      color: white;
-    }
+.btn-warning {
+  background-color: #ffc107;
+  color: white;
+}
 
-    .btn-info:hover {
-      background-color: #138496;
-    }
-
-    .btn-warning {
-      background-color: #ffc107;
-      color: white;
-    }
-
-    .btn-warning:hover {
-      background-color: #e0a800;
-    }
-  </style>
-</head>
-<body>
-
-  <!-- Button Row with Cards -->
-  <div class="button-row">
-    <div class="card">
-      <button class="btn admin-btn">Admin</button>
-    </div>
-    <div class="card">
-      <button class="btn employee-btn">Employee</button>
-    </div>
-    <div class="card">
-      <button class="btn salary-btn">Salary</button>
-    </div>
-    <div class="card">
-      <button class="btn leave-btn">Leave</button>
-    </div>
-  </div>
-
-</body>
-</html>
+.btn-warning:hover {
+  background-color: #f9ebb3;
+}
