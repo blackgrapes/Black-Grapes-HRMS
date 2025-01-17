@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-
+import "./EmployeeLogin.css";
 
 const EmployeeDetail = () => {
     const [employee, setEmployee] = useState([])
