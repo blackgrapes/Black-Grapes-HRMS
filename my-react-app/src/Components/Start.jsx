@@ -13,6 +13,8 @@ const Start = () => {
         if (result.data.Status) {
           if (result.data.role === "admin") {
             navigate('/dashboard');
+          } else if (result.data.role === "superadmin") {
+            navigate('/superadmin_dashboard'); // Navigate to superadmin dashboard
           } else {
             navigate('/employee_detail/' + result.data.id);
           }
@@ -37,7 +39,7 @@ const Start = () => {
           <button className="btn btn-employee" onClick={() => navigate('/employee_login')}>
             Employee
           </button>
-          <button className="btn btn-superadmin" onClick={() => navigate('/')}>
+          <button className="btn btn-superadmin" onClick={() => navigate('/superadminlogin')}>
             Super Admin
           </button>
           <button className="btn btn-adminlogin" onClick={() => navigate('/adminlogin')}>
