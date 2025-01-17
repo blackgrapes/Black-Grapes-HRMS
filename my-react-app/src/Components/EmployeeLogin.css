@@ -1,111 +1,122 @@
-/* Reset and global styles */
-body, html {
-    margin: 0;
-    padding: 0;
-    font-family: 'Roboto', Arial, sans-serif;
-    height: 100%;
-    background: linear-gradient(135deg, #c3d9fa, #d1e2fc, #cfe2ff);
-    background-size: 400% 400%;
-    animation: gradientBG 10s ease infinite;
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Background Gradient */
+.login-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #cfe2ff;
+}
+
+/* Login Form Container */
+.login-form-container {
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px; /* Ensure the form isn't too wide */
+  text-align: center;
+}
+
+/* Logo Styling */
+.logo-image {
+  width: 80px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+/* Heading Styling */
+h2 {
+  color: #333;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+/* Form Inputs */
+.form-group {
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.form-group label {
+  font-size: 14px;
+  color: #555;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  color: #333;
+  transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #ff6a00; /* Highlight border color */
+  outline: none;
+}
+
+/* Button Styling */
+button {
+  background-color: #ff6a00;
+  border: none;
+  color: white;
+  padding: 14px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #e65b00;
+}
+
+/* Terms and Conditions checkbox */
+.form-check {
+  text-align: left;
+  margin-top: 10px;
+}
+
+.form-check input {
+  margin-right: 10px;
+}
+
+/* Error Message */
+.text-warning {
+  color: #e65b00;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .login-form-container {
+      padding: 20px;
+      width: 90%; /* Ensure the form doesn't stretch too much on small screens */
   }
-  
-  /* Gradient animation */
-  @keyframes gradientBG {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-  
-  .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  
-  .login-form {
-    width: 100%;
-    max-width: 400px;
-    background: #ffffff;
-    border-radius: 16px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    padding: 30px 20px;
-    text-align: center;
-  }
-  
-  .login-logo {
-    max-width: 120px;
-    margin-bottom: 20px;
-  }
-  
+
   h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: #c3d9fa;
-  }
-  
-  .form-group {
-    margin-bottom: 15px;
-    text-align: left;
-  }
-  
-  .form-group label {
-    display: block;
-    font-size: 14px;
-    margin-bottom: 5px;
-    color: #555;
-  }
-  
-  .form-group input {
-    width: 100%;
-    padding: 12px;
-    font-size: 14px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    transition: 0.3s;
-    
-  }
-  
-  .form-group input:focus {
-    outline: none;
-    border-color: #b8d2fa;
-    box-shadow: 0 0 5px rgba(108, 218, 249, 0.5);
-  }
-  
-  .login-button {
-    width: 100%;
-    padding: 12px;
-    font-size: 16px;
-    color: #fff;
-    background: linear-gradient(90deg, #6ca4f7, #abcbfa);
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-  
-  .login-button:hover {
-    background: linear-gradient(90deg, #abcbfa, #6ca4f7);
-    transform: scale(1.05);
-    color: #555;
-  }
-  
-  /* Responsive design */
-  @media (max-width: 480px) {
-    .login-form {
-      padding: 20px 15px;
-    }
-  
-    h2 {
       font-size: 20px;
-    }
-  
-    .form-group input {
-      font-size: 12px;
-    }
-  
-    .login-button {
-      font-size: 14px;
-    }
   }
-  
+
+  .form-control {
+      font-size: 14px;
+  }
+
+  button {
+      font-size: 14px;
+  }
+}
