@@ -10,11 +10,10 @@ const SuperAdminLogin = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    
+
     axios.post('http://localhost:3000/superadmin/superadminlogin', { email, password })
       .then(response => {
         if (response.data.Status) {
-          // Navigate to the superadmin dashboard
           navigate('/superadmin_dashboard');
         } else {
           alert("Invalid credentials");
@@ -27,37 +26,35 @@ const SuperAdminLogin = () => {
   };
 
   return (
-    <div className="superadmin-login-container">
-      {/* Logo above the heading */}
-      <img src="./src/assets/logo.png" alt="Super Admin Logo" className="logo" />
-      
-      <h2>Super Admin Login</h2>
-      
-      <form onSubmit={handleLogin}>
-        <div className="form-group">
-          <label>Email:</label>
-          <input
-            type="email"
-            placeholder="Enter your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label>Password:</label>
-          <input
-            type="password"
-            placeholder="Enter your password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit" className="btn btn-login">Login</button>
-      </form>
+    <div className="main-container">
+      <div className="superadmin-login-container">
+        <img src="./src/assets/logo.png" alt="Super Admin Logo" className="logo" />
+        <h2>Super Admin Login</h2>
+        <form onSubmit={handleLogin}>
+          <div className="form-group">
+            <label>Email:</label>
+            <input
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>Password:</label>
+            <input
+              type="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <button type="submit" className="btn btn-login">Login</button>
+        </form>
+      </div>
     </div>
-    
   );
 };
 
