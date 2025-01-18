@@ -11,7 +11,7 @@ const SuperAdminLogin = () => {
   const handleLogin = (e) => {
     e.preventDefault();
     
-    axios.post('http://localhost:3000/superadminlogin', { email, password })
+    axios.post('http://localhost:3000/superadmin/superadminlogin', { email, password })
       .then(response => {
         if (response.data.Status) {
           // Navigate to the superadmin dashboard
@@ -22,7 +22,7 @@ const SuperAdminLogin = () => {
       })
       .catch(err => {
         console.error(err);
-        alert("An error occurred");
+        alert(err.response?.data?.message || "An error occurred");
       });
   };
 

@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import './SuperAdminDashboard.css';
 
 const SuperAdminDashboard = () => {
   const navigate = useNavigate();

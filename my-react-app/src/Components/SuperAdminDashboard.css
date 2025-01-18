@@ -1,0 +1,154 @@
+/* SuperAdminDashboard.css */
+
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7fc;
+  }
+  
+  /* Dashboard Container */
+  .superadmin-dashboard-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  /* Header Section */
+  .dashboard-header {
+    background-color: #2c3e50;
+    color: #fff;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .dashboard-header h1 {
+    margin: 0;
+    font-size: 24px;
+  }
+  
+  .btn-logout {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+  
+  .btn-logout:hover {
+    background-color: #c0392b;
+  }
+  
+  /* Main Content Section */
+  .dashboard-content {
+    flex: 1;
+    padding: 40px;
+  }
+  
+  /* Welcome Section */
+  .welcome-section {
+    margin-bottom: 30px;
+  }
+  
+  .welcome-section h2 {
+    font-size: 28px;
+    color: #34495e;
+    margin-bottom: 10px;
+  }
+  
+  .welcome-section p {
+    font-size: 16px;
+    color: #7f8c8d;
+  }
+  
+  /* Dashboard Actions Section */
+  .dashboard-actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  
+  .action-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .action-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .action-card h3 {
+    font-size: 20px;
+    color: #2c3e50;
+    margin-bottom: 10px;
+  }
+  
+  .action-card p {
+    font-size: 14px;
+    color: #7f8c8d;
+    margin-bottom: 20px;
+  }
+  
+  .btn-action {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+  
+  .btn-action:hover {
+    background-color: #2980b9;
+  }
+  
+  /* Footer Section */
+  .dashboard-footer {
+    background-color: #2c3e50;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    font-size: 14px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .dashboard-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .dashboard-header h1 {
+      font-size: 20px;
+    }
+  
+    .btn-logout {
+      margin-top: 10px;
+    }
+  
+    .dashboard-content {
+      padding: 20px;
+    }
+  
+    .dashboard-actions {
+      grid-template-columns: 1fr;
+    }
+  }
+  
