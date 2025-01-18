@@ -3,21 +3,23 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #f9f9f9;
-  padding: 40px;
-  border-radius: 15px;
-  max-width: 850px;
+  background-color: #ffffff;
+  padding: 50px;
+  border-radius: 20px;
+  max-width: 900px;
   margin: 50px auto;
-  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.15);
 }
 
 /* Header styling for each section */
 h3 {
-  color: #101011;
-  font-size: 24px;
-  font-weight: 600;
-  margin-bottom: 20px;
+  color: #333;
   text-align: center;
+  margin-bottom: 30px;
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
 /* Calendar section styling */
@@ -26,31 +28,58 @@ h3 {
 }
 
 .react-calendar {
-  border-radius: 15px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  background-color: #f5f5f5;
+  font-family: 'Arial', sans-serif;
 }
 
-/* Highlight the date tiles when there is a scheduled meeting */
-.calendar-tile {
-  position: relative;
+.react-calendar__tile {
+  transition: transform 0.3s ease, background-color 0.2s ease;
+  border-radius: 8px;
 }
 
-.meeting-dot {
-  position: absolute;
-  bottom: 4px;
-  right: 4px;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: #4caf50; /* Green dot for meeting scheduled */
+.react-calendar__tile:hover {
+  transform: scale(1.05);
+  background-color: #ff6f61;
+  color: #fff;
+}
+
+.react-calendar__tile:active {
+  background-color: #ff3b30;
+  color: #fff;
+}
+
+/* Calendar tile for the current date */
+.react-calendar__tile--now {
+  background-color: #ffcc00;
+  color: #161313;
+  font-weight: 600;
+}
+
+.react-calendar__tile--active {
+  background-color: #ff6f61;
+  color: #fff;
+  font-weight: 600;
+}
+
+/* Weekends (Saturday and Sunday) */
+.react-calendar__tile--weekend {
+  background-color: #eb2502; /* Red for weekends */
+  color: #fff; /* White text for weekends */
+}
+
+.react-calendar__tile--weekend:hover {
+  background-color: #FF4500; /* Darker red on hover */
 }
 
 /* Meeting Scheduler Section */
 .meeting-scheduler {
   background-color: #fff;
-  padding: 25px;
-  border-radius: 15px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  border-radius: 18px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
   width: 100%;
   max-width: 420px;
   margin-bottom: 35px;
@@ -66,19 +95,19 @@ h3 {
   width: 100%;
   padding: 12px;
   font-size: 16px;
-  border-radius: 8px;
+  border-radius: 10px;
   border: 1px solid #ddd;
+  margin: 14px 0;
+  box-sizing: border-box;
 }
 
-.meeting-scheduler input:focus,
-.meeting-scheduler button:focus {
-  outline: none;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+.meeting-scheduler input {
+  border-color: #4caf50;
 }
 
 .meeting-scheduler button {
-  background-color: #4caf50;
-  color: #fff;
+  background-color: #007BFF; /* Blue button */
+  color: #fff; /* White text */
   border: none;
   cursor: pointer;
   font-weight: bold;
@@ -86,7 +115,7 @@ h3 {
 }
 
 .meeting-scheduler button:hover {
-  background-color: #388e3c;
+  background-color: #0056b3; /* Darker blue on hover */
 }
 
 /* Scheduled Meetings Section */
@@ -102,27 +131,27 @@ h3 {
 
 .scheduled-meetings li {
   background-color: #f4f7f6;
-  padding: 18px;
-  margin: 12px 0;
-  border-radius: 10px;
+  padding: 20px;
+  margin: 14px 0;
+  border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   font-size: 16px;
   transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
 .scheduled-meetings li strong {
-  color: #4caf50;
+  color: #000; /* Black for meeting date */
 }
 
 .scheduled-meetings li:hover {
-  background-color: #ebf2eb;
+  background-color: #FFD54F; /* Lighter yellow on hover */
   transform: scale(1.03);
 }
 
 /* Add styling for the no meetings scheduled message */
 .scheduled-meetings p {
   text-align: center;
-  color: #888;
+  color: #888; /* Light gray text */
   font-size: 16px;
 }
 
@@ -132,9 +161,61 @@ h3 {
 
 .react-datepicker__input-container input {
   font-size: 16px;
-  padding: 12px;
+  padding: 14px;
   border: 1px solid #ddd;
-  border-radius: 8px;
+  border-radius: 10px;
   width: 100%;
   box-sizing: border-box;
+}
+
+/* Calendar Tile Customization */
+.calendar-tile {
+  border-radius: 8px;
+  background-color: #f8fdfe; /* Light cyan background for tiles */
+}
+
+.react-calendar__tile--active {
+  background-color: #404aff; /* Pink for active tile */
+  color: white;
+  border-radius: 8px;
+}
+
+.react-calendar__tile--active:hover {
+  background-color: #8223f6; /* Darker pink when hovered */
+}
+
+.react-calendar__tile--now {
+  background-color: #FFEB3B; /* Yellow for current date */
+  color: #000;
+  font-weight: 600;
+  border: 2px solid #FF9800; /* Orange border for current date */
+}
+
+/* Calendar hover and active states */
+.react-calendar__tile:hover {
+  background-color: #81D4FA; /* Lighter blue on hover */
+  color: #ffffff; /* White text */
+}
+
+.react-calendar__tile:active {
+  background-color: #0288D1; /* Blue when active */
+  color: #ffffff; /* White text */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .calendar-container {
+    padding: 20px;
+    width: 100%;
+  }
+
+  .meeting-scheduler {
+    width: 100%;
+    max-width: none;
+  }
+
+  .scheduled-meetings {
+    width: 100%;
+    max-width: none;
+  }
 }
