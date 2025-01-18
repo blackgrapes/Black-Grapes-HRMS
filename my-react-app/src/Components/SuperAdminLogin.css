@@ -6,9 +6,7 @@
   }
   
   /* Body and Background */
-   body, html {
-     overflow: hidden;
-  } 
+   
   
   /* Super Admin Login Container */
   .superadmin-login-container {
