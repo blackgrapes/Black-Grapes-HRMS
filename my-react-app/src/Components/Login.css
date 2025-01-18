@@ -1,108 +1,195 @@
-/* Reset and global styles */
-body, html {
+/* General Reset */
+* {
   margin: 0;
   padding: 0;
-  font-family: 'Roboto', Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+/* Background Gradient */
+body, html {
   height: 100%;
-  background: linear-gradient(135deg, #cfe2ff, #cfe2ff, #cfe2ff);
-  background-size: 400% 400%;
-  animation: gradientBG 10s ease infinite;
+  background-color: #cfe2ff; /* Colorful gradient */
 }
 
-/* Gradient animation */
-@keyframes gradientBG {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-.login-container {
+/* Container for the login page */
+.loginPage {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 100%;
+  background-color: #cfe2ff;
 }
 
-.login-form {
-  width: 100%;
-  max-width: 400px;
-  background: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-  padding: 30px 20px;
+/* Main container that holds both sections */
+.loginContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 80%; /* Allow container to occupy most of the screen */
+  max-width: 1000px; /* Max width to prevent stretching on large screens */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+/* Left Section - Logo and Company Name */
+.logo-section {
+  flex: 1; /* Takes up half of the space */
   text-align: center;
+  padding-right: 20px; /* Add some space to the right side */
 }
 
-.login-logo {
-  max-width: 120px;
+.logo {
+  width: 120px; /* Logo size */
+  height: auto;
   margin-bottom: 20px;
 }
 
-h2 {
+.company-name {
   font-size: 24px;
-  margin-bottom: 20px;
-  color: #ff758c;
+  font-weight: bold;
+  color: #333;
+  font-family: 'Arial', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
-.form-group {
-  margin-bottom: 15px;
-  text-align: left;
+/* Right Section - Login Form */
+.loginForm {
+  flex: 1; /* Takes up the other half of the space */
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: #f8f9fa;
+  max-width: 400px; /* Increased form width slightly */
+  width: 100%;
+  text-align: center; /* Center content horizontally */
 }
 
-.form-group label {
+/* Center Logo in Login Form */
+.logo {
   display: block;
+  margin: 0 auto 20px auto; /* Center the logo and add space below */
+}
+
+/* Heading */
+h2 {
+  font-size: 28px;
+  color: #ff6a00;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+/* Input Fields */
+.mb-3 {
+  margin-bottom: 20px;
+  border-radius: 10px;
+}
+
+.mb-3 label {
   font-size: 14px;
-  margin-bottom: 5px;
+  font-weight: 500;
+  color: #333;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #ddd;
+  border-radius: 25px; /* Slightly rounded input fields */
+  font-size: 16px;
+  color: #333;
+  transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #fff; /* Focus border color */
+  outline: none;
+  border-radius: 25px;
+}
+
+/* Submit Button */
+button {
+  background-color: #ff6a00;
+  color: white;
+  padding: 14px;
+  font-size: 16px;
+  border-radius: 30px; /* More roundness to the buttons */
+  border: none;
+  width: 100%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #e65b00;
+}
+
+/* Terms and Conditions */
+input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+label[for="password"] {
+  font-size: 14px;
   color: #555;
 }
 
-.form-group input {
-  width: 100%;
-  padding: 12px;
+/* Sign-up Link */
+.signup-link {
+  margin-top: 20px;
   font-size: 14px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  transition: 0.3s;
+  color: #333;
+  text-align: center;
 }
 
-.form-group input:focus {
-  outline: none;
-  border-color: #ff758c;
-  box-shadow: 0 0 5px rgba(255, 117, 140, 0.5);
+.signup-link a {
+  color: #ff6a00;
+  text-decoration: none;
 }
 
-.login-button {
-  width: 100%;
-  padding: 12px;
-  font-size: 16px;
-  color: #fff;
-  background: linear-gradient(90deg, #ff758c, #ffbf86);
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
+.signup-link a:hover {
+  text-decoration: underline;
 }
 
-.login-button:hover {
-  background: linear-gradient(90deg, #ffbf86, #ff758c);
-  transform: scale(1.05);
+/* Error Message */
+.text-warning {
+  color: #e65b00;
+  font-size: 14px;
+  margin-bottom: 20px;
 }
 
-/* Responsive design */
-@media (max-width: 480px) {
-  .login-form {
-    padding: 20px 15px;
+/* Responsive Design */
+@media (max-width: 768px) {
+  .loginContainer {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .logo-section {
+    padding-right: 0;
+    margin-bottom: 30px;
+  }
+
+  .loginForm {
+    width: 100%;
+    padding: 20px;
   }
 
   h2 {
-    font-size: 20px;
+    font-size: 24px;
   }
 
-  .form-group input {
-    font-size: 12px;
-  }
-
-  .login-button {
+  button {
     font-size: 14px;
+    border-radius: 30px; /* Consistent roundness for small screens */
+  }
+
+  .form-control {
+    font-size: 14px;
+    border-radius: 8px;
   }
 }
