@@ -32,7 +32,7 @@ const EmployeeLogin = () => {
                 <div className="logo-container">
                     <img src="./src/assets/logo.png" alt="Logo" className="logo-image" />
                 </div>
-                <h2 className="text-center">Login Page</h2>
+                <h2 className="text-center">Employee Login </h2>
                 <div className="text-warning text-center">
                     {error && error}
                 </div>

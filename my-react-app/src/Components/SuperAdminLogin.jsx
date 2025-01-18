@@ -57,6 +57,7 @@ const SuperAdminLogin = () => {
         <button type="submit" className="btn btn-login">Login</button>
       </form>
     </div>
+    
   );
 };
 
