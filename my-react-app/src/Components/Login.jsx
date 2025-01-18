@@ -46,7 +46,7 @@ const Login = () => {
         {/* Right Section */}
         <div className="p-3 rounded loginForm">
           <div className="text-warning">{error && error}</div>
-          <h2>LOGIN</h2>
+          <h2>HR LOGIN</h2>
           <form onSubmit={handleSubmit}>
             <div className="mb-3">
               <label htmlFor="email">
