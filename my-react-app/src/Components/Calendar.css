@@ -3,92 +3,77 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #ffffff;
-  padding: 50px;
-  border-radius: 20px;
-  max-width: 900px;
+  background-color: #f9f9f9;
+  padding: 40px;
+  border-radius: 15px;
+  max-width: 850px;
   margin: 50px auto;
-  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.1);
 }
 
-/* Header styling */
+/* Header styling for each section */
 h3 {
-  color: #333;
+  color: #101011;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
   text-align: center;
-  margin-bottom: 30px;
-  font-size: 32px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
 }
 
 /* Calendar section styling */
 .calendar {
-  margin-bottom: 40px;
+  margin-bottom: 35px;
 }
 
 .react-calendar {
-  border: none;
-  border-radius: 16px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-  background-color: #f5f5f5;
-  font-family: 'Arial', sans-serif;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.react-calendar__tile {
-  transition: transform 0.3s ease, background-color 0.2s ease;
-  border-radius: 8px;
+/* Highlight the date tiles when there is a scheduled meeting */
+.calendar-tile {
+  position: relative;
 }
 
-.react-calendar__tile:hover {
-  transform: scale(1.05);
-  background-color: #ff6f61;
-  color: #fff;
-}
-
-.react-calendar__tile:active {
-  background-color: #ff3b30;
-  color: #fff;
-}
-
-/* Calendar tile for the current date */
-.react-calendar__tile--now {
-  background-color: #ffcc00;
-  color: #161313;
-  font-weight: 600;
-}
-
-.react-calendar__tile--active {
-  background-color: #ff6f61;
-  color: #fff;
-  font-weight: 600;
+.meeting-dot {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #4caf50; /* Green dot for meeting scheduled */
 }
 
 /* Meeting Scheduler Section */
 .meeting-scheduler {
   background-color: #fff;
-  padding: 30px;
-  border-radius: 18px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 460px;
-  margin-bottom: 40px;
+  max-width: 420px;
+  margin-bottom: 35px;
+}
+
+.meeting-scheduler .form-group {
+  margin-bottom: 20px;
 }
 
 .meeting-scheduler input,
 .meeting-scheduler button,
 .meeting-scheduler .react-datepicker-wrapper {
   width: 100%;
-  padding: 14px;
+  padding: 12px;
   font-size: 16px;
-  border-radius: 10px;
+  border-radius: 8px;
   border: 1px solid #ddd;
-  margin: 14px 0;
-  box-sizing: border-box;
 }
 
-.meeting-scheduler input {
-  border-color: #4caf50;
+.meeting-scheduler input:focus,
+.meeting-scheduler button:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
 .meeting-scheduler button {
@@ -104,11 +89,10 @@ h3 {
   background-color: #388e3c;
 }
 
-/* Scheduled Meetings List */
+/* Scheduled Meetings Section */
 .scheduled-meetings {
   width: 100%;
-  max-width: 680px;
-  margin-top: 40px;
+  max-width: 650px;
 }
 
 .scheduled-meetings ul {
@@ -118,12 +102,12 @@ h3 {
 
 .scheduled-meetings li {
   background-color: #f4f7f6;
-  padding: 20px;
-  margin: 14px 0;
-  border-radius: 12px;
+  padding: 18px;
+  margin: 12px 0;
+  border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   font-size: 16px;
-  transition: background-color 0.2s ease, transform 0.3s ease;
+  transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
 .scheduled-meetings li strong {
@@ -135,24 +119,22 @@ h3 {
   transform: scale(1.03);
 }
 
-/* No meetings scheduled message */
+/* Add styling for the no meetings scheduled message */
 .scheduled-meetings p {
   text-align: center;
   color: #888;
   font-size: 16px;
 }
 
-/* Custom DatePicker Styling */
 .react-datepicker-wrapper {
   display: block;
-  width: 100%;
 }
 
 .react-datepicker__input-container input {
   font-size: 16px;
-  padding: 14px;
+  padding: 12px;
   border: 1px solid #ddd;
-  border-radius: 10px;
+  border-radius: 8px;
   width: 100%;
   box-sizing: border-box;
 }

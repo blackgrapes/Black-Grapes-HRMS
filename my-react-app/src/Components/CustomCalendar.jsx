@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import ReactCalendar from "react-calendar"; // Renaming to avoid conflict with custom Calendar component
+import ReactCalendar from "react-calendar";
 import DatePicker from "react-datepicker";
 import "react-calendar/dist/Calendar.css";
 import "react-datepicker/dist/react-datepicker.css";
-import "./calendar.css"; // Assuming you will add some styles here
+import "./calendar.css";
 
 const CustomCalendar = () => {
   const [date, setDate] = useState(new Date());
@@ -17,10 +17,7 @@ const CustomCalendar = () => {
       return;
     }
 
-    setMeetings([
-      ...meetings,
-      { date: meetingDate, details: meetingDetails },
-    ]);
+    setMeetings([...meetings, { date: meetingDate, details: meetingDetails }]);
     setMeetingDate(null);
     setMeetingDetails("");
   };
@@ -35,25 +32,42 @@ const CustomCalendar = () => {
         <ReactCalendar
           onChange={setDate}
           value={date}
-          tileClassName="calendar-tile" // You may want to define this class in calendar.css for custom styling
+          tileClassName="calendar-tile"
+          tileContent={({ date, view }) =>
+            meetings.some(
+              (meeting) =>
+                meeting.date.toLocaleDateString() === date.toLocaleDateString()
+            ) && <span className="meeting-dot"></span>
+          }
         />
       </div>
 
       <div className="meeting-scheduler">
         <h3>Schedule a Meeting</h3>
-        <DatePicker
-          selected={meetingDate}
-          onChange={(date) => setMeetingDate(date)}
-          showTimeSelect
-          dateFormat="Pp"
-        />
-        <input
-          type="text"
-          placeholder="Meeting details"
-          value={meetingDetails}
-          onChange={handleMeetingDetailsChange}
-        />
-        <button onClick={handleScheduleMeeting}>Schedule</button>
+        <div className="form-group">
+          <DatePicker
+            selected={meetingDate}
+            onChange={(date) => setMeetingDate(date)}
+            showTimeSelect
+            dateFormat="Pp"
+            className="form-control"
+          />
+        </div>
+        <div className="form-group">
+          <input
+            type="text"
+            placeholder="Meeting details"
+            value={meetingDetails}
+            onChange={handleMeetingDetailsChange}
+            className="form-control"
+          />
+        </div>
+        <button
+          onClick={handleScheduleMeeting}
+          className="btn btn-primary w-100 mt-3"
+        >
+          Schedule
+        </button>
       </div>
 
       <div className="scheduled-meetings">
@@ -63,8 +77,9 @@ const CustomCalendar = () => {
         ) : (
           <ul>
             {meetings.map((meeting, index) => (
-              <li key={index}>
-                <strong>{meeting.date.toLocaleString()}</strong> - {meeting.details}
+              <li key={index} className="meeting-item">
+                <strong>{meeting.date.toLocaleString()}</strong> -{" "}
+                {meeting.details}
               </li>
             ))}
           </ul>

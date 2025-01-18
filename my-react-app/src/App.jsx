@@ -19,7 +19,7 @@ import PrivateRoute from './Components/PrivateRoute';
 import LeaveManagement from './Components/LeaveManagement';
 import SuperAdminLogin from './Components/SuperAdminLogin';
 import SuperAdminDashboard from './Components/SuperAdminDashboard'; // Import SuperAdminDashboard
-
+import Report from './Components/Report';
 function App() {
   return (
     <BrowserRouter>
@@ -50,6 +50,8 @@ function App() {
           <Route path="/dashboard/payroll" element={<Payroll />} />
           <Route path="/dashboard/LeaveManagement" element={<LeaveManagement />} />
           <Route path="/dashboard/calendar" element={<CustomCalendar />} />
+          <Route path="/dashboard/calendar" element={<CustomCalendar />} />
+          <Route path="/dashboard/Report" element={<Report />} />
         </Route>
       </Routes>
     </BrowserRouter>
