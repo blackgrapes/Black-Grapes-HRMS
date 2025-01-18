@@ -1,4 +1,4 @@
-/* Ensure proper spacing and layout */
+/* General Layout Styles */
 * {
   margin: 0;
   padding: 0;
@@ -6,154 +6,193 @@
 }
 
 body {
-  overflow-x: hidden; /* Prevent horizontal scrolling */
   font-family: Arial, sans-serif;
+  background-color: #f4f7fa;
 }
 
-/* Align buttons in a row */
-.button-row {
-  display: flex;
-  justify-content: flex-start; /* Align buttons to the left */
-  flex-wrap: wrap; /* Allow buttons to wrap to the next line when necessary */
-  gap: 15px; /* Add space between buttons */
-  overflow-x: hidden; /* Ensure no horizontal scrolling */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
-/* Card styling */
+/* Card Component */
 .card {
-  width: 180px;
-  padding: 15px;
+  background-color: #fff;
   border-radius: 8px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  width: 22%;
+  text-align: center;
   margin: 10px;
-  display: flex;
-  justify-content: center;
+  flex: 1;
 }
 
-/* Common button styles */
-.btn {
+.card h4 {
+  font-size: 1.25rem;
+  color: #333;
+}
+
+.card h5 {
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.card button {
   width: 100%;
-  padding: 10px 18px; /* Slightly reduced padding for smaller buttons */
-  font-size: 0.875rem; /* Smaller font size (from 1rem to 0.875rem) */
-  font-weight: 600;
-  text-align: center; /* Center text in buttons */
-  border-radius: 8px; /* Rounded corners */
-  border: none; /* Remove border */
-  cursor: pointer; /* Pointer on hover */
-  transition: all 0.3s ease; /* Smooth transitions for background and transform */
-  text-transform: uppercase; /* Uppercase text */
-  display: inline-block;
-  margin-top: 10px; /* Add top margin for spacing */
+  margin-top: 15px;
 }
 
-/* Standard Hover Effect */
-.btn:hover {
-  background-color: #c9c4c4; /* Darker shade on hover */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Slightly stronger shadow on hover */
+.card .btn {
+  font-size: 1rem;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.btn:active {
-  background-color: #555; /* Subtle change on click instead of lifting */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Reduced shadow on active */
-  transform: none; /* Remove the transform effect on active */
+.card .btn:hover {
+  opacity: 0.8;
 }
 
-/* Button Colors (All buttons are similar in size/style, but different colors) */
 .admin-btn {
-  background-color: #4CAF50; /* Green */
+  background-color: #4CAF50;
   color: white;
+}
+
+.admin-btn:hover {
+  background-color: #45a049;
 }
 
 .employee-btn {
-  background-color: #2196F3; /* Blue */
+  background-color: #00C49F;
   color: white;
+}
+
+.employee-btn:hover {
+  background-color: #00b18c;
 }
 
 .salary-btn {
-  background-color: #f39c12; /* Yellow */
+  background-color: #FFBB28;
   color: white;
 }
 
-.leave-btn {
-  background-color: #e67e22; /* Orange */
+.salary-btn:hover {
+  background-color: #ff9e1b;
+}
+
+.btn-warning {
+  background-color: #FFC107;
   color: white;
 }
 
-/* Focus Effect */
-.btn:focus {
-  outline: none; /* Remove outline on focus */
-  box-shadow: 0 0 8px rgba(17, 17, 17, 0.7); /* Glow effect on focus */
+.btn-warning:hover {
+  background-color: #ffca2f;
 }
 
-/* Responsive Adjustments for Smaller Screens */
-@media (max-width: 768px) {
-  .card {
-    width: 100%;
-    margin-bottom: 15px;
-  }
-
-  .btn {
-    width: 100%; /* Ensure the button takes full width on smaller screens */
-    padding: 15px 0; /* More padding for touch-friendly interfaces */
-  }
+/* Button Row */
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 30px;
 }
 
-/* Additional styling */
+/* Pie Chart Styles */
 .pie-charts-row {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   gap: 30px;
   margin-top: 30px;
 }
 
 .pie-chart-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  width: 48%; /* Allow two charts to fit next to each other */
+  text-align: center;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
 }
 
-.pie-chart-border {
-  border: 2px solid #ddd;
-  border-radius: 10px;
-  padding: 10px;
+.pie-chart-container h3 {
+  font-size: 1.25rem;
+  margin-bottom: 20px;
 }
 
-table {
+/* Admin Table Styles */
+.mt-4 {
+  margin-top: 30px;
+}
+
+.px-5 {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.pt-3 {
+  padding-top: 20px;
+}
+
+.table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-table th, table td {
+.table th, .table td {
   padding: 12px;
   text-align: left;
   border-bottom: 1px solid #ddd;
 }
 
-table th {
-  background-color: #f8f9fa;
-  font-weight: bold;
+.table th {
+  background-color: #f5f5f5;
 }
 
-.btn-info, .btn-warning {
-  padding: 6px 12px;
-  border-radius: 5px;
+.table tr:hover {
+  background-color: #f9f9f9;
 }
 
-.btn-info {
-  background-color: #17a2b8;
-  color: white;
+.btn-sm {
+  font-size: 0.875rem;
 }
 
-.btn-info:hover {
-  background-color: #138496;
+.me-2 {
+  margin-right: 10px;
 }
 
-.btn-warning {
-  background-color: #ffc107;
-  color: white;
-}
+/* Responsive Styles */
+@media (max-width: 768px) {
+  /* Adjust cards for mobile */
+  .card {
+    width: 100%;
+    margin-bottom: 20px;
+  }
 
-.btn-warning:hover {
-  background-color: #f9ebb3;
+  /* Stack pie charts on top of each other */
+  .pie-charts-row {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .pie-chart-container {
+    width: 80%; /* Make the charts take up 80% of the width */
+    margin-bottom: 30px;
+  }
+
+  /* Button row adjustments for mobile */
+  .button-row {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card button {
+    width: 100%;
+  }
 }
