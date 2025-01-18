@@ -76,7 +76,7 @@ body, html {
 /* Heading */
 h2 {
   font-size: 28px;
-  color: #ff6a00;
+  color: #333;
   font-weight: 600;
   margin-bottom: 20px;
 }
@@ -113,7 +113,7 @@ h2 {
 
 /* Submit Button */
 button {
-  background-color: #ff6a00;
+  background-color: #333;
   color: white;
   padding: 14px;
   font-size: 16px;
@@ -125,7 +125,7 @@ button {
 }
 
 button:hover {
-  background-color: #e65b00;
+  background-color: #333;
 }
 
 /* Terms and Conditions */
@@ -147,7 +147,7 @@ label[for="password"] {
 }
 
 .signup-link a {
-  color: #ff6a00;
+  color: #333;
   text-decoration: none;
 }
 
@@ -157,7 +157,7 @@ label[for="password"] {
 
 /* Error Message */
 .text-warning {
-  color: #e65b00;
+  color: #333;
   font-size: 14px;
   margin-bottom: 20px;
 }

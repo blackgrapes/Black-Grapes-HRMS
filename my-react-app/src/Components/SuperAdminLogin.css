@@ -1,0 +1,106 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Body and Background */
+   body, html {
+     overflow: hidden;
+  } 
+  
+  /* Super Admin Login Container */
+  .superadmin-login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 95vh;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    max-width: 400px;
+    margin: 20px auto;
+    backdrop-filter: blur(10px);
+  }
+  
+  /* Heading */
+  .superadmin-login-container h2 {
+    font-size: 32px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  /* Form Group */
+  .form-group {
+    width: 100%;
+    margin-bottom: 20px;
+    text-align: left;
+  }
+  
+  .form-group label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #555;
+    display: block;
+    margin-bottom: 8px;
+  }
+  
+  /* Input Fields */
+  .form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px; /* Rounded corners */
+    font-size: 16px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .form-group input:focus {
+    border-color: #333;
+    box-shadow: 0 0 8px rgba(255, 117, 140, 0.5);
+    outline: none;
+  }
+  
+  /* Login Button */
+  .btn-login {
+    width: 100%;
+    padding: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 25px; /* Rounded corners for the button */
+    background: linear-gradient(to right, #3f85bf, #759cff);
+    color: white;
+    cursor: pointer;
+    /* transition: background 0.3s ease, box-shadow 0.3s ease; */
+  }
+  
+  .btn-login:hover {
+     /* background-color: #0d6efd;  */
+    box-shadow: 0 4px 10px rgba(255, 117, 140, 0.5);
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .superadmin-login-container {
+      width: 90%;
+      padding: 15px;
+    }
+  
+    .superadmin-login-container h2 {
+      font-size: 28px;
+    }
+  
+    .form-group input {
+      font-size: 14px;
+    }
+  
+    .btn-login {
+      font-size: 16px;
+    }
+  }
+  

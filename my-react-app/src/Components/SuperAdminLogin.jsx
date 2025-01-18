@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import './SuperAdminLogin.css'; // Import the new CSS file
+import './SuperAdminLogin.css'; // Import the new CSS file
 
 const SuperAdminLogin = () => {
   const [email, setEmail] = useState("");
@@ -28,7 +28,11 @@ const SuperAdminLogin = () => {
 
   return (
     <div className="superadmin-login-container">
+      {/* Logo above the heading */}
+      <img src="./src/assets/logo.png" alt="Super Admin Logo" className="logo" />
+      
       <h2>Super Admin Login</h2>
+      
       <form onSubmit={handleLogin}>
         <div className="form-group">
           <label>Email:</label>
