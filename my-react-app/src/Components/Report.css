@@ -1,92 +1,108 @@
-/* Report.css */
+/* Container for the report */
 .report-container {
-    width: 80%;
     margin: 0 auto;
-    padding: 20px;
+    padding: 40px 20px;
+    max-width: 1000px;
     background-color: #f9f9f9;
     border-radius: 10px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Added a slightly larger shadow for a modern feel */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto', sans-serif;
   }
   
+  /* Title for the report */
   .report-title {
     text-align: center;
-    font-size: 2.5rem; /* Increased the font size for more prominence */
-    margin-bottom: 20px;
-    color: #333;
-    font-weight: bold; /* Added font weight for emphasis */
+    color: #2c3e50;
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    font-weight: 500;
+    letter-spacing: 1px;
   }
   
+  /* Styling for the table */
   .report-table {
     width: 100%;
-    border-collapse: separate; /* Changed border-collapse to separate for better spacing */
-    border-spacing: 0 10px; /* Added spacing between rows */
-    margin-top: 20px;
+    border-collapse: collapse;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   }
   
-  .report-table th, .report-table td {
-    padding: 14px 18px; /* Increased padding for better readability */
-    text-align: left;
-    border-bottom: 2px solid #ddd; /* Made the border thicker for distinction */
-  }
-  
+  /* Table header styles */
   .report-table th {
-    background-color: #4CAF50;
+    padding: 16px;
+    text-align: left;
+    background-color: #34495e;
     color: white;
-    font-size: 1.1rem; /* Increased font size for headers */
+    font-size: 16px;
+    border-radius: 8px 8px 0 0;
+    letter-spacing: 1px;
   }
   
+  /* Table cell styles */
+  .report-table th, .report-table td {
+    padding: 16px 20px;
+    text-align: left;
+    font-size: 15px;
+    border-bottom: 1px solid #ecf0f1;
+  }
+  
+  /* Row styles */
   .report-table tr:nth-child(even) {
-    background-color: #f2f2f2;
+    background-color: #ecf0f1;
   }
   
   .report-table tr:hover {
-    background-color: #ddd;
+    background-color: #e3e7ea;
+    transform: scale(1.02);
+    transition: all 0.3s ease;
   }
   
+  /* Attendance button styles */
   .attendance-btn {
-    padding: 8px 18px; /* Increased padding for buttons */
-    font-size: 14px;
-    margin-right: 12px; /* Slightly increased margin */
-    border: none;
+    padding: 10px 16px;
+    margin: 5px;
     cursor: pointer;
-    border-radius: 8px; /* Rounded button edges */
-    transition: all 0.3s ease; /* Added smooth transition effect */
+    border: none;
+    border-radius: 25px;
+    font-size: 14px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
   }
   
   .attendance-btn.present {
-    background-color: #4CAF50;
+    background-color: #27ae60;
     color: white;
+    box-shadow: 0 4px 8px rgba(39, 174, 96, 0.3);
+  }
+  
+  .attendance-btn.present:hover {
+    background-color: #2ecc71;
+    transform: translateY(-2px);
   }
   
   .attendance-btn.absent {
-    background-color: #f44336;
+    background-color: #e74c3c;
     color: white;
+    box-shadow: 0 4px 8px rgba(231, 76, 60, 0.3);
   }
   
-  .attendance-btn:hover {
-    opacity: 0.9; /* Slightly increased hover opacity */
-    transform: translateY(-3px); /* Added a subtle lift effect on hover */
+  .attendance-btn.absent:hover {
+    background-color: #c0392b;
+    transform: translateY(-2px);
   }
   
-  @media (max-width: 768px) {
-    .report-container {
-      width: 100%;
-      padding: 15px; /* Slightly adjusted padding for smaller screens */
-    }
+  /* Styles for the attendance status */
+  .report-table td span {
+    font-weight: bold;
+    color: #7f8c8d;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
   
-    .report-title {
-      font-size: 2rem; /* Reduced font size for smaller screens */
-    }
+  /* Add a border-radius to the table rows for rounded corners */
+  .report-table tr {
+    border-radius: 8px;
+  }
   
-    .report-table th, .report-table td {
-      font-size: 14px; /* Reduced font size for smaller screens */
-      padding: 10px 12px; /* Reduced padding */
-    }
-  
-    .attendance-btn {
-      font-size: 13px; /* Reduced button text size */
-      padding: 7px 14px; /* Reduced button padding */
-      margin-right: 8px; /* Reduced margin between buttons */
-    }
+  .report-table td {
+    border-radius: 8px;
   }
   
