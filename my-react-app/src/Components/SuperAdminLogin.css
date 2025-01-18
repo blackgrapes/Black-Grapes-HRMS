@@ -7,7 +7,7 @@
   
   /* Body and Background */
    body, html {
-     overflow: hidden;
+     /* overflow: hidden; */
   } 
   
   /* Super Admin Login Container */
