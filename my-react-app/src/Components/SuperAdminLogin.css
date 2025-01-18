@@ -28,6 +28,10 @@
     font-weight: bold;
     color: #333;
     margin-bottom: 20px;
+    font-size: 28px;
+  font-family: 'Arial', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
   }
   
   /* Form Group */

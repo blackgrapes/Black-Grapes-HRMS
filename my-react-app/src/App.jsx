@@ -4,7 +4,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Dashboard from './Components/Dashboard';
 import Home from './Components/Home';
 import Employee from './Components/Employee';
-
 import Profile from './Components/Profile';
 import AddCategory from './Components/AddCategory';
 import AddEmployee from './Components/AddEmployee';
@@ -41,7 +40,6 @@ function App() {
         }>
           <Route path="" element={<Home />} />
           <Route path="/dashboard/employee" element={<Employee />} />
-          
           <Route path="/dashboard/profile" element={<Profile />} />
           <Route path="/dashboard/add_category" element={<AddCategory />} />
           <Route path="/dashboard/add_employee" element={<AddEmployee />} />
