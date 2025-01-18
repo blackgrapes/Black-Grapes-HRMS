@@ -1,10 +1,11 @@
 import express from "express";
 import cors from "cors";
-import adminRouter from "./Routes/AdminRoute.js"; // Default export
-import EmployeeRouter from "./Routes/EmployeeRoute.js"; // Default export
+import adminRouter from "./Routes/AdminRoute.js"; // Admin routes
+import EmployeeRouter from "./Routes/EmployeeRoute.js"; // Employee routes
+import SuperAdminRouter from "./Routes/SuperAdminRoute.js"; // SuperAdmin routes
 import Jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
-import { connectToDatabase } from "./utils/db.js"; // Ensure this is correctly implemented
+import { connectToDatabase } from "./utils/db.js";
 
 const app = express();
 
@@ -27,6 +28,7 @@ connectToDatabase()
     // Routes
     app.use("/auth", adminRouter); // Admin routes
     app.use("/employee", EmployeeRouter); // Employee routes
+    app.use("/superadmin", SuperAdminRouter); // SuperAdmin routes
     app.use(express.static("Public")); // Serve static files from the 'Public' directory
 
     // Start the server

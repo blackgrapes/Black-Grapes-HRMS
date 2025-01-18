@@ -18,7 +18,7 @@ import EmployeeDetail from './Components/EmployeeDetail';
 import PrivateRoute from './Components/PrivateRoute';
 import LeaveManagement from './Components/LeaveManagement';
 import SuperAdminLogin from './Components/SuperAdminLogin';
-// import SuperAdminDashboard from './Components/SuperAdminDashboard'; // Create this page for SuperAdmin dashboard
+import SuperAdminDashboard from './Components/SuperAdminDashboard'; // Import SuperAdminDashboard
 
 function App() {
   return (
@@ -32,7 +32,7 @@ function App() {
 
         {/* SuperAdmin Routes */}
         <Route path="/superadminlogin" element={<SuperAdminLogin />} />
-        {/* <Route path="/superadmin_dashboard" element={<SuperAdminDashboard />} /> */}
+        <Route path="/superadmin_dashboard" element={<SuperAdminDashboard />} />
 
         {/* Protected Routes */}
         <Route path="/dashboard" element={
