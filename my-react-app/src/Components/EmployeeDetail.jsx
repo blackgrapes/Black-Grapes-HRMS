@@ -11,24 +11,24 @@ const EmployeeDetail = () => {
         const hardcodedEmployee = {
             name: 'Sourabh Pandey',
             email: 'sourabh@example.com',
+            id:'56412436851',
             salary: 500000,
             image: 'default.png', // Replace with a valid image URL or path
             department: 'Engineering',
             contact: '123-456-7890',
-            address: '123 Main St, Springfield, USA',
+            address: '123 Main St, Springfigryeld',
             dob: '1990-08-15', // Date of Birth
             joinDate: '2015-06-01', // Joining Date
             manager: 'Shrivanshu', // Manager's Name
             role: 'Software Engineer', // Employee's Role
             skills: ['JavaScript', 'React', 'Node.js'], // Skills
             performanceRating : 'Kamchor'
-            
         };
 
         setEmployee(hardcodedEmployee);
     }, []);
 
- const handleLogout = () => {
+    const handleLogout = () => {
         localStorage.removeItem('valid');
         navigate('/');
     };
@@ -43,7 +43,6 @@ const EmployeeDetail = () => {
         
         if (leaveRequest) {
             alert(`Leave request submitted: ${leaveRequest}`);
-            // You can add logic to update the employee state or call an API to submit the leave request.
         } else {
             alert('Leave request cancelled.');
         }
@@ -55,36 +54,55 @@ const EmployeeDetail = () => {
                 <h4>Employee Management System</h4>
             </header>
             <div className="employee-card">
-                <img
-                    src={`http://localhost:3000/Images/${employee.image}`}
-                    className="employee-image"
-                    alt="Employee"
-                />
-                <div className="employee-info">
-                    <h3>Name: {employee.name}</h3>
-                    <h3>Email: {employee.email}</h3>
-                    <h3>Employee ID: {employee.id}</h3>
-                    <h3>Salary: ${employee.salary}</h3>
-                    <h3>Department: {employee.department}</h3>
-                    <h3>Role: {employee.role}</h3>
-                    <h3>Manager: {employee.manager}</h3>
-                    <h3>Contact: {employee.contact}</h3>
-                    <h3>Address: {employee.address}</h3>
-                    <h3>Date of Birth: {employee.dob}</h3>
-                    <h3>Joining Date: {employee.joinDate}</h3>
-                    <h3>Performance Rating: {employee.performanceRating}</h3>
-                    
+                <div className="employee-image-container">
+                    <img
+                        src={`http://localhost:3000/Images/${employee.image}`}
+                        className="employee-image"
+                        alt="Employee"
+                    />
                 </div>
-                <div className="employee-actions">
-                    <button className="btn btn-primary" onClick={handleEdit}>
-                        Edit
-                    </button>
-                    <button className="btn btn-warning" onClick={handleLeave}>
-                        Apply for Leave
-                    </button>
-                    <button className="btn btn-danger" onClick={handleLogout}>
-                        Logout
-                    </button>
+                <div className="employee-details">
+                    <div className="employee-info">
+                        <div className="employee-labels">
+                            <h3>Name:</h3>
+                            <h3>Email:</h3>
+                            <h3>Employee ID:</h3>
+                            <h3>Salary:</h3>
+                            <h3>Department:</h3>
+                            <h3>Role:</h3>
+                            <h3>Manager:</h3>
+                            <h3>Contact:</h3>
+                            <h3>Address:</h3>
+                            <h3>Date of Birth:</h3>
+                            <h3>Joining Date:</h3>
+                            <h3>Performance Rating:</h3>
+                        </div>
+                        <div className="employee-values">
+                            <h3>{employee.name}</h3>
+                            <h3>{employee.email}</h3>
+                            <h3>{employee.id}</h3>
+                            <h3>${employee.salary}</h3>
+                            <h3>{employee.department}</h3>
+                            <h3>{employee.role}</h3>
+                            <h3>{employee.manager}</h3>
+                            <h3>{employee.contact}</h3>
+                            <h3>{employee.address}</h3>
+                            <h3>{employee.dob}</h3>
+                            <h3>{employee.joinDate}</h3>
+                            <h3>{employee.performanceRating}</h3>
+                        </div>
+                    </div>
+                    <div className="employee-actions">
+                        <button className="btn btn-primary" onClick={handleEdit}>
+                            Edit
+                        </button>
+                        <button className="btn btn-warning" onClick={handleLeave}>
+                            Apply for Leave
+                        </button>
+                        <button className="btn btn-danger" onClick={handleLogout}>
+                            Logout
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
