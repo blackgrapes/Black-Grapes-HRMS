@@ -67,13 +67,13 @@ h2 {
 }
 
 .form-control:focus {
-  border-color: #ff6a00; /* Highlight border color */
+  border-color: #ff2200; /* Highlight border color */
   outline: none;
 }
 
 /* Button Styling */
 button {
-  background-color: #ff6a00;
+  background-color: #ff2200;
   border: none;
   color: white;
   padding: 14px;
@@ -84,7 +84,7 @@ button {
 }
 
 button:hover {
-  background-color: #e65b00;
+  background-color: #ff2200;
 }
 
 /* Terms and Conditions checkbox */
@@ -99,7 +99,7 @@ button:hover {
 
 /* Error Message */
 .text-warning {
-  color: #e65b00;
+  color: #ff2200;
   font-size: 14px;
   margin-bottom: 20px;
 }

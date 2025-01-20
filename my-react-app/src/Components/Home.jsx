@@ -1,4 +1,6 @@
+// Frontend: Home.js
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { PieChart, Pie, Tooltip, Cell, Legend } from 'recharts';
 import './Home.css';
 
@@ -99,21 +101,25 @@ const Home = () => {
     fetchSalaryData();
   }, []);
 
-  const fetchAdminData = () => {
-    const result = {
-      Status: true,
-      Result: [
-        { email: 'admin1@example.com' },
-        { email: 'admin2@example.com' },
-      ]
-    };
-    if (result.Status) {
-      setAdmins(result.Result);
-      setAdminTotal(result.Result.length);
-    } else {
-      alert(result.Error);
+  const fetchAdminData = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/admins', {
+        withCredentials: true,
+      });
+  
+      // Adjust to match the actual response format
+      if (response.data && response.data.length > 0) {
+        setAdmins(response.data); // Assuming `response.data` is an array
+        setAdminTotal(response.data.length);
+      } else {
+        alert("No admins found.");
+      }
+    } catch (error) {
+      console.error("Error fetching admin data:", error);
+      alert("Failed to fetch admin data. Please try again later.");
     }
   };
+  
 
   const fetchEmployeeData = () => {
     const employeeCount = 50; // This would be fetched from an API

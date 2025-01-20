@@ -6,22 +6,38 @@ import './SuperAdminLogin.css'; // Import the new CSS file
 const SuperAdminLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(null); // For displaying error messages
+  const [attempts, setAttempts] = useState(0); // Track incorrect attempts
+  const [isLocked, setIsLocked] = useState(false); // Lockout state
   const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
+
+    if (isLocked) {
+      setError("Too many incorrect attempts. Please try again later.");
+      return;
+    }
 
     axios.post('http://localhost:3000/superadmin/superadminlogin', { email, password })
       .then(response => {
         if (response.data.Status) {
           navigate('/superadmin_dashboard');
         } else {
-          alert("Invalid credentials");
+          setError("Invalid credentials");
+          setAttempts((prev) => prev + 1); // Increment incorrect attempts
+          if (attempts + 1 >= 3) {
+            setIsLocked(true); // Lock after 3 failed attempts
+            setTimeout(() => {
+              setIsLocked(false); // Unlock after 1 minute
+              setAttempts(0);
+            }, 60000); // 1 minute lockout duration
+          }
         }
       })
       .catch(err => {
         console.error(err);
-        alert(err.response?.data?.message || "An error occurred");
+        setError(err.response?.data?.message || "Incorrect ID or Password. Please try again.");
       });
   };
 
@@ -30,6 +46,7 @@ const SuperAdminLogin = () => {
       <div className="superadmin-login-container">
         <img src="./src/assets/logo.png" alt="Super Admin Logo" className="logo" />
         <h2>Super Admin Login</h2>
+        {error && <div className="error-message">{error}</div>}
         <form onSubmit={handleLogin}>
           <div className="form-group">
             <label>Email:</label>
@@ -39,6 +56,7 @@ const SuperAdminLogin = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              disabled={isLocked} // Disable input if locked
             />
           </div>
           <div className="form-group">
@@ -49,10 +67,22 @@ const SuperAdminLogin = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              disabled={isLocked} // Disable input if locked
             />
           </div>
-          <button type="submit" className="btn btn-login">Login</button>
+          <button
+            type="submit"
+            className="btn btn-login"
+            disabled={isLocked} // Disable button if locked
+          >
+            Login
+          </button>
         </form>
+        {attempts > 0 && !isLocked && (
+          <div className="attempts-info">
+            Incorrect attempts: {attempts}/3
+          </div>
+        )}
       </div>
     </div>
   );
