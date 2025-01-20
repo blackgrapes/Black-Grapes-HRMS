@@ -1,10 +1,11 @@
-// Frontend: Home.js
+// Home.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import { PieChart, Pie, Tooltip, Cell, Legend } from 'recharts';
 import './Home.css';
 
-const Card = ({ title, value, buttonText, buttonClass, extraContent }) => {
+const Card = ({ title, value, buttonText, buttonClass, extraContent, onClick }) => {
   return (
     <div className="card">
       <div className="text-center pb-1">
@@ -16,7 +17,9 @@ const Card = ({ title, value, buttonText, buttonClass, extraContent }) => {
         <h5>{value}</h5>
       </div>
       {extraContent}
-      <button className={`btn ${buttonClass}`}>{buttonText}</button>
+      <button className={`btn ${buttonClass}`} onClick={onClick}>
+        {buttonText}
+      </button>
     </div>
   );
 };
@@ -78,8 +81,8 @@ const Home = () => {
   const [employeeTotal, setEmployeeTotal] = useState(0);
   const [salaryTotal, setSalaryTotal] = useState(0);
   const [admins, setAdmins] = useState([]);
+  const navigate = useNavigate(); // Initialize useNavigate
 
-  // Hardcoded employee category data for the first pie chart
   const [employeeCategories, setEmployeeCategories] = useState([
     { name: 'HR', value: 10 },
     { name: 'Engineer', value: 25 },
@@ -87,7 +90,6 @@ const Home = () => {
     { name: 'Marketing', value: 5 }
   ]);
 
-  // New pie chart data for employee distribution by role
   const [roleDistribution, setRoleDistribution] = useState([
     { name: 'Manager', value: 20 },
     { name: 'Developer', value: 40 },
@@ -106,30 +108,34 @@ const Home = () => {
       const response = await axios.get('http://localhost:3000/admins', {
         withCredentials: true,
       });
-  
-      // Adjust to match the actual response format
+
       if (response.data && response.data.length > 0) {
-        setAdmins(response.data); // Assuming `response.data` is an array
+        setAdmins(response.data);
         setAdminTotal(response.data.length);
       } else {
-        alert("No admins found.");
+        // alert("No admins found.");
       }
     } catch (error) {
       console.error("Error fetching admin data:", error);
-      alert("Failed to fetch admin data. Please try again later.");
+      // alert("Failed to fetch admin data. Please try again later.");
     }
   };
-  
 
   const fetchEmployeeData = () => {
-    const employeeCount = 50; // This would be fetched from an API
+    const employeeCount = 50; 
     setEmployeeTotal(employeeCount);
   };
 
   const fetchSalaryData = () => {
-    const totalSalary = 100000; // This would be fetched from an API
+    const totalSalary = 100000; 
     setSalaryTotal(totalSalary);
   };
+
+  // Handle button click for navigation
+  const handleAdminAction = () => navigate('/dashboard/profile');
+  const handleEmployeeAction = () => navigate('/dashboard/employee');
+  const handleSalaryAction = () => navigate('/dashboard/payroll');
+  const handleLeaveAction = () => navigate('/dashboard/LeaveManagement');
 
   return (
     <div>
@@ -139,23 +145,27 @@ const Home = () => {
           value={adminTotal}
           buttonText="Admin Action"
           buttonClass="admin-btn"
+          onClick={handleAdminAction} // Pass the navigate function
         />
         <Card
           title="Employee"
           value={employeeTotal}
           buttonText="Employee Action"
           buttonClass="employee-btn"
+          onClick={handleEmployeeAction} // Pass the navigate function
         />
         <Card
           title="Salary"
           value={`$${salaryTotal}`}
           buttonText="Salary Action"
           buttonClass="salary-btn"
+          onClick={handleSalaryAction} // Pass the navigate function
         />
         <Card
           title="Leave"
           buttonText="Leave"
           buttonClass="btn-warning"
+          onClick={handleLeaveAction} // Pass the navigate function
         />
       </section>
 
