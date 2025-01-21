@@ -39,14 +39,8 @@ const EmployeeDetail = () => {
     };
 
     const handleLeave = () => {
-        // You can implement leave functionality here. For now, we will just show an alert.
-        const leaveRequest = prompt('Please enter the reason for your leave request:');
-        
-        if (leaveRequest) {
-            alert(`Leave request submitted: ${leaveRequest}`);
-        } else {
-            alert('Leave request cancelled.');
-        }
+        navigate('/employee/Leave');
+       
     };
 
     return (

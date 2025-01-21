@@ -18,6 +18,7 @@ import LeaveManagement from './Components/LeaveManagement';
 import SuperAdminLogin from './Components/SuperAdminLogin';
 import SuperAdminDashboard from './Components/SuperAdminDashboard'; // Import SuperAdminDashboard
 import Report from './Components/Report';
+import Leave from './Components/Leave';
 function App() {
   return (
     <BrowserRouter>
@@ -28,6 +29,7 @@ function App() {
         <Route path="/employee_login" element={<EmployeeLogin />} />
         <Route path="/employee_detail/:id" element={<EmployeeDetail />} />
         <Route path="/employee/edit_employee/" element={<EditEmployee />} />
+        <Route path="/employee/Leave" element={<Leave/>} />
 
         {/* SuperAdmin Routes */}
         <Route path="/superadminlogin" element={<SuperAdminLogin />} />

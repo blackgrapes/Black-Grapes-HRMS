@@ -1,146 +1,150 @@
-/* Container for the entire Leave Management section */
+/* General container styling */
 .leave-management-container {
-  max-width: 900px;
-  margin: 40px auto;
-  padding: 20px;
+  padding: 30px;
+  max-width: 1200px;
+  margin: 20px auto;
   background-color: #f9f9f9;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial', sans-serif;
 }
 
-/* Heading styles */
+/* Header styling */
 h2 {
   text-align: center;
+  color: #333;
   font-size: 32px;
-  color: #2c3e50;
   margin-bottom: 30px;
+  font-weight: 600;
 }
 
 h3 {
-  font-size: 24px;
-  color: #34495e;
-}
-
-/* Leave balance section */
-.leave-balance {
-  background-color: #ecf0f1;
-  padding: 15px;
-  border-radius: 8px;
-  margin-bottom: 30px;
-  font-size: 18px;
-  color: #27ae60;
   text-align: center;
-}
-
-/* Leave form styling */
-.leave-form {
-  background-color: #ffffff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.leave-form label {
-  font-size: 16px;
-  display: block;
-  margin-bottom: 10px;
-  color: #34495e;
-}
-
-.leave-form select,
-.leave-form input,
-.leave-form textarea {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  color: #333;
+  font-size: 24px;
   margin-bottom: 20px;
+  font-weight: 500;
 }
 
-.leave-form textarea {
-  height: 120px;
-  resize: vertical;
-}
-
-.leave-form input[type="number"] {
-  max-width: 60px;
-}
-
-.leave-form select:focus,
-.leave-form input:focus,
-.leave-form textarea:focus {
-  border-color: #2980b9;
-  outline: none;
-}
-
-/* Button styling */
-.leave-form button {
-  background-color: #2980b9;
-  color: white;
-  padding: 12px 25px;
-  font-size: 16px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.leave-form button:hover {
-  background-color: #3498db;
-}
-
-/* Leave requests table section */
-.leave-requests {
-  margin-top: 40px;
-}
-
+/* Table styling */
 .leave-requests table {
   width: 100%;
   border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Ensures rounded corners are not clipped */
+}
+
+/* Header cells */
+.leave-requests th {
+  padding: 14px;
+  border-bottom: 2px solid #ddd;
+  background-color: #007bff;
+  color: white;
+  font-weight: 600;
+  text-align: left;
   font-size: 16px;
 }
 
-.leave-requests th,
+/* Body cells */
 .leave-requests td {
-  padding: 12px;
-  text-align: center;
-  border: 1px solid #ddd;
+  padding: 14px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+  font-size: 15px;
+  color: #555;
 }
 
-.leave-requests th {
-  background-color: #34495e;
+/* Hover effect on rows */
+.leave-requests tr:hover {
+  background-color: #f9f9f9;
+}
+
+/* Button styling */
+.leave-requests button {
+  padding: 10px 18px;
+  margin: 0 10px;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 5px;
+  border: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: inline-block;
+  text-align: center;
+}
+
+/* Approve button */
+.leave-requests button.approve {
+  background-color: #28a745;
   color: white;
 }
 
-.leave-requests tbody tr:nth-child(even) {
-  background-color: #ecf0f1;
+.leave-requests button.approve:hover {
+  background-color: #218838;
+  transform: scale(1.05);
 }
 
-.leave-requests tbody tr:hover {
-  background-color: #f1c40f;
-  cursor: pointer;
-  transform: scale(1.02);
-  transition: transform 0.3s ease;
+.leave-requests button.approve:active {
+  background-color: #5d986b;
 }
 
-.leave-requests td {
-  color: #34495e;
+/* Reject button */
+.leave-requests button.reject {
+  background-color: #a14e47;
+  color: white;
 }
 
-/* Table status column styles */
-.leave-requests td:nth-child(5) {
-  font-weight: bold;
+.leave-requests button.reject:hover {
+  background-color: #c82333;
+  transform: scale(1.05);
 }
 
-.leave-requests td:nth-child(5).Pending {
-  color: #f39c12;
+.leave-requests button.reject:active {
+  background-color: #bd2130;
 }
 
-.leave-requests td:nth-child(5).Approved {
-  color: #27ae60;
+/* Disabled button */
+.leave-requests button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  transform: none;
 }
 
-.leave-requests td:nth-child(5).Rejected {
-  color: #e74c3c;
+/* Responsive styling */
+@media (max-width: 768px) {
+  .leave-management-container {
+    padding: 20px;
+  }
+
+  h2 {
+    font-size: 26px;
+    margin-bottom: 15px;
+  }
+
+  h3 {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+
+  .leave-requests table {
+    font-size: 14px;
+  }
+
+  .leave-requests th,
+  .leave-requests td {
+    padding: 12px;
+  }
+
+  .leave-requests button {
+    padding: 8px 14px;
+    font-size: 12px;
+  }
 }
+
+/* Add subtle box-shadow effect for buttons when hovered */
+.leave-requests button:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+

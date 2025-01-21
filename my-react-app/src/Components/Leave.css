@@ -1,0 +1,125 @@
+/* General container styling */
+.leave-management-container {
+    padding: 30px;
+    max-width: 1000px;
+    margin: 20px auto;
+    background-color: #f9f9f9;
+    border-radius: 15px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* Title header styling */
+  .leave-management-container h2 {
+    text-align: center;
+    color: #333;
+    font-size: 32px;
+    margin-bottom: 30px;
+    font-weight: 600;
+  }
+  
+  /* Leave balance section */
+  .leave-balance {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .leave-balance p {
+    font-size: 18px;
+    color: #333;
+    font-weight: 500;
+  }
+  
+  /* Leave form styling */
+  .leave-form {
+    margin-top: 20px;
+  }
+  
+  .leave-form h3 {
+    text-align: center;
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: 500;
+  }
+  
+  .leave-form label {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  /* Styling for select, input, and textarea elements */
+  .leave-form select,
+  .leave-form input,
+  .leave-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+  }
+  
+  .leave-form select:focus,
+  .leave-form input:focus,
+  .leave-form textarea:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+  
+  /* Submit button styling */
+  .leave-form button {
+    padding: 12px 20px;
+    width: 100%;
+    font-size: 16px;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .leave-form button:hover {
+    background-color: #0056b3;
+  }
+  
+  .leave-form button:active {
+    background-color: #004085;
+  }
+  
+  /* Responsive styling */
+  @media (max-width: 768px) {
+    .leave-management-container {
+      padding: 20px;
+    }
+  
+    .leave-management-container h2 {
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+  
+    .leave-form h3 {
+      font-size: 20px;
+      margin-bottom: 15px;
+    }
+  
+    .leave-form label {
+      font-size: 14px;
+    }
+  
+    .leave-form select,
+    .leave-form input,
+    .leave-form textarea {
+      font-size: 14px;
+      padding: 8px;
+    }
+  
+    .leave-form button {
+      font-size: 14px;
+      padding: 10px 16px;
+    }
+  }
+  
