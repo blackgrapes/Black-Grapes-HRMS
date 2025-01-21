@@ -4,6 +4,7 @@ import adminRouter from "./Routes/AdminRoute.js"; // Admin routes
 import EmployeeRouter from "./Routes/EmployeeRoute.js"; // Employee routes
 import SuperAdminRouter from "./Routes/SuperAdminRoute.js"; // SuperAdmin routes
 import Jwt from "jsonwebtoken";
+import EmployeeDetailRouter from "./Routes/EmployeeDetailRoutes.js";
 import cookieParser from "cookie-parser";
 import { connectToDatabase } from "./utils/db.js";
 
@@ -28,7 +29,8 @@ connectToDatabase()
     // Routes
     app.use("/auth", adminRouter); // Admin routes
     app.use("/employee", EmployeeRouter); // Employee routes
-    app.use("/superadmin", SuperAdminRouter); // SuperAdmin routes
+    app.use("/superadmin", SuperAdminRouter); 
+    app.use ("/employeedetail", EmployeeDetailRouter)// SuperAdmin routes
     app.use(express.static("Public")); // Serve static files from the 'Public' directory
 
     // Start the server

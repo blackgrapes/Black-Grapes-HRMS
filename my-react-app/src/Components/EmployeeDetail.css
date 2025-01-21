@@ -9,12 +9,7 @@
 }
 
 /* Body and Background */
-body {
-  background-color: #f4f6f9; /* Light background */
-  color: #2c3e50;
-  font-size: 16px;
-  line-height: 1.6;
-}
+
 
 /* Header Styles */
 .header {
@@ -143,7 +138,7 @@ body {
 
 .btn-primary:hover {
   background-color: #1abc9c;
-  transform: translateY(-3px);
+  transform: translateY(-1px);
 }
 
 .btn-warning {

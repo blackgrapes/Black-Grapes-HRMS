@@ -6,6 +6,7 @@ import { db } from "../utils/db.js";
 const router = express.Router();
 
 // Admin login API
+ 
 router.post("/adminlogin", async (req, res) => {
     try {
       const { email, password } = req.body;
