@@ -20,55 +20,66 @@ const upload = multer({ storage: storage });
 const router = express.Router();
 
 router.post("/add_employee", async (req, res) => {
-  const { name, email, password, salary, address, phone, designation, image } = req.body;
+  const { name, email, salary, address, phone, designation, image, manager, dob, joiningDate } = req.body;
 
   try {
     // Validate input data
-    if (!name || !email || !password || !salary || !address || !phone || !designation) {
+    if (!name || !email || !salary || !address || !phone || !designation || !manager || !dob || !joiningDate) {
       return res.status(400).json({ Error: "All fields are required" });
     }
 
-    // Hash the password before saving it
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // Access the 'employees' collection
+    const collection = db.collection("employees_detail");
+
+    // Check if the employee already exists
+    const user = await collection.findOne({ email });
+    if (user) {
+      return res.status(409).json({ message: "Employee already exists" });
+    }
+
+
 
     // Create an employee object
     const employeeData = {
       name,
       email,
-      password: hashedPassword,
       salary,
       address,
       phone,
       designation,
       image,
+      manager,
+      dob,
+      joiningDate,
     };
-
-    // Access the 'employees' collection
-    const collection = db.collection("employees_detail");
 
     // Insert employee data into the collection
     const result = await collection.insertOne(employeeData);
 
     console.log("Employee added:", result.insertedId);
 
-    return res.json({ message: "Employee added successfully", employeeId: result.insertedId });
+    return res.status(200).json({ message: "Employee added successfully", employeeId: result.insertedId });
   } catch (err) {
     console.error("Error adding employee:", err);
     return res.status(500).json({ Error: "Internal server error" });
   }
 });
 
-
-// Employee Model
 const employeeSchema = new mongoose.Schema({
-  name: String,
-  email: { type: String, unique: true },
-  phone: String,
-  salary: String,
-  address: String,
-  designation: String,
-  image: String, // Store the image URL or path
+  name: { type: String, required: true },
+  email: { type: String, unique: true, required: true },
+  password: { type: String, required: true },
+  phone: { type: String, required: true },
+  salary: { type: String, required: true },
+  address: { type: String, required: true },
+  designation: { type: String, required: true },
+  image: { type: String }, // Store the image URL or path
+  manager: { type: String, required: true },
+  dob: { type: Date, required: true },
+  joiningDate: { type: Date, required: true },
 });
+
+
 
 const Employee = mongoose.model('Employee_detail', employeeSchema);
 

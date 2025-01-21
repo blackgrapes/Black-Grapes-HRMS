@@ -6,14 +6,11 @@ const AddEmployee = () => {
   const [employee, setEmployee] = useState({
     name: "",
     email: "",
-    password: "",
     salary: "",
     address: "",
     phone: "",
     designation: "",
     image: "",
-    employeeId: "",
-    role: "",
     manager: "",
     dob: "",
     joiningDate: "",
@@ -22,20 +19,19 @@ const AddEmployee = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-
+  
     // Simple validation
     if (
       !employee.name ||
       !employee.email ||
-      !employee.password ||
       !employee.salary ||
       !employee.phone ||
       !employee.designation ||
       !employee.image ||
-      !employee.employeeId ||
-      !employee.role ||
       !employee.manager ||
       !employee.dob ||
       !employee.joiningDate
@@ -43,18 +39,44 @@ const AddEmployee = () => {
       setErrorMessage("Please fill all fields.");
       return;
     }
-
+  
+    setIsSubmitting(true);
+  
     axios
       .post("http://localhost:3000/employeedetail/add_employee", employee)
       .then((result) => {
-        if (result.data.Status) {
+        console.log(result);
+        if(result.status === 409){
+          alert("employee already exist");
+          console.log("already exist");
+        }
+          // Clear the form by resetting the state to initial values
+          if(result.status === 200){
+          setEmployee({
+            name: "",
+            email: "",
+            salary: "",
+            address: "",
+            phone: "",
+            designation: "",
+            image: "",
+            manager: "",
+            dob: "",
+            joiningDate: "",
+          });
           navigate("/dashboard/employee");
-        } else {
-          alert(result.data.Error);
+        }
+        else{
+          alert("error adding employee")
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => {
+        // Set isSubmitting to false once the request is complete
+        setIsSubmitting(false);
+      });
   };
+  
 
   return (
     <div className="d-flex justify-content-center align-items-center mt-3">
@@ -76,41 +98,30 @@ const AddEmployee = () => {
           </div>
 
           <div className="col-12">
-            <label htmlFor="inputEmployeeId" className="form-label">
-              Employee ID
+            <label htmlFor="inputEmail4" className="form-label">
+              Email
             </label>
             <input
-              type="text"
+              type="email"
               className="form-control rounded-0"
-              id="inputEmployeeId"
-              placeholder="Enter Employee ID"
-              onChange={(e) => setEmployee({ ...employee, employeeId: e.target.value })}
+              id="inputEmail4"
+              placeholder="Enter Email"
+              autoComplete="off"
+              onChange={(e) => setEmployee({ ...employee, email: e.target.value })}
             />
           </div>
 
+          
           <div className="col-12">
-            <label htmlFor="inputRole" className="form-label">
-              Role
+            <label htmlFor="inputPhone" className="form-label">
+              Phone Number
             </label>
             <input
               type="text"
               className="form-control rounded-0"
-              id="inputRole"
-              placeholder="Enter Role"
-              onChange={(e) => setEmployee({ ...employee, role: e.target.value })}
-            />
-          </div>
-
-          <div className="col-12">
-            <label htmlFor="inputManager" className="form-label">
-              Manager
-            </label>
-            <input
-              type="text"
-              className="form-control rounded-0"
-              id="inputManager"
-              placeholder="Enter Manager's Name"
-              onChange={(e) => setEmployee({ ...employee, manager: e.target.value })}
+              id="inputPhone"
+              placeholder="Enter Phone Number"
+              onChange={(e) => setEmployee({ ...employee, phone: e.target.value })}
             />
           </div>
 
@@ -139,44 +150,18 @@ const AddEmployee = () => {
           </div>
 
           <div className="col-12">
-            <label htmlFor="inputEmail4" className="form-label">
-              Email
-            </label>
-            <input
-              type="email"
-              className="form-control rounded-0"
-              id="inputEmail4"
-              placeholder="Enter Email"
-              autoComplete="off"
-              onChange={(e) => setEmployee({ ...employee, email: e.target.value })}
-            />
-          </div>
-          
-          <div className="col-12">
-            <label htmlFor="inputPassword4" className="form-label">
-              Password
-            </label>
-            <input
-              type="password"
-              className="form-control rounded-0"
-              id="inputPassword4"
-              placeholder="Enter Password"
-              onChange={(e) => setEmployee({ ...employee, password: e.target.value })}
-            />
-          </div>
-
-          <div className="col-12">
-            <label htmlFor="inputPhone" className="form-label">
-              Phone Number
+            <label htmlFor="inputManager" className="form-label">
+              Manager
             </label>
             <input
               type="text"
               className="form-control rounded-0"
-              id="inputPhone"
-              placeholder="Enter Phone Number"
-              onChange={(e) => setEmployee({ ...employee, phone: e.target.value })}
+              id="inputManager"
+              placeholder="Enter Manager's Name"
+              onChange={(e) => setEmployee({ ...employee, manager: e.target.value })}
             />
           </div>
+          
 
           <div className="col-12">
             <label htmlFor="inputDesignation" className="form-label">
@@ -233,10 +218,15 @@ const AddEmployee = () => {
           </div>
 
           <div className="col-12">
-            <button type="submit" className="btn btn-primary w-100">
-              Add Employee
-            </button>
-          </div>
+  <button
+    type="submit"
+    className="btn btn-primary w-100"
+    disabled={isSubmitting} // Disable button when submitting
+  >
+    {isSubmitting ? "Adding..." : "Add Employee"}
+  </button>
+</div>
+
         </form>
       </div>
     </div>
