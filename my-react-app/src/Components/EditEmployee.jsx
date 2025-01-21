@@ -12,8 +12,11 @@ const EditEmployee = () => {
     phone: '',
     salary: '',
     address: '',
-    designation: '',
     image: '',
+    employeeId: '',
+    dob: '',
+    joinDate: '',
+    designation: '', // Added Designation to state
   });
 
   useEffect(() => {
@@ -28,8 +31,11 @@ const EditEmployee = () => {
           phone: data.phone || '',
           salary: data.salary,
           address: data.address,
-          designation: data.designation || '', // Default to empty if not present
           image: '', // Image needs to be re-uploaded
+          employeeId: data.id, // Employee ID
+          dob: data.dob, // Date of Birth
+          joinDate: data.joinDate, // Joining Date
+          designation: data.designation || '', // Added Designation from API response
         });
       })
       .catch((err) => console.log(err));
@@ -43,7 +49,9 @@ const EditEmployee = () => {
     formData.append('phone', employee.phone);
     formData.append('salary', employee.salary);
     formData.append('address', employee.address);
-    formData.append('designation', employee.designation);
+    formData.append('dob', employee.dob); // Append DOB
+    formData.append('joinDate', employee.joinDate); // Append joining date
+    formData.append('designation', employee.designation); // Append Designation
     if (employee.image) formData.append('image', employee.image);
 
     axios
@@ -114,23 +122,6 @@ const EditEmployee = () => {
             />
           </div>
 
-          {/* Designation */}
-          <div className="col-12">
-            <label htmlFor="inputDesignation" className="form-label">
-              Designation
-            </label>
-            <input
-              type="text"
-              className="form-control rounded-0"
-              id="inputDesignation"
-              placeholder="Enter Designation"
-              value={employee.designation}
-              onChange={(e) =>
-                setEmployee({ ...employee, designation: e.target.value })
-              }
-            />
-          </div>
-
           {/* Salary */}
           <div className="col-12">
             <label htmlFor="inputSalary" className="form-label">
@@ -163,6 +154,55 @@ const EditEmployee = () => {
               value={employee.address}
               onChange={(e) =>
                 setEmployee({ ...employee, address: e.target.value })
+              }
+            />
+          </div>
+
+          {/* Date of Birth */}
+          <div className="col-12">
+            <label htmlFor="inputDob" className="form-label">
+              Date of Birth
+            </label>
+            <input
+              type="date"
+              className="form-control rounded-0"
+              id="inputDob"
+              value={employee.dob}
+              onChange={(e) =>
+                setEmployee({ ...employee, dob: e.target.value })
+              }
+            />
+          </div>
+
+          {/* Joining Date */}
+          <div className="col-12">
+            <label htmlFor="inputJoinDate" className="form-label">
+              Joining Date
+            </label>
+            <input
+              type="date"
+              className="form-control rounded-0"
+              id="inputJoinDate"
+              value={employee.joinDate}
+              onChange={(e) =>
+                setEmployee({ ...employee, joinDate: e.target.value })
+              }
+            />
+          </div>
+
+          {/* Designation */}
+          <div className="col-12">
+            <label htmlFor="inputDesignation" className="form-label">
+              Designation
+            </label>
+            <input
+              type="text"
+              className="form-control rounded-0"
+              id="inputDesignation"
+              placeholder="Enter Designation"
+              value={employee.designation}
+              onChange={(e) =>
+                setEmployee({ ...employee, designation: e.target.value })
               }
             />
           </div>

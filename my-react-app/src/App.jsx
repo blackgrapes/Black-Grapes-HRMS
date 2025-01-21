@@ -27,6 +27,7 @@ function App() {
         <Route path="/adminlogin" element={<Login />} />
         <Route path="/employee_login" element={<EmployeeLogin />} />
         <Route path="/employee_detail/:id" element={<EmployeeDetail />} />
+        <Route path="/employee/edit_employee/" element={<EditEmployee />} />
 
         {/* SuperAdmin Routes */}
         <Route path="/superadminlogin" element={<SuperAdminLogin />} />
@@ -43,7 +44,6 @@ function App() {
           <Route path="/dashboard/profile" element={<Profile />} />
           <Route path="/dashboard/add_category" element={<AddCategory />} />
           <Route path="/dashboard/add_employee" element={<AddEmployee />} />
-          <Route path="/dashboard/edit_employee/:id" element={<EditEmployee />} />
           <Route path="/dashboard/payroll" element={<Payroll />} />
           <Route path="/dashboard/LeaveManagement" element={<LeaveManagement />} />
           <Route path="/dashboard/calendar" element={<CustomCalendar />} />
