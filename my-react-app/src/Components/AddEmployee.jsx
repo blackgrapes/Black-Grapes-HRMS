@@ -44,23 +44,8 @@ const AddEmployee = () => {
       return;
     }
 
-    const formData = new FormData();
-    formData.append("name", employee.name);
-    formData.append("email", employee.email);
-    formData.append("password", employee.password);
-    formData.append("address", employee.address);
-    formData.append("salary", employee.salary);
-    formData.append("phone", employee.phone);
-    formData.append("designation", employee.designation);
-    formData.append("image", employee.image);
-    formData.append("employeeId", employee.employeeId);
-    formData.append("role", employee.role);
-    formData.append("manager", employee.manager);
-    formData.append("dob", employee.dob);
-    formData.append("joiningDate", employee.joiningDate);
-
     axios
-      .post("http://localhost:3000/auth/add_employee", formData)
+      .post("http://localhost:3000/employeedetail/add_employee", employee)
       .then((result) => {
         if (result.data.Status) {
           navigate("/dashboard/employee");
