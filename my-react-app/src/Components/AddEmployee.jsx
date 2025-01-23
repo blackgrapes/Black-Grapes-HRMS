@@ -65,6 +65,9 @@ const AddEmployee = () => {
             joiningDate: "",
           });
           navigate("/dashboard/signup_employee");
+  alert("Employee added successfully. Please sign up with the same email.");
+
+
         }
         else{
           alert("error adding employee")
