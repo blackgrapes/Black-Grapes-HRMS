@@ -20,6 +20,7 @@ import SuperAdminDashboard from './Components/SuperAdminDashboard'; // Import Su
 import Report from './Components/Report';
 import Leave from './Components/Leave';
 import SignupEmployee from './Components/SignupEmployee';
+import ManageEmployee from './Components/ManageEmployee';
 function App() {
   return (
     <BrowserRouter>
@@ -35,6 +36,8 @@ function App() {
         {/* SuperAdmin Routes */}
         <Route path="/superadminlogin" element={<SuperAdminLogin />} />
         <Route path="/superadmin_dashboard" element={<SuperAdminDashboard />} />
+        <Route path="/manage_employees" element={<ManageEmployee />} />
+
 
         {/* Protected Routes */}
         <Route path="/dashboard" element={
