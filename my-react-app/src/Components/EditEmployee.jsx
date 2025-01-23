@@ -7,15 +7,9 @@ const EditEmployee = () => {
   const navigate = useNavigate();
 
   const [employee, setEmployee] = useState({
-    name: '',
-    email: '',
     phone: '',
-    salary: '',
     address: '',
     image: '',
-    employeeId: '',
-    dob: '',
-    joinDate: '',
     designation: '', // Added Designation to state
   });
 
@@ -26,15 +20,9 @@ const EditEmployee = () => {
       .then((result) => {
         const data = result.data.Result[0];
         setEmployee({
-          name: data.name,
-          email: data.email,
           phone: data.phone || '',
-          salary: data.salary,
           address: data.address,
           image: '', // Image needs to be re-uploaded
-          employeeId: data.id, // Employee ID
-          dob: data.dob, // Date of Birth
-          joinDate: data.joinDate, // Joining Date
           designation: data.designation || '', // Added Designation from API response
         });
       })
@@ -44,13 +32,8 @@ const EditEmployee = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append('name', employee.name);
-    formData.append('email', employee.email);
     formData.append('phone', employee.phone);
-    formData.append('salary', employee.salary);
     formData.append('address', employee.address);
-    formData.append('dob', employee.dob); // Append DOB
-    formData.append('joinDate', employee.joinDate); // Append joining date
     formData.append('designation', employee.designation); // Append Designation
     if (employee.image) formData.append('image', employee.image);
 
@@ -71,39 +54,6 @@ const EditEmployee = () => {
       <div className="p-3 rounded w-50 border">
         <h3 className="text-center">Edit Employee</h3>
         <form className="row g-1" onSubmit={handleSubmit}>
-          {/* Name */}
-          <div className="col-12">
-            <label htmlFor="inputName" className="form-label">
-              Name
-            </label>
-            <input
-              type="text"
-              className="form-control rounded-0"
-              id="inputName"
-              placeholder="Enter Name"
-              value={employee.name}
-              onChange={(e) => setEmployee({ ...employee, name: e.target.value })}
-            />
-          </div>
-
-          {/* Email */}
-          <div className="col-12">
-            <label htmlFor="inputEmail" className="form-label">
-              Email
-            </label>
-            <input
-              type="email"
-              className="form-control rounded-0"
-              id="inputEmail"
-              placeholder="Enter Email"
-              autoComplete="off"
-              value={employee.email}
-              onChange={(e) =>
-                setEmployee({ ...employee, email: e.target.value })
-              }
-            />
-          </div>
-
           {/* Phone */}
           <div className="col-12">
             <label htmlFor="inputPhone" className="form-label">
@@ -122,24 +72,6 @@ const EditEmployee = () => {
             />
           </div>
 
-          {/* Salary */}
-          <div className="col-12">
-            <label htmlFor="inputSalary" className="form-label">
-              Salary
-            </label>
-            <input
-              type="text"
-              className="form-control rounded-0"
-              id="inputSalary"
-              placeholder="Enter Salary"
-              autoComplete="off"
-              value={employee.salary}
-              onChange={(e) =>
-                setEmployee({ ...employee, salary: e.target.value })
-              }
-            />
-          </div>
-
           {/* Address */}
           <div className="col-12">
             <label htmlFor="inputAddress" className="form-label">
@@ -154,38 +86,6 @@ const EditEmployee = () => {
               value={employee.address}
               onChange={(e) =>
                 setEmployee({ ...employee, address: e.target.value })
-              }
-            />
-          </div>
-
-          {/* Date of Birth */}
-          <div className="col-12">
-            <label htmlFor="inputDob" className="form-label">
-              Date of Birth
-            </label>
-            <input
-              type="date"
-              className="form-control rounded-0"
-              id="inputDob"
-              value={employee.dob}
-              onChange={(e) =>
-                setEmployee({ ...employee, dob: e.target.value })
-              }
-            />
-          </div>
-
-          {/* Joining Date */}
-          <div className="col-12">
-            <label htmlFor="inputJoinDate" className="form-label">
-              Joining Date
-            </label>
-            <input
-              type="date"
-              className="form-control rounded-0"
-              id="inputJoinDate"
-              value={employee.joinDate}
-              onChange={(e) =>
-                setEmployee({ ...employee, joinDate: e.target.value })
               }
             />
           </div>
