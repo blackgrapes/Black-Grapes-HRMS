@@ -1,79 +1,80 @@
+/* General Styles */
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
-  h3 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-  }
-  
-  h4 {
-    font-size: 1.5rem;
-    margin-bottom: 15px;
-  }
-  
-  .table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
-  
-  .table-bordered {
-    border: 1px solid #dee2e6;
-  }
-  
-  .table th, .table td {
-    padding: 12px;
-    text-align: center;
-  }
-  
-  .table th {
-    background-color: #f8f9fa;
-  }
-  
-  .table td {
-    background-color: #ffffff;
-  }
-  
-  .table tr:hover {
-    background-color: #f1f1f1;
-  }
-  
-  .btn {
-    padding: 5px 10px;
-    font-size: 0.875rem;
-    border-radius: 4px;
-  }
-  
-  .btn-warning {
-    background-color: #ffc107;
-    border: none;
-  }
-  
-  .btn-warning:hover {
-    background-color: #e0a800;
-  }
-  
-  .btn-danger {
-    background-color: #dc3545;
-    border: none;
-  }
-  
-  .btn-danger:hover {
-    background-color: #c82333;
-  }
-  
-  .text-center {
-    text-align: center;
-  }
-  
-  .mt-4 {
-    margin-top: 20px;
-  }
-  
-  .me-2 {
-    margin-right: 10px;
-  }
-  
+  margin-top: 20px;
+  display: block; /* Ensure the container is block-level */
+}
+
+h3 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+h4 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+/* Employee Section Styles */
+.employee-section {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  width: 100%; /* Ensure full width */
+  display: block; /* Stack content vertically */
+}
+
+.employee-section table {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.employee-section th,
+.employee-section td {
+  text-align: center;
+}
+
+.employee-section .btn {
+  margin-right: 10px;
+}
+
+/* HR Section Styles */
+.hr-section {
+  background-color: #e9f7fc;
+  padding: 20px;
+  border-radius: 8px;
+  width: 100%; /* Ensure full width */
+  display: block; /* Stack content vertically */
+}
+
+.hr-section table {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.hr-section th,
+.hr-section td {
+  text-align: center;
+}
+
+.hr-section .btn {
+  margin-right: 10px;
+}
+
+/* Additional Styling for Buttons */
+.btn-warning {
+  background-color: #ff9800;
+  border-color: #ff9800;
+}
+
+.btn-danger {
+  background-color: #f44336;
+  border-color: #f44336;
+}
+
+.btn-sm {
+  font-size: 12px;
+  padding: 5px 10px;
+}

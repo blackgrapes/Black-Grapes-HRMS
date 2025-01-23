@@ -81,18 +81,27 @@ const employeeSchema = new mongoose.Schema({
 
 
 
-const Employee = mongoose.model('Employee_detail', employeeSchema);
+const Employee = mongoose.model('employees_detail', employeeSchema);
 
 // Get employee by ID
-router.get('/employee/:id', async (req, res) => {
+router.get('/all', async (req, res) => {
+  const collection = db.collection("employees_detail");
   try {
-    const employee = await Employee.findById(req.params.id);
-    if (!employee) return res.status(404).json({ Error: 'Employee not found' });
-    res.json({ Result: [employee] });
+    const employes = await collection.find();
+    console.log('Fetching employees...');
+    if (employes.length === 0) {
+      return res.status(404).json({ Error: 'No employees found' });
+    }
+    res.json({ Result: employes });
   } catch (err) {
+    // Log only the error message to avoid circular structure issues
+    console.error('Error fetching employees:', err.message);
+
+    // Send a generic error message to the client
     res.status(500).json({ Error: 'Server error' });
   }
 });
+
 
 // Edit employee
 router.put('/edit_employee/:id', upload.single('image'), async (req, res) => {
