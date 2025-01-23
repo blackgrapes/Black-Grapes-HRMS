@@ -33,10 +33,15 @@ const Employee = () => {
       <div className="d-flex justify-content-center">
         <h3>Employee List</h3>
       </div>
-      <Link to="/dashboard/add_employee" className="btn btn-success">
-        Add Employee
-      </Link>
+      <Link to="/dashboard/add_employee" className="btn btn-success me-2">
+  Add Employee
+</Link>
+
+<Link to="/dashboard/signup_employee" className="btn btn-success">
+  SignUp Employee
+</Link>
       <div className="mt-3">
+        
         <table className="table">
           <thead>
             <tr>
