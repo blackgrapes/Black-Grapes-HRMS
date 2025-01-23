@@ -19,6 +19,7 @@ import SuperAdminLogin from './Components/SuperAdminLogin';
 import SuperAdminDashboard from './Components/SuperAdminDashboard'; // Import SuperAdminDashboard
 import Report from './Components/Report';
 import Leave from './Components/Leave';
+import SignupEmployee from './Components/SignupEmployee';
 function App() {
   return (
     <BrowserRouter>
@@ -51,6 +52,8 @@ function App() {
           <Route path="/dashboard/calendar" element={<CustomCalendar />} />
           <Route path="/dashboard/calendar" element={<CustomCalendar />} />
           <Route path="/dashboard/Report" element={<Report />} />
+          <Route path="/dashboard/signup_employee" element={<SignupEmployee />} />
+
         </Route>
       </Routes>
     </BrowserRouter>
