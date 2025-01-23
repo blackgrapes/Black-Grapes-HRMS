@@ -21,6 +21,8 @@ import Report from './Components/Report';
 import Leave from './Components/Leave';
 import SignupEmployee from './Components/SignupEmployee';
 import ManageEmployee from './Components/ManageEmployee';
+import Attendance from './Components/Attendance';
+
 function App() {
   return (
     <BrowserRouter>
@@ -32,6 +34,8 @@ function App() {
         <Route path="/employee_detail/:id" element={<EmployeeDetail />} />
         <Route path="/employee/edit_employee/" element={<EditEmployee />} />
         <Route path="/employee/Leave" element={<Leave/>} />
+        
+
 
         {/* SuperAdmin Routes */}
         <Route path="/superadminlogin" element={<SuperAdminLogin />} />
@@ -56,6 +60,8 @@ function App() {
           <Route path="/dashboard/calendar" element={<CustomCalendar />} />
           <Route path="/dashboard/Report" element={<Report />} />
           <Route path="/dashboard/signup_employee" element={<SignupEmployee />} />
+          <Route path="/dashboard/Attendance" element={<Attendance />} />
+
 
         </Route>
       </Routes>
