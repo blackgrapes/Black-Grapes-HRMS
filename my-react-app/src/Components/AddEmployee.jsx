@@ -64,7 +64,7 @@ const AddEmployee = () => {
             dob: "",
             joiningDate: "",
           });
-          navigate("/dashboard/employee");
+          navigate("/dashboard/signup_employee");
         }
         else{
           alert("error adding employee")
