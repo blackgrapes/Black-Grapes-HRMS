@@ -36,6 +36,24 @@ const ManageEmployeeDetails = () => {
     }
   };
 
+  const handleDeleteHR = (id) => {
+    if (window.confirm('Are you sure you want to delete this HR?')) {
+      axios
+        .delete(`http://localhost:3000/auth/delete_hr/${id}`)
+        .then((result) => {
+          if (result.data.Status) {
+            alert('HR deleted successfully');
+            setHrDetails(hrDetails.filter((hr) => hr.id !== id));
+          } else {
+            alert('Error deleting HR');
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+  };
+
+
+
   return (
     <div className="container mt-4">
       <h3 className="text-center">Manage Employee Details</h3>
@@ -43,6 +61,14 @@ const ManageEmployeeDetails = () => {
       {/* Employee Section */}
       <div className="employee-section">
         <h4 className="mt-4">Employee List</h4>
+        <div className="d-flex justify-content-start gap-2 mb-3">
+          <Link to="/dashboard/add_employee" className="btn btn-success">
+            Add Employee
+          </Link>
+          <Link to="/dashboard/signup_employee" className="btn btn-primary">
+            SignUp Employee
+          </Link>
+        </div>
         <table className="table table-bordered">
           <thead>
             <tr>
@@ -83,8 +109,16 @@ const ManageEmployeeDetails = () => {
       </div>
 
       {/* HR Section */}
-      <div className="hr-section">
-        <h4 className="mt-4">HR Details</h4>
+      <div className="hr-section mt-4">
+        <h4>HR List</h4>
+        <div className="d-flex justify-content-start gap-2 mb-3">
+          <Link to="/add_HR" className="btn btn-success">
+            Add HR
+          </Link>
+          <Link to="/SignupHR"  className="btn btn-primary">
+            SignUp HR
+          </Link>
+        </div>
         <table className="table table-bordered">
           <thead>
             <tr>
@@ -113,7 +147,7 @@ const ManageEmployeeDetails = () => {
                   </Link>
                   <button
                     className="btn btn-danger btn-sm"
-                    onClick={() => handleDeleteEmployee(hr.id)} // Assuming HR can also be deleted this way
+                    onClick={() => handleDeleteHR(hr.id)}
                   >
                     Delete
                   </button>

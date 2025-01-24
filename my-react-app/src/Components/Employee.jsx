@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import './Employee.css'; 
 
 const Employee = () => {
   const [employee, setEmployee] = useState([]);
@@ -48,13 +49,11 @@ const Employee = () => {
           <thead>
             <tr>
               <th>Name</th>
-              <th>Image</th>
               <th>Email</th>
               <th>Address</th>
               <th>Phone</th>
               <th>Designation</th>
               <th>Manager</th>
-              <th>DOB</th>
               <th>Joining Date</th>
               <th>Salary</th>
               <th>Action</th>
@@ -64,19 +63,11 @@ const Employee = () => {
             {employee.map((e) => (
               <tr key={e.id}>
                 <td>{e.name}</td>
-                <td>
-                  <img
-                    src={`http://localhost:3000/Images/` + e.image}
-                    className="employee_image"
-                    alt="employee"
-                  />
-                </td>
                 <td>{e.email}</td>
                 <td>{e.address}</td>
                 <td>{e.phone}</td>
                 <td>{e.designation}</td>
                 <td>{e.manager}</td>
-                <td>{e.dob}</td>
                 <td>{e.joiningDate}</td>
                 <td>{e.salary}</td>
                 <td>

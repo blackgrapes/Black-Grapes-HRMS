@@ -22,6 +22,10 @@ import Leave from './Components/Leave';
 import SignupEmployee from './Components/SignupEmployee';
 import ManageEmployee from './Components/ManageEmployee';
 import Attendance from './Components/Attendance';
+import SignupHR from './Components/SignupHR';
+import Hradd from './Components/Hradd';
+
+
 
 function App() {
   return (
@@ -41,6 +45,11 @@ function App() {
         <Route path="/superadminlogin" element={<SuperAdminLogin />} />
         <Route path="/superadmin_dashboard" element={<SuperAdminDashboard />} />
         <Route path="/manage_employees" element={<ManageEmployee />} />
+        <Route path="/SignupHR" element={<SignupHR />} />
+        <Route path="/add_HR" element={<Hradd />} />
+       
+
+
 
 
         {/* Protected Routes */}
