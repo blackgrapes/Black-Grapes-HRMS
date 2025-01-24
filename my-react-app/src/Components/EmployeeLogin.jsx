@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import './EmployeeLogin.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import EmployeeDetail from './EmployeeDetail';
 
 const EmployeeLogin = () => {
     const [values, setValues] = useState({
         email: '',
         password: ''
     });
+    const [employeeLoggedIn, setEmployeeLoggedIn] = useState(false);
     const [error, setError] = useState(null);
     const [attempts, setAttempts] = useState(0); // Track incorrect attempts
     const [isLocked, setIsLocked] = useState(false); // Lockout state
@@ -21,12 +23,12 @@ const EmployeeLogin = () => {
             setError("Too many incorrect attempts. Please try again later.");
             return;
         }
-
+console.log("values", values)
         axios.post('http://localhost:3000/employee/employee_login', values)
             .then(result => {
                 if (result.data.loginStatus) {
                     localStorage.setItem("valid", true);
-                    navigate('/employee_detail/' + result.data.id);
+                    setEmployeeLoggedIn(true);
                 } else {
                     setError(result.data.Error);
                     setAttempts((prev) => prev + 1); // Increment incorrect attempts
@@ -44,6 +46,10 @@ const EmployeeLogin = () => {
                 setError(err.response?.data?.message || "Incorrect ID or Password. Please try again.");
             });
     };
+
+    if(employeeLoggedIn){
+        return <EmployeeDetail email={values.email} />
+    }
 
     return (
         <div className="login-wrapper">
@@ -82,7 +88,9 @@ const EmployeeLogin = () => {
                     <button
                         className="btn btn-primary w-100 rounded-0 mb-2"
                         disabled={isLocked} // Disable button if locked
+                        type='Submit'
                     >
+                       
                         Log in
                     </button>
                 </form>
