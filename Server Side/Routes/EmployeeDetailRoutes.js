@@ -1,26 +1,24 @@
 import express from 'express';
 import multer from 'multer';
 import path from 'path';
-import mongoose from 'mongoose';
-import bcrypt from 'bcrypt';
-import { db } from "../utils/db.js";
+import { db } from "../utils/db.js"; // Assuming db is your MongoDB connection
 
 // Set up multer for image upload
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/');
+    cb(null, 'uploads/'); // Save uploaded images to the "uploads" folder
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
+    cb(null, Date.now() + path.extname(file.originalname)); // Use a timestamp + file extension for unique filenames
   },
 });
-
-const upload = multer({ storage: storage });
+const upload = multer({ storage });
 
 const router = express.Router();
 
+// Route to add a new employee
 router.post("/add_employee", async (req, res) => {
-  const { name, email, salary, address, phone, designation, image, manager, dob, joiningDate } = req.body;
+  const { name, email, salary, address, phone, designation, manager, dob, joiningDate } = req.body;
 
   try {
     // Validate input data
@@ -28,16 +26,11 @@ router.post("/add_employee", async (req, res) => {
       return res.status(400).json({ Error: "All fields are required" });
     }
 
-    // Access the 'employees' collection
-    const collection = db.collection("employees_detail");
-
     // Check if the employee already exists
-    const user = await collection.findOne({ email });
-    if (user) {
+    const existingEmployee = await db.collection("employees_detail").findOne({ email });
+    if (existingEmployee) {
       return res.status(409).json({ message: "Employee already exists" });
     }
-
-
 
     // Create an employee object
     const employeeData = {
@@ -47,15 +40,13 @@ router.post("/add_employee", async (req, res) => {
       address,
       phone,
       designation,
-      image,
       manager,
       dob,
       joiningDate,
     };
 
     // Insert employee data into the collection
-    const result = await collection.insertOne(employeeData);
-
+    const result = await db.collection("employees_detail").insertOne(employeeData);
     console.log("Employee added:", result.insertedId);
 
     return res.status(200).json({ message: "Employee added successfully", employeeId: result.insertedId });
@@ -65,74 +56,44 @@ router.post("/add_employee", async (req, res) => {
   }
 });
 
-const employeeSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  email: { type: String, unique: true, required: true },
-  password: { type: String, required: true },
-  phone: { type: String, required: true },
-  salary: { type: String, required: true },
-  address: { type: String, required: true },
-  designation: { type: String, required: true },
-  image: { type: String }, // Store the image URL or path
-  manager: { type: String, required: true },
-  dob: { type: Date, required: true },
-  joiningDate: { type: Date, required: true },
-});
-
-
-
-const Employee = mongoose.model('employees_detail', employeeSchema);
-
-// Get employee by ID
+// Route to fetch all employees
 router.get('/all', async (req, res) => {
-  const collection = db.collection("employees_detail");
   try {
-    const employes = await collection.find();
+    const employees = await db.collection("employees_detail").find({}).toArray(); // Convert cursor to array
     console.log('Fetching employees...');
-    if (employes.length === 0) {
+    if (employees.length === 0) {
       return res.status(404).json({ Error: 'No employees found' });
     }
-    res.json({ Result: employes });
+    res.json({ Result: employees });
   } catch (err) {
-    // Log only the error message to avoid circular structure issues
     console.error('Error fetching employees:', err.message);
-
-    // Send a generic error message to the client
     res.status(500).json({ Error: 'Server error' });
   }
 });
 
-
-// Edit employee
+// Route to edit an employee
 router.put('/edit_employee/:id', upload.single('image'), async (req, res) => {
   try {
     const { name, email, phone, salary, address, designation } = req.body;
-    const updatedEmployee = {
-      name,
-      email,
-      phone,
-      salary,
-      address,
-      designation,
-    };
+    const updatedEmployee = { name, email, phone, salary, address, designation };
 
     // Handle image upload
     if (req.file) {
       updatedEmployee.image = req.file.path; // Save the file path
     }
 
-    const employee = await Employee.findByIdAndUpdate(
-      req.params.id,
-      updatedEmployee,
-      { new: true }
+    const result = await db.collection("employees_detail").updateOne(
+      { _id: new mongoose.Types.ObjectId(req.params.id) }, // Match employee by ID
+      { $set: updatedEmployee }
     );
 
-    if (!employee) {
+    if (result.matchedCount === 0) {
       return res.status(404).json({ Error: 'Employee not found' });
     }
 
     res.json({ Status: true, Message: 'Employee updated successfully' });
   } catch (err) {
+    console.error("Error updating employee:", err);
     res.status(500).json({ Error: 'Server error' });
   }
 });
