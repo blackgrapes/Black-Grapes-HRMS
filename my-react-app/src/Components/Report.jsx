@@ -1,59 +1,62 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios'; // Import axios for API requests
 import './Report.css'; // Importing the corresponding CSS file
 
 const Report = () => {
-  const [employees, setEmployees] = useState([]);
+  const [employees, setEmployees] = useState([]); // Employee data from backend
+  const [searchTerm, setSearchTerm] = useState(''); // Search input value
+  const [filteredEmployees, setFilteredEmployees] = useState([]); // Filtered employee list
 
   useEffect(() => {
-    // Fetch employee data from an API or mock data for now
+    // Fetch employee data from the backend
     const fetchEmployeeData = async () => {
-      const data = [
-        {
-          id: 1,
-          name: 'John Doe',
-          image: 'https://via.placeholder.com/50',
-          email: 'john.doe@example.com',
-          address: '123 Main St, Cityville',
-          phone: '+1 234 567 890',
-          designation: 'Software Engineer',
-          manager: 'Alice Johnson',
-          joiningDate: '2020-01-15',
-          salary: '$80,000',
-        },
-        {
-          id: 2,
-          name: 'Jane Smith',
-          image: 'https://via.placeholder.com/50',
-          email: 'jane.smith@example.com',
-          address: '456 Oak Rd, Townsville',
-          phone: '+1 987 654 321',
-          designation: 'Product Manager',
-          manager: 'Bob Williams',
-          joiningDate: '2019-08-01',
-          salary: '$95,000',
-        },
-        {
-          id: 3,
-          name: 'Michael Johnson',
-          image: 'https://via.placeholder.com/50',
-          email: 'michael.johnson@example.com',
-          address: '789 Pine Ave, Villageburg',
-          phone: '+1 555 123 456',
-          designation: 'HR Specialist',
-          manager: 'Charlotte Davis',
-          joiningDate: '2018-06-30',
-          salary: '$55,000',
-        },
-      ];
-      setEmployees(data);
+      try {
+        const result = await axios.get("http://localhost:3000/employeedetail/all");
+        if (result.data && result.data.Result) {
+          setEmployees(result.data.Result); // Set the employee data
+          setFilteredEmployees(result.data.Result); // Initialize the filtered data
+        } else {
+          alert(result.data.Error || "Failed to fetch employees.");
+        }
+      } catch (err) {
+        console.error("Error fetching employee data:", err);
+      }
     };
 
-    fetchEmployeeData();
-  }, []);
+    fetchEmployeeData(); // Call the fetch function inside useEffect
+  }, []); // Dependency array to ensure this runs only once on mount
+
+  // Handle search input changes
+  const handleSearch = (e) => {
+    const value = e.target.value.toLowerCase();
+    setSearchTerm(value);
+
+    // Filter employees based on the search term
+    const filtered = employees.filter((employee) =>
+      employee.name.toLowerCase().includes(value) ||
+      employee.email.toLowerCase().includes(value) ||
+      employee.designation.toLowerCase().includes(value)
+    );
+
+    setFilteredEmployees(filtered);
+  };
 
   return (
     <div className="report-container">
       <h1 className="report-title">Employee Report</h1>
+
+      {/* Search Input */}
+      <div className="search-container">
+        <input
+          type="text"
+          className="search-input"
+          placeholder="Search by name, email, or designation"
+          value={searchTerm}
+          onChange={handleSearch}
+        />
+      </div>
+
+      {/* Employee Table */}
       <table className="report-table">
         <thead>
           <tr>
@@ -69,16 +72,22 @@ const Report = () => {
           </tr>
         </thead>
         <tbody>
-          {employees.map((employee) => (
-            <tr key={employee.id}>
-              <td><img src={employee.image} alt={employee.name} className="employee-image" /></td>
+          {filteredEmployees.map((employee) => (
+            <tr key={employee.id || employee._id}> {/* Use `id` or `_id` depending on your backend */}
+              <td>
+                <img
+                  src={employee.image || 'https://via.placeholder.com/50'}
+                  alt={employee.name}
+                  className="employee-image"
+                />
+              </td>
               <td>{employee.name}</td>
               <td>{employee.email}</td>
               <td>{employee.address}</td>
               <td>{employee.phone}</td>
               <td>{employee.designation}</td>
               <td>{employee.manager}</td>
-              <td>{employee.joiningDate}</td>
+              <td>{new Date(employee.joiningDate).toLocaleDateString()}</td>
               <td>{employee.salary}</td>
             </tr>
           ))}
