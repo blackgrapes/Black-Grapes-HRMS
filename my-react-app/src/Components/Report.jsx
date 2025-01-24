@@ -48,7 +48,7 @@ const Report = () => {
       {/* Search Input */}
       <div className="search-container">
         <input
-          type="text"
+          type="text" 
           className="search-input"
           placeholder="Search by name, email, or designation"
           value={searchTerm}

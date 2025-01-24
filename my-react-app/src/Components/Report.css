@@ -38,7 +38,7 @@
 
 .report-table th {
   background-color: #f4f4f4;
-  font-weight: 600; /* Bold header text */
+  font-weight: 700; /* Bold header text */
 }
 
 .employee-image {
@@ -97,4 +97,73 @@
 /* Zebra striping effect for rows */
 .report-table tr:nth-child(even) {
   background-color: #fafafa; /* Light gray on even rows for better readability */
+}
+
+/* Search Container */
+.search-container {
+  position: relative;
+  width: 100%;
+  max-width: 400px; /* Set a max-width to prevent it from being too wide */
+  margin: 20px auto; /* Centering the input field with some space above and below */
+  padding: 0 15px; /* Padding inside the container */
+}
+
+/* Search Input */
+.search-input {
+  width: 100%; /* Make the input take up the full width of the container */
+  padding: 12px 20px; /* Add some padding for better spacing */
+  font-size: 14px; /* Slightly larger text for better readability */
+  border-radius: 25px; /* Rounded corners for a more modern look */
+  border: 1px solid #ddd; /* Light border color for subtle separation */
+  background-color: #fff; /* White background for clean appearance */
+  color: #333; /* Dark text for readability */
+  outline: none; /* Remove default outline on focus */
+  transition: all 0.3s ease; /* Smooth transition for focus and hover effects */
+}
+
+/* Search Input Focus Effect */
+.search-input:focus {
+  border-color: #007bff; /* Blue border on focus to indicate active state */
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.4); /* Subtle glow effect for better focus visibility */
+}
+
+/* Placeholder Text Styling */
+.search-input::placeholder {
+  color: #d3c6c6; /* Lighter placeholder text color */
+  font-style: italic; /* Slightly italicize placeholder text */
+}
+
+/* Search Input Hover Effect */
+.search-input:hover {
+  border-color: #007bff; /* Change border color on hover */
+}
+
+/* Optional: Adding a search icon inside the input field */
+.search-input::before {
+  content: url('path_to_icon/search-icon.svg'); /* You can use a URL to your search icon */
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+  pointer-events: none; /* Ensures icon does not interfere with typing */
+}
+
+/* Media Query for Responsive Design */
+@media (max-width: 768px) {
+  .search-container {
+    width: 90%; /* Increase width on smaller screens */
+    margin: 15px auto; /* Adjust margin for mobile */
+  }
+
+  .search-input {
+    font-size: 12px; /* Reduce font size on mobile */
+    padding: 10px 15px; /* Reduce padding on mobile */
+  }
+}
+
+/* Placeholder Text Styling */
+.search-input::placeholder {
+  color: #d3c6c6; /* Lighter placeholder text color */
+  font-style: italic; /* Slightly italicize placeholder text */
+  font-weight: 600; /* Increase the font weight of the placeholder text */
 }
