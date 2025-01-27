@@ -30,7 +30,7 @@ const SignupAdmin = () => {
       .then((response) => {
         if (response.data.signupStatus) {
           alert('Admin signed up successfully!');
-          navigate('/dashboard/manage_employee'); // Navigate to the employee management page
+          navigate(-2); // Navigate to the employee management page
         } else {
           setError(response.data.Error || 'Error signing up admin');
         }
