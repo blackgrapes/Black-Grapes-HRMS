@@ -3,11 +3,10 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './SignupHR.css'; // Import CSS
 
-const SignupHR = () => {
-  const [hrData, setHrData] = useState({
+const SignupAdmin = () => {
+  const [adminData, setAdminData] = useState({
     name: '',
     email: '',
-    phone: '',
     password: '',
   });
 
@@ -16,24 +15,24 @@ const SignupHR = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setHrData({ ...hrData, [name]: value });
+    setAdminData({ ...adminData, [name]: value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!hrData.name || !hrData.email || !hrData.phone || !hrData.password) {
-      setError('All fields are required.');
+    if (!adminData.name || !adminData.email || !adminData.password) {
+      setError('Name, email, and password are required.');
       return;
     }
 
     axios
-      .post('http://localhost:3000/auth/signup_hr', hrData)
+      .post('http://localhost:3000/auth/adminsignup', adminData)
       .then((response) => {
-        if (response.data.Status) {
-          alert('HR signed up successfully!');
+        if (response.data.signupStatus) {
+          alert('Admin signed up successfully!');
           navigate('/dashboard/manage_employee'); // Navigate to the employee management page
         } else {
-          setError(response.data.Error || 'Error signing up HR');
+          setError(response.data.Error || 'Error signing up admin');
         }
       })
       .catch((err) => {
@@ -43,14 +42,14 @@ const SignupHR = () => {
 
   return (
     <div className="signup-container">
-      <h3 className="text-center">Sign Up HR</h3>
+      <h3 className="text-center">Sign Up Admin</h3>
       <form onSubmit={handleSubmit} className="signup-form">
         <div className="form-group">
           <label>Name</label>
           <input
             type="text"
             name="name"
-            value={hrData.name}
+            value={adminData.name}
             onChange={handleChange}
             className="form-control"
             placeholder="Enter name"
@@ -61,21 +60,10 @@ const SignupHR = () => {
           <input
             type="email"
             name="email"
-            value={hrData.email}
+            value={adminData.email}
             onChange={handleChange}
             className="form-control"
             placeholder="Enter email"
-          />
-        </div>
-        <div className="form-group">
-          <label>Phone</label>
-          <input
-            type="text"
-            name="phone"
-            value={hrData.phone}
-            onChange={handleChange}
-            className="form-control"
-            placeholder="Enter phone number"
           />
         </div>
         <div className="form-group">
@@ -83,7 +71,7 @@ const SignupHR = () => {
           <input
             type="password"
             name="password"
-            value={hrData.password}
+            value={adminData.password}
             onChange={handleChange}
             className="form-control"
             placeholder="Enter password"
@@ -98,4 +86,4 @@ const SignupHR = () => {
   );
 };
 
-export default SignupHR;
+export default SignupAdmin;
