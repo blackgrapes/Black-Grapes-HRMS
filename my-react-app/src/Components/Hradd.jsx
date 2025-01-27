@@ -58,7 +58,8 @@ const AddHR = () => {
             dob: '',
             joiningDate: '',
           }); // Clear the form
-          navigate('/dashboard/manage_hr'); // Redirect to HR management page
+          navigate('/SignupHR'); // Redirect to HR management page
+          alert("Please Sign-Up HR with the same Email");
         } else {
           alert('Error adding HR');
         }

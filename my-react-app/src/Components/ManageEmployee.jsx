@@ -12,14 +12,25 @@ const ManageEmployeeDetails = () => {
     axios
       .get("http://localhost:3000/employeedetail/all")
       .then((result) => {
-        console.log(result);
         if (result.data.Result) {
           setEmployees(result.data.Result);
         } else {
           alert(result.data.Error);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.error("Error fetching employees:", err));
+
+    // Fetch HR Details
+    axios
+      .get("http://localhost:3000/hrdetail/all") // Corrected URL
+      .then((result) => {
+        if (result.data.Result) {
+          setHrDetails(result.data.Result);
+        } else {
+          alert(result.data.Error);
+        }
+      })
+      .catch((err) => console.error("Error fetching HR details:", err));
   }, []);
 
   const handleDeleteEmployee = (id) => {
@@ -34,7 +45,7 @@ const ManageEmployeeDetails = () => {
             alert("Error deleting employee");
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.error("Error deleting employee:", err));
     }
   };
 
@@ -50,7 +61,7 @@ const ManageEmployeeDetails = () => {
             alert("Error deleting HR");
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.error("Error deleting HR:", err));
     }
   };
 
@@ -134,7 +145,9 @@ const ManageEmployeeDetails = () => {
               <th>Name</th>
               <th>Email</th>
               <th>Phone</th>
-              <th>Designation</th>
+              <th>Salary</th>
+              <th>DOB</th>
+              <th>Joining Date</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -145,7 +158,9 @@ const ManageEmployeeDetails = () => {
                 <td>{hr.name}</td>
                 <td>{hr.email}</td>
                 <td>{hr.phone}</td>
-                <td>{hr.designation}</td>
+                <td>{hr.salary}</td>
+                <td>{hr.dob}</td>
+                <td>{hr.joiningDate}</td>
                 <td>
                   <Link
                     to={`/dashboard/edit_hr/${hr.id}`}
