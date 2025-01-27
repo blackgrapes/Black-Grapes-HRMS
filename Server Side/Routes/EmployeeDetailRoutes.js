@@ -44,6 +44,7 @@ router.post("/add_employee", async (req, res) => {
       manager,
       dob,
       joiningDate,
+      image: req.file ? req.file.filename : null, // Save image filename if uploaded
     };
 
     // Insert employee data into the collection
@@ -72,7 +73,7 @@ router.get('/all', async (req, res) => {
   }
 });
 
-// New Route: Fetch employee by ID or email
+// New Route: Fetch employee by  email
 router.get('/employee', async (req, res) => {
   const { email } = req.query; // Extract query parameters
 
@@ -96,33 +97,50 @@ router.get('/employee', async (req, res) => {
   }
 });
 
+
+// Route to update employee details
+router.put('/update_employee/:email', async (req, res) => {
+  const { email } = req.params; // Extract email from the request parameters
+  const { address, phone, designation } = req.body; // Get updated fields from the request body
+
+  try {
+    // Validate email
+    if (!email) {
+      return res.status(400).json({ Error: 'Email is required' });
+    }
+
+    // Prepare update data
+    const updateData = {};
+    if (address) updateData.address = address;
+    if (phone) updateData.phone = phone;
+    if (designation) updateData.designation = designation;
+
+    // Ensure there are fields to update
+    if (Object.keys(updateData).length === 0) {
+      return res.status(400).json({ Error: 'No fields to update' });
+    }
+
+    // Update the employee in the collection
+    const result = await db.collection('employees_detail').updateOne(
+      { email }, // Match by email
+      { $set: updateData } // Update only the provided fields
+    );
+
+    if (result.matchedCount === 0) {
+      return res.status(404).json({ Error: 'Employee not found' });
+    }
+
+    console.log('Employee updated:', email);
+    res.status(200).json({ message: 'Employee updated successfully' });
+  } catch (err) {
+    console.error('Error updating employee:', err.message);
+    res.status(500).json({ Error: 'Internal server error' });
+  }
+});
+
+
+
+
+
 export default router;
-
-
-// // Route to edit an employee
-// router.put('/edit_employee/:id', upload.single('image'), async (req, res) => {
-//   try {
-//     const { name, email, phone, salary, address, designation } = req.body;
-//     const updatedEmployee = { name, email, phone, salary, address, designation };
-
-//     // Handle image upload
-//     if (req.file) {
-//       updatedEmployee.image = req.file.path; // Save the file path
-//     }
-
-//     const result = await db.collection("employees_detail").updateOne(
-//       { _id: new mongoose.Types.ObjectId(req.params.id) }, // Match employee by ID
-//       { $set: updatedEmployee }
-//     );
-
-//     if (result.matchedCount === 0) {
-//       return res.status(404).json({ Error: 'Employee not found' });
-//     }
-
-//     res.json({ Status: true, Message: 'Employee updated successfully' });
-//   } catch (err) {
-//     console.error("Error updating employee:", err);
-//     res.status(500).json({ Error: 'Server error' });
-//   }
-// });
 

@@ -106,5 +106,49 @@ router.get("/logout", (req, res) => {
   return res.json({ Status: true, message: "Logged out successfully" });
 });
 
+// Change Password API
+router.put("/change_password", async (req, res) => {
+  try {
+    const { email, oldPassword, newPassword, confirmPassword } = req.body;
+
+    // Validate input
+    if (!email || !oldPassword || !newPassword || !confirmPassword) {
+      return res.status(400).json({ Status: false, Error: "All fields are required" });
+    }
+
+    if (newPassword !== confirmPassword) {
+      return res.status(400).json({ Status: false, Error: "New password and confirm password do not match" });
+    }
+
+    // Fetch employee from the database
+    const collection = db.collection("employee");
+    const employee = await collection.findOne({ email });
+
+    if (!employee) {
+      return res.status(404).json({ Status: false, Error: "Employee not found" });
+    }
+
+    // Compare old password
+    const isPasswordValid = await bcrypt.compare(oldPassword, employee.password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ Status: false, Error: "Old password is incorrect" });
+    }
+
+    // Hash the new password
+    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+
+    // Update password in the database
+    await collection.updateOne(
+      { email },
+      { $set: { password: hashedNewPassword } }
+    );
+
+    return res.json({ Status: true, message: "Password updated successfully" });
+  } catch (err) {
+    console.error("Error changing password:", err);
+    return res.status(500).json({ Status: false, Error: "Internal server error" });
+  }
+});
+
 // Export the router
 export default router;

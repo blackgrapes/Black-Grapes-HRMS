@@ -49,7 +49,8 @@ const EmployeeDetail = ({email}) => {
   };
 
   const handleEdit = () => {
-    navigate(`/employee/edit_employee?id=${employee._id}`); // Navigate to edit page with employee ID
+    console.log("email", email)
+    navigate(`/employee/edit_employee?email=${email}`); // Navigate to edit page with employee ID
   };
 
   const handleLeave = () => {
@@ -96,16 +97,16 @@ const EmployeeDetail = ({email}) => {
             <div className="employee-values">
               <h3>{employee.name || "-"}</h3>
               <h3>{employee.email|| "-"}</h3>
-              <h3>{employee._id}</h3>
-              <h3>${employee.salary}</h3>
-              <h3>{employee.department}</h3>
-              <h3>{employee.role}</h3>
-              <h3>{employee.manager}</h3>
-              <h3>{employee.phone}</h3>
-              <h3>{employee.address}</h3>
-              <h3>{employee.dob}</h3>
-              <h3>{employee.joiningDate}</h3>
-              <h3>{employee.performanceRating}</h3>
+              <h3>{employee._id || "-"}</h3>
+              <h3>${employee.salary || "-"}</h3>
+              <h3>{employee.department || "-"}</h3>
+              <h3>{employee.role || "-"}</h3>
+              <h3>{employee.manager || "-"}</h3>
+              <h3>{employee.phone || "-"}</h3>
+              <h3>{employee.address || "-"}</h3>
+              <h3>{employee.dob || "-"}</h3>
+              <h3>{employee.joiningDate || "-"}</h3>
+              <h3>{employee.performanceRating || "-"}</h3>
             </div>
           </div>
           <div className="employee-actions">
