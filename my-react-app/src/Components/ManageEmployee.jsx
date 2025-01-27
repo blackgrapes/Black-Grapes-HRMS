@@ -1,35 +1,37 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
-import './ManageEmployee.css'; // Import CSS
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import "./ManageEmployee.css"; // Import CSS
 
 const ManageEmployeeDetails = () => {
   const [employees, setEmployees] = useState([]);
   const [hrDetails, setHrDetails] = useState([]);
 
   useEffect(() => {
-    // Fetch employee and HR details
+    // Fetch Employee Details
     axios
-      .get('http://localhost:3000/auth/employees')
+      .get("http://localhost:3000/employeedetail/all")
       .then((result) => {
-        const employeeData = result.data.employees;
-        const hrData = result.data.hr;
-        setEmployees(employeeData);
-        setHrDetails(hrData);
+        console.log(result);
+        if (result.data.Result) {
+          setEmployees(result.data.Result);
+        } else {
+          alert(result.data.Error);
+        }
       })
       .catch((err) => console.log(err));
   }, []);
 
   const handleDeleteEmployee = (id) => {
-    if (window.confirm('Are you sure you want to delete this employee?')) {
+    if (window.confirm("Are you sure you want to delete this employee?")) {
       axios
         .delete(`http://localhost:3000/auth/delete_employee/${id}`)
         .then((result) => {
           if (result.data.Status) {
-            alert('Employee deleted successfully');
+            alert("Employee deleted successfully");
             setEmployees(employees.filter((emp) => emp.id !== id));
           } else {
-            alert('Error deleting employee');
+            alert("Error deleting employee");
           }
         })
         .catch((err) => console.log(err));
@@ -37,22 +39,20 @@ const ManageEmployeeDetails = () => {
   };
 
   const handleDeleteHR = (id) => {
-    if (window.confirm('Are you sure you want to delete this HR?')) {
+    if (window.confirm("Are you sure you want to delete this HR?")) {
       axios
         .delete(`http://localhost:3000/auth/delete_hr/${id}`)
         .then((result) => {
           if (result.data.Status) {
-            alert('HR deleted successfully');
+            alert("HR deleted successfully");
             setHrDetails(hrDetails.filter((hr) => hr.id !== id));
           } else {
-            alert('Error deleting HR');
+            alert("Error deleting HR");
           }
         })
         .catch((err) => console.log(err));
     }
   };
-
-
 
   return (
     <div className="container mt-4">
@@ -75,8 +75,12 @@ const ManageEmployeeDetails = () => {
               <th>#</th>
               <th>Name</th>
               <th>Email</th>
+              <th>Address</th>
               <th>Phone</th>
               <th>Designation</th>
+              <th>Manager</th>
+              <th>Joining Date</th>
+              <th>Salary</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -86,8 +90,12 @@ const ManageEmployeeDetails = () => {
                 <td>{index + 1}</td>
                 <td>{employee.name}</td>
                 <td>{employee.email}</td>
+                <td>{employee.address}</td>
                 <td>{employee.phone}</td>
                 <td>{employee.designation}</td>
+                <td>{employee.manager}</td>
+                <td>{employee.joiningDate}</td>
+                <td>{employee.salary}</td>
                 <td>
                   <Link
                     to={`/dashboard/edit_employee/${employee.id}`}
@@ -115,7 +123,7 @@ const ManageEmployeeDetails = () => {
           <Link to="/add_HR" className="btn btn-success">
             Add HR
           </Link>
-          <Link to="/SignupHR"  className="btn btn-primary">
+          <Link to="/SignupHR" className="btn btn-primary">
             SignUp HR
           </Link>
         </div>
