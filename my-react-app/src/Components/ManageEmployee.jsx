@@ -73,7 +73,7 @@ const ManageEmployeeDetails = () => {
       <div className="employee-section">
         <h4 className="mt-4">Employee List</h4>
         <div className="d-flex justify-content-start gap-2 mb-3">
-          <Link to="/dashboard/add_employee" className="btn btn-success">
+          <Link to="/SuperAddEmployee" className="btn btn-success">
             Add Employee
           </Link>
           <Link to="/dashboard/signup_employee" className="btn btn-primary">

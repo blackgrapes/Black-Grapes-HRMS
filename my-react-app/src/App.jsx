@@ -24,6 +24,7 @@ import ManageEmployee from './Components/ManageEmployee';
 import Attendance from './Components/Attendance';
 import SignupHR from './Components/SignupHR';
 import Hradd from './Components/Hradd';
+import SuperAddEmployee from './Components/SuperAddEmployee';
 
 
 
@@ -47,7 +48,7 @@ function App() {
         <Route path="/manage_employees" element={<ManageEmployee />} />
         <Route path="/SignupHR" element={<SignupHR />} />
         <Route path="/add_HR" element={<Hradd />} />
-       
+        <Route path="/SuperAddEmployee" element={<SuperAddEmployee />} />
 
 
 
@@ -70,6 +71,7 @@ function App() {
           <Route path="/dashboard/Report" element={<Report />} />
           <Route path="/dashboard/signup_employee" element={<SignupEmployee />} />
           <Route path="/dashboard/Attendance" element={<Attendance />} />
+         
 
 
         </Route>
