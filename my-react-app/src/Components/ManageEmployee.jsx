@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./ManageEmployee.css"; // Import CSS
 
 const ManageEmployeeDetails = () => {
   const [employees, setEmployees] = useState([]);
   const [hrDetails, setHrDetails] = useState([]);
+  const [searchTerm, setSearchTerm] = useState(""); // For search
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch Employee Details
@@ -65,12 +67,56 @@ const ManageEmployeeDetails = () => {
     }
   };
 
+  const filteredEmployees = employees.filter((employee) =>
+    employee.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const filteredHrDetails = hrDetails.filter((hr) =>
+    hr.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const scrollToHRSection = () => {
+    document.getElementById("hr-section").scrollIntoView({ behavior: "smooth" });
+  };
+
+  const scrollToEmployeeSection = () => {
+    document.getElementById("employee-section").scrollIntoView({ behavior: "smooth" });
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
   return (
     <div className="container mt-4">
       <h3 className="text-center">Manage Employee Details</h3>
 
+      {/* Back Button */}
+      <div className="d-flex justify-content-start mb-3">
+        <button
+          className="btn btn-secondary"
+          onClick={() => navigate(-1)} // Navigate to the previous page
+        >
+          Back
+        </button>
+      </div>
+
+      {/* Search Bar */}
+      <div className="d-flex justify-content-between mb-3">
+        <input
+          type="text"
+          className="form-control w-50"
+          placeholder="Search employees or HR"
+          value={searchTerm}
+          onChange={handleSearchChange}
+        />
+        <button className="btn btn-info" onClick={scrollToHRSection}>
+          HR List
+        </button>
+      </div>
+
       {/* Employee Section */}
-      <div className="employee-section">
+      <div className="employee-section" id="employee-section">
         <h4 className="mt-4">Employee List</h4>
         <div className="d-flex justify-content-start gap-2 mb-3">
           <Link to="/SuperAddEmployee" className="btn btn-success">
@@ -82,7 +128,7 @@ const ManageEmployeeDetails = () => {
         </div>
 
         {/* Employee Table */}
-        {employees.length === 0 ? (
+        {filteredEmployees.length === 0 ? (
           <p>No employees available.</p>
         ) : (
           <table className="table table-bordered">
@@ -101,7 +147,7 @@ const ManageEmployeeDetails = () => {
               </tr>
             </thead>
             <tbody>
-              {employees.map((employee, index) => (
+              {filteredEmployees.map((employee, index) => (
                 <tr key={employee.id}>
                   <td>{index + 1}</td>
                   <td>{employee.name}</td>
@@ -134,7 +180,7 @@ const ManageEmployeeDetails = () => {
       </div>
 
       {/* HR Section */}
-      <div className="hr-section mt-4">
+      <div className="hr-section mt-4" id="hr-section">
         <h4>HR List</h4>
         <div className="d-flex justify-content-start gap-2 mb-3">
           <Link to="/add_HR" className="btn btn-success">
@@ -143,10 +189,14 @@ const ManageEmployeeDetails = () => {
           <Link to="/SignupHR" className="btn btn-primary">
             SignUp HR
           </Link>
+          {/* Back to Employee List Button */}
+          <button className="btn btn-info" onClick={scrollToEmployeeSection}>
+            Back to Employee List
+          </button>
         </div>
 
         {/* HR Table */}
-        {hrDetails.length === 0 ? (
+        {filteredHrDetails.length === 0 ? (
           <p>No HR details available.</p>
         ) : (
           <table className="table table-bordered">
@@ -163,7 +213,7 @@ const ManageEmployeeDetails = () => {
               </tr>
             </thead>
             <tbody>
-              {hrDetails.map((hr, index) => (
+              {filteredHrDetails.map((hr, index) => (
                 <tr key={hr.id}>
                   <td>{index + 1}</td>
                   <td>{hr.name}</td>

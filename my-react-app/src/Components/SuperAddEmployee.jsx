@@ -1,19 +1,20 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-const SuperAddEmployee = () => {
+import './SuperAddEmployee.css'; 
+const AddEmployee = () => {
   const [employee, setEmployee] = useState({
     name: "",
     email: "",
     salary: "",
     address: "",
     phone: "",
-    designation: "",
+    role: "", // Updated this field to "role" instead of "designation"
     image: "",
     manager: "",
     dob: "",
     joiningDate: "",
+    department: "", // Added department
   });
 
   const [errorMessage, setErrorMessage] = useState("");
@@ -30,11 +31,12 @@ const SuperAddEmployee = () => {
       !employee.email ||
       !employee.salary ||
       !employee.phone ||
-      !employee.designation ||
+      !employee.role || // Updated validation to check for "role"
       !employee.image ||
       !employee.manager ||
       !employee.dob ||
-      !employee.joiningDate
+      !employee.joiningDate ||
+      !employee.department // Added validation for department
     ) {
       setErrorMessage("Please fill all fields.");
       return;
@@ -46,31 +48,29 @@ const SuperAddEmployee = () => {
       .post("http://localhost:3000/employeedetail/add_employee", employee)
       .then((result) => {
         console.log(result);
-        if(result.status === 409){
-          alert("employee already exist");
-          console.log("already exist");
+        if (result.status === 409) {
+          alert("Employee already exists");
+          console.log("already exists");
         }
-          // Clear the form by resetting the state to initial values
-          if(result.status === 200){
+        // Clear the form by resetting the state to initial values
+        if (result.status === 200) {
           setEmployee({
             name: "",
             email: "",
             salary: "",
             address: "",
             phone: "",
-            designation: "",
+            role: "", // Reset the "role"
             image: "",
             manager: "",
             dob: "",
             joiningDate: "",
+            department: "", // Reset department as well
           });
           navigate("/dashboard/signup_employee");
-  alert("Employee added successfully. Please sign up with the same email.");
-
-
-        }
-        else{
-          alert("error adding employee")
+          alert("Employee added successfully. Please sign up with the same email.");
+        } else {
+          alert("Error adding employee");
         }
       })
       .catch((err) => console.log(err))
@@ -79,7 +79,6 @@ const SuperAddEmployee = () => {
         setIsSubmitting(false);
       });
   };
-  
 
   return (
     <div className="d-flex justify-content-center align-items-center mt-3">
@@ -114,7 +113,6 @@ const SuperAddEmployee = () => {
             />
           </div>
 
-          
           <div className="col-12">
             <label htmlFor="inputPhone" className="form-label">
               Phone Number
@@ -164,18 +162,30 @@ const SuperAddEmployee = () => {
               onChange={(e) => setEmployee({ ...employee, manager: e.target.value })}
             />
           </div>
-          
 
           <div className="col-12">
-            <label htmlFor="inputDesignation" className="form-label">
-              Designation
+            <label htmlFor="inputRole" className="form-label">
+              Role
             </label>
             <input
               type="text"
               className="form-control rounded-0"
-              id="inputDesignation"
-              placeholder="Enter Designation"
-              onChange={(e) => setEmployee({ ...employee, designation: e.target.value })}
+              id="inputRole"
+              placeholder="Enter Role"
+              onChange={(e) => setEmployee({ ...employee, role: e.target.value })} // Updated field to "role"
+            />
+          </div>
+
+          <div className="col-12">
+            <label htmlFor="inputDepartment" className="form-label">
+              Department
+            </label>
+            <input
+              type="text"
+              className="form-control rounded-0"
+              id="inputDepartment"
+              placeholder="Enter Department"
+              onChange={(e) => setEmployee({ ...employee, department: e.target.value })}
             />
           </div>
 
@@ -221,19 +231,18 @@ const SuperAddEmployee = () => {
           </div>
 
           <div className="col-12">
-  <button
-    type="submit"
-    className="btn btn-primary w-100"
-    disabled={isSubmitting} // Disable button when submitting
-  >
-    {isSubmitting ? "Adding..." : "Add Employee"}
-  </button>
-</div>
-
+            <button
+              type="submit"
+              className="btn btn-primary w-100"
+              disabled={isSubmitting} // Disable button when submitting
+            >
+              {isSubmitting ? "Adding..." : "Add Employee"}
+            </button>
+          </div>
         </form>
       </div>
     </div>
   );
 };
 
-export default SuperAddEmployee;
+export default AddEmployee;

@@ -48,11 +48,23 @@ h4 {
   font-size: 14px; /* Increased font size for table data */
 }
 
-/* Button Spacing */
+/* Button Spacing for Employee Section */
+.employee-section .btn-container {
+  display: flex;
+  gap: 15px; /* Spacing between buttons */
+  justify-content: flex-start;
+  margin-bottom: 20px; /* Space between buttons and table */
+}
+
 .employee-section .btn {
-  margin-right: 15px; /* Increased space between buttons */
   font-size: 14px; /* Increased font size for buttons */
   padding: 8px 15px; /* Increased padding for buttons */
+  margin: 0; /* Remove extra margin from buttons */
+}
+
+.employee-section .btn-success,
+.employee-section .btn-primary {
+  width: auto; /* Ensure the buttons don't take full width */
 }
 
 /* HR Section Styles */
@@ -85,11 +97,23 @@ h4 {
   font-size: 14px; /* Increased font size for table data */
 }
 
-/* Button Spacing */
+/* Button Spacing for HR Section */
+.hr-section .btn-container {
+  display: flex;
+  gap: 15px; /* Spacing between buttons */
+  justify-content: flex-start;
+  margin-bottom: 20px; /* Space between buttons and table */
+}
+
 .hr-section .btn {
-  margin-right: 15px; /* Increased space between buttons */
   font-size: 14px; /* Increased font size for buttons */
   padding: 8px 15px; /* Increased padding for buttons */
+  margin: 0; /* Remove extra margin from buttons */
+}
+
+.hr-section .btn-success,
+.hr-section .btn-primary {
+  width: auto; /* Ensure the buttons don't take full width */
 }
 
 /* Additional Styling for Buttons */
@@ -108,6 +132,37 @@ h4 {
   padding: 8px 15px; /* Increased padding */
 }
 
+/* Back Button */
+.btn-secondary {
+  margin-top: 10px;
+  margin-bottom: 30px;
+  padding: 8px 15px; /* Match padding to other buttons */
+  font-size: 14px; /* Match font size to other buttons */
+  width: 33.33%; /* Ensure all buttons have the same width */
+}
+
+/* Search Bar and HR Scroll Button */
+.d-flex {
+  display: flex; /* Use flexbox for row layout */
+  justify-content: space-between; /* Align search bar, HR List, and Back button */
+  gap: 15px; /* Space between buttons */
+  margin-bottom: 20px; /* Add space between the search bar and the sections */
+}
+
+.d-flex .form-control {
+  width: 33.33%; /* Ensure search bar takes the same width as buttons */
+  margin-right: 10px;
+}
+
+.d-flex .btn-info,
+.d-flex .btn-primary {
+  width: 33.33%; /* Ensure the HR List and Search buttons have equal width */
+}
+
+.d-flex .btn {
+  margin: 0; /* Reset margin */
+}
+
 /* Responsive Adjustments */
 @media (max-width: 768px) {
   table {
@@ -118,6 +173,7 @@ h4 {
     padding: 12px; /* Adjust padding for smaller screens */
   }
 
+  /* Adjust button sizes */
   .employee-section .btn,
   .hr-section .btn {
     padding: 8px 12px; /* Reduced padding for buttons on small screens */
@@ -125,7 +181,19 @@ h4 {
   }
 
   .d-flex {
+    flex-direction: column; /* Stack buttons vertically on smaller screens */
+    gap: 15px; /* Increased space between buttons on small screens */
+  }
+
+  /* Adjust form input for small screens */
+  .d-flex .form-control {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .employee-section .btn-container,
+  .hr-section .btn-container {
     flex-direction: column;
-    gap: 15px; /* Increased space between action buttons on small screens */
+    gap: 10px;
   }
 }
