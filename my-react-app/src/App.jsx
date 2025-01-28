@@ -25,8 +25,7 @@ import Attendance from './Components/Attendance';
 import SignupHR from './Components/SignupHR';
 import Hradd from './Components/Hradd';
 import SuperAddEmployee from './Components/SuperAddEmployee';
-
-
+import SuperSignup from './Components/SuperSignup';
 
 function App() {
   return (
@@ -49,7 +48,8 @@ function App() {
         <Route path="/SignupHR" element={<SignupHR />} />
         <Route path="/add_HR" element={<Hradd />} />
         <Route path="/SuperAddEmployee" element={<SuperAddEmployee />} />
-
+        <Route path="/SuperSignup" element={<SuperSignup />} />
+        
 
 
 

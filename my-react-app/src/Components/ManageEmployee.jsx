@@ -76,55 +76,61 @@ const ManageEmployeeDetails = () => {
           <Link to="/SuperAddEmployee" className="btn btn-success">
             Add Employee
           </Link>
-          <Link to="/dashboard/signup_employee" className="btn btn-primary">
+          <Link to="/SuperSignup" className="btn btn-primary">
             SignUp Employee
           </Link>
         </div>
-        <table className="table table-bordered">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Address</th>
-              <th>Phone</th>
-              <th>Designation</th>
-              <th>Manager</th>
-              <th>Joining Date</th>
-              <th>Salary</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {employees.map((employee, index) => (
-              <tr key={employee.id}>
-                <td>{index + 1}</td>
-                <td>{employee.name}</td>
-                <td>{employee.email}</td>
-                <td>{employee.address}</td>
-                <td>{employee.phone}</td>
-                <td>{employee.designation}</td>
-                <td>{employee.manager}</td>
-                <td>{employee.joiningDate}</td>
-                <td>{employee.salary}</td>
-                <td>
-                  <Link
-                    to={`/dashboard/edit_employee/${employee.id}`}
-                    className="btn btn-warning btn-sm me-2"
-                  >
-                    Edit
-                  </Link>
-                  <button
-                    className="btn btn-danger btn-sm"
-                    onClick={() => handleDeleteEmployee(employee.id)}
-                  >
-                    Delete
-                  </button>
-                </td>
+
+        {/* Employee Table */}
+        {employees.length === 0 ? (
+          <p>No employees available.</p>
+        ) : (
+          <table className="table table-bordered">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Address</th>
+                <th>Phone</th>
+                <th>Designation</th>
+                <th>Manager</th>
+                <th>Joining Date</th>
+                <th>Salary</th>
+                <th>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {employees.map((employee, index) => (
+                <tr key={employee.id}>
+                  <td>{index + 1}</td>
+                  <td>{employee.name}</td>
+                  <td>{employee.email}</td>
+                  <td>{employee.address}</td>
+                  <td>{employee.phone}</td>
+                  <td>{employee.designation}</td>
+                  <td>{employee.manager}</td>
+                  <td>{employee.joiningDate}</td>
+                  <td>{employee.salary}</td>
+                  <td>
+                    <Link
+                      to={`/dashboard/edit_employee/${employee.id}`}
+                      className="btn btn-warning btn-sm me-2"
+                    >
+                      Edit
+                    </Link>
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={() => handleDeleteEmployee(employee.id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
 
       {/* HR Section */}
@@ -138,47 +144,53 @@ const ManageEmployeeDetails = () => {
             SignUp HR
           </Link>
         </div>
-        <table className="table table-bordered">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Phone</th>
-              <th>Salary</th>
-              <th>DOB</th>
-              <th>Joining Date</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {hrDetails.map((hr, index) => (
-              <tr key={hr.id}>
-                <td>{index + 1}</td>
-                <td>{hr.name}</td>
-                <td>{hr.email}</td>
-                <td>{hr.phone}</td>
-                <td>{hr.salary}</td>
-                <td>{hr.dob}</td>
-                <td>{hr.joiningDate}</td>
-                <td>
-                  <Link
-                    to={`/dashboard/edit_hr/${hr.id}`}
-                    className="btn btn-warning btn-sm me-2"
-                  >
-                    Edit
-                  </Link>
-                  <button
-                    className="btn btn-danger btn-sm"
-                    onClick={() => handleDeleteHR(hr.id)}
-                  >
-                    Delete
-                  </button>
-                </td>
+
+        {/* HR Table */}
+        {hrDetails.length === 0 ? (
+          <p>No HR details available.</p>
+        ) : (
+          <table className="table table-bordered">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Salary</th>
+                <th>DOB</th>
+                <th>Joining Date</th>
+                <th>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {hrDetails.map((hr, index) => (
+                <tr key={hr.id}>
+                  <td>{index + 1}</td>
+                  <td>{hr.name}</td>
+                  <td>{hr.email}</td>
+                  <td>{hr.phone}</td>
+                  <td>{hr.salary}</td>
+                  <td>{hr.dob}</td>
+                  <td>{hr.joiningDate}</td>
+                  <td>
+                    <Link
+                      to={`/dashboard/edit_hr/${hr.id}`}
+                      className="btn btn-warning btn-sm me-2"
+                    >
+                      Edit
+                    </Link>
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={() => handleDeleteHR(hr.id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
     </div>
   );

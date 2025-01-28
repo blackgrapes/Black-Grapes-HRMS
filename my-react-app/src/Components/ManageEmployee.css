@@ -4,46 +4,61 @@
   display: block; /* Ensure the container is block-level */
 }
 
+/* Heading Styles */
 h3 {
-  font-size: 24px;
+  font-size: 20px; /* Increased font size */
   font-weight: bold;
-  margin-bottom: 20px;
+  margin-bottom: 25px; /* Increased margin */
 }
 
 h4 {
-  font-size: 20px;
+  font-size: 22px; /* Increased font size */
   font-weight: bold;
-  margin-bottom: 15px;
+  margin-bottom: 20px; /* Increased margin */
 }
 
 /* Employee Section Styles */
 .employee-section {
   background-color: #f9f9f9;
-  padding: 20px;
+  padding: 30px; /* Increased padding */
   border-radius: 8px;
-  margin-bottom: 30px;
+  margin-bottom: 40px; /* Increased bottom margin */
   width: 100%; /* Ensure full width */
   display: block; /* Stack content vertically */
 }
 
 .employee-section table {
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 30px; /* Increased margin at the bottom */
 }
 
 .employee-section th,
 .employee-section td {
   text-align: center;
+  padding: 15px; /* Increased padding for table cells */
 }
 
+.employee-section th {
+  font-size: 16px; /* Increased font size for table headers */
+  background-color: #4CAF50;
+  color: white;
+}
+
+.employee-section td {
+  font-size: 14px; /* Increased font size for table data */
+}
+
+/* Button Spacing */
 .employee-section .btn {
-  margin-right: 10px;
+  margin-right: 15px; /* Increased space between buttons */
+  font-size: 14px; /* Increased font size for buttons */
+  padding: 8px 15px; /* Increased padding for buttons */
 }
 
 /* HR Section Styles */
 .hr-section {
   background-color: #f9f9f9;
-  padding: 20px;
+  padding: 30px; /* Increased padding */
   border-radius: 8px;
   width: 100%; /* Ensure full width */
   display: block; /* Stack content vertically */
@@ -51,16 +66,30 @@ h4 {
 
 .hr-section table {
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 30px; /* Increased margin at the bottom */
 }
 
 .hr-section th,
 .hr-section td {
   text-align: center;
+  padding: 15px; /* Increased padding for table cells */
 }
 
+.hr-section th {
+  font-size: 16px; /* Increased font size for table headers */
+  background-color: #4CAF50;
+  color: white;
+}
+
+.hr-section td {
+  font-size: 14px; /* Increased font size for table data */
+}
+
+/* Button Spacing */
 .hr-section .btn {
-  margin-right: 10px;
+  margin-right: 15px; /* Increased space between buttons */
+  font-size: 14px; /* Increased font size for buttons */
+  padding: 8px 15px; /* Increased padding for buttons */
 }
 
 /* Additional Styling for Buttons */
@@ -75,6 +104,28 @@ h4 {
 }
 
 .btn-sm {
-  font-size: 12px;
-  padding: 5px 10px;
+  font-size: 14px; /* Increased font size */
+  padding: 8px 15px; /* Increased padding */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  table {
+    font-size: 13px; /* Slightly reduced font size for small screens */
+  }
+
+  th, td {
+    padding: 12px; /* Adjust padding for smaller screens */
+  }
+
+  .employee-section .btn,
+  .hr-section .btn {
+    padding: 8px 12px; /* Reduced padding for buttons on small screens */
+    font-size: 12px; /* Reduced font size for buttons */
+  }
+
+  .d-flex {
+    flex-direction: column;
+    gap: 15px; /* Increased space between action buttons on small screens */
+  }
 }
