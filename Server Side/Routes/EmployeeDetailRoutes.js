@@ -19,11 +19,11 @@ const router = express.Router();
 
 // Route to add a new employee
 router.post("/add_employee", async (req, res) => {
-  const { name, email, salary, address, phone, designation, manager, dob, joiningDate } = req.body;
+  const { name, email, salary, address, phone, role, department, manager, dob, joiningDate } = req.body;
 
   try {
     // Validate input data
-    if (!name || !email || !salary || !address || !phone || !designation || !manager || !dob || !joiningDate) {
+    if (!name || !email || !salary || !address || !phone || !role || !department || !manager || !dob || !joiningDate) {
       return res.status(400).json({ Error: "All fields are required" });
     }
 
@@ -40,7 +40,8 @@ router.post("/add_employee", async (req, res) => {
       salary,
       address,
       phone,
-      designation,
+      role,
+      department,
       manager,
       dob,
       joiningDate,
@@ -73,7 +74,7 @@ router.get('/all', async (req, res) => {
   }
 });
 
-// New Route: Fetch employee by  email
+// New Route: Fetch employee by email
 router.get('/employee', async (req, res) => {
   const { email } = req.query; // Extract query parameters
 
@@ -84,7 +85,7 @@ router.get('/employee', async (req, res) => {
     }
 
     // Fetch employee data from the collection
-    const employee = await db.collection("employees_detail").findOne({email});
+    const employee = await db.collection("employees_detail").findOne({ email });
 
     if (!employee) {
       return res.status(404).json({ Error: 'Employee not found' });
@@ -97,11 +98,10 @@ router.get('/employee', async (req, res) => {
   }
 });
 
-
 // Route to update employee details
 router.put('/update_employee/:email', async (req, res) => {
   const { email } = req.params; // Extract email from the request parameters
-  const { address, phone, designation } = req.body; // Get updated fields from the request body
+  const { address, phone, role, department } = req.body; // Get updated fields from the request body
 
   try {
     // Validate email
@@ -113,7 +113,8 @@ router.put('/update_employee/:email', async (req, res) => {
     const updateData = {};
     if (address) updateData.address = address;
     if (phone) updateData.phone = phone;
-    if (designation) updateData.designation = designation;
+    if (role) updateData.role = role;
+    if (department) updateData.department = department;
 
     // Ensure there are fields to update
     if (Object.keys(updateData).length === 0) {
@@ -138,9 +139,4 @@ router.put('/update_employee/:email', async (req, res) => {
   }
 });
 
-
-
-
-
 export default router;
-

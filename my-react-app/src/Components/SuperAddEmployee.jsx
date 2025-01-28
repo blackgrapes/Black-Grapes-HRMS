@@ -67,7 +67,7 @@ const AddEmployee = () => {
             joiningDate: "",
             department: "", // Reset department as well
           });
-          navigate("/dashboard/signup_employee");
+          navigate("/SuperSignupEmployee");
           alert("Employee added successfully. Please sign up with the same email.");
         } else {
           alert("Error adding employee");

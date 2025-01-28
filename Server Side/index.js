@@ -3,7 +3,7 @@ import cors from "cors";
 import adminRouter from "./Routes/AdminRoute.js"; // Admin routes
 import EmployeeRouter from "./Routes/EmployeeRoute.js"; // Employee routes
 import SuperAdminRouter from "./Routes/SuperAdminRoute.js"; // SuperAdmin routes
-import Jwt from "jsonwebtoken";
+import EmployeeLeaveRequestRouter from "./Routes/EmployeeLeaveRequestRouter.js";
 import EmployeeDetailRouter from "./Routes/EmployeeDetailRoutes.js";
 import HrDetailRouter from "./Routes/HrDetailRoutes.js";
 import cookieParser from "cookie-parser";
@@ -33,6 +33,7 @@ connectToDatabase()
     app.use("/superadmin", SuperAdminRouter); // SuperAdmin login/signup routes
     app.use ("/employeedetail", EmployeeDetailRouter)// employee data routes
     app.use ("/hrdetail", HrDetailRouter)// Hr data routes
+    app.use ("/employeeLeave", EmployeeLeaveRequestRouter)// Hr data routes
 
     app.use(express.static("Public")); // Serve static files from the 'Public' directory
 

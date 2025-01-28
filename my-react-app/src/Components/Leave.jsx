@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './Leave.css';
 
 const LeaveManagement = () => {
@@ -6,26 +7,51 @@ const LeaveManagement = () => {
   const [leaveDays, setLeaveDays] = useState(0);
   const [leaveReason, setLeaveReason] = useState('');
   const [leaveRequests, setLeaveRequests] = useState([]);
-  const [leaveBalance, setLeaveBalance] = useState(15); // Assuming an initial balance of 15 days
+  const [leaveBalance, setLeaveBalance] = useState(15);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const handleSubmitRequest = () => {
-    if (leaveDays <= leaveBalance && leaveDays > 0) {
+  useEffect(() => {
+    const fetchLeaveData = async () => {
+      try {
+        const response = await axios.get('/employeeLeave/leave-requests');
+        setLeaveRequests(response.data.leaveRequests || []);
+        setLeaveBalance(response.data.leaveBalance ?? 15);
+        setLoading(false);
+      } catch (err) {
+        setError('Failed to fetch leave data.');
+        setLoading(false);
+      }
+    };
+
+    fetchLeaveData();
+  }, []);
+
+  const handleSubmitRequest = async () => {
+    if (leaveDays > 0 && leaveDays <= leaveBalance) {
       const newRequest = {
-        id: leaveRequests.length + 1,
         type: leaveType,
         days: leaveDays,
         reason: leaveReason,
-        status: 'Pending',
       };
-      setLeaveRequests([...leaveRequests, newRequest]);
-      setLeaveBalance(leaveBalance - leaveDays);
-      setLeaveType('');
-      setLeaveDays(0);
-      setLeaveReason('');
+
+      try {
+        const response = await axios.post('/leave-requests', newRequest);
+        setLeaveRequests([...leaveRequests, { ...newRequest, id: response.data.leaveRequestId, status: 'Pending' }]);
+        setLeaveBalance((prevBalance) => prevBalance - leaveDays);
+        setLeaveType('');
+        setLeaveDays(0);
+        setLeaveReason('');
+      } catch (err) {
+        setError('Failed to submit leave request.');
+      }
     } else {
-      alert('Invalid leave request or insufficient balance');
+      alert('Invalid leave request or insufficient balance.');
     }
   };
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div className="error">{error}</div>;
 
   return (
     <div className="leave-management-container">
@@ -65,6 +91,31 @@ const LeaveManagement = () => {
         <button onClick={handleSubmitRequest}>Submit Leave Request</button>
       </div>
 
+      <div className="leave-requests">
+        <h3>Your Leave Requests</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Type</th>
+              <th>Days</th>
+              <th>Reason</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {leaveRequests.map((request) => (
+              <tr key={request.id}>
+                <td>{request.id}</td>
+                <td>{request.type}</td>
+                <td>{request.days}</td>
+                <td>{request.reason}</td>
+                <td>{request.status}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

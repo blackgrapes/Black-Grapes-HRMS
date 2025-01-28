@@ -24,7 +24,7 @@ const SignupEmployee = () => {
       .post("http://localhost:3000/employee/employee_signup", { name, email, password })
       .then((response) => {
         if (response.data.signupStatus) {
-          navigate("/dashboard/employee"); 
+          navigate("/manage_employees"); 
           // Redirect on success
           alert("Employee SignedUp successfully.");
         } else {

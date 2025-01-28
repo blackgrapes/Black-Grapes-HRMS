@@ -109,15 +109,11 @@ router.get("/logout", (req, res) => {
 // Change Password API
 router.put("/change_password", async (req, res) => {
   try {
-    const { email, oldPassword, newPassword, confirmPassword } = req.body;
+    const { email, oldPassword, newPassword} = req.body;
 
     // Validate input
-    if (!email || !oldPassword || !newPassword || !confirmPassword) {
+    if (!email || !oldPassword || !newPassword) {
       return res.status(400).json({ Status: false, Error: "All fields are required" });
-    }
-
-    if (newPassword !== confirmPassword) {
-      return res.status(400).json({ Status: false, Error: "New password and confirm password do not match" });
     }
 
     // Fetch employee from the database

@@ -77,7 +77,9 @@ const EditEmployee = () => {
       .put(`http://localhost:3000/employee/change_password`, passwordData)
       .then((result) => {
         if (result.data.message) {
-          alert('Password Changed Successfully');
+          alert('Password Changed Successfully, Please Re-Login');
+          navigate(-1); 
+
           setPasswords({
             oldPassword: '',
             newPassword: '',
