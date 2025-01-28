@@ -76,7 +76,7 @@ const ManageEmployeeDetails = () => {
           <Link to="/SuperAddEmployee" className="btn btn-success">
             Add Employee
           </Link>
-          <Link to="/SuperSignup" className="btn btn-primary">
+          <Link to="/SuperSignupEmployee" className="btn btn-primary">
             SignUp Employee
           </Link>
         </div>

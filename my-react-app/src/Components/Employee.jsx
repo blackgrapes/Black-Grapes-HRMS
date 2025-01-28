@@ -52,9 +52,9 @@ const Employee = () => {
               <th>Email</th>
               <th>Address</th>
               <th>Phone</th>
-              <th>Designation</th>
+              <th>Role</th>
               <th>Manager</th>
-              <th>Joining Date</th>
+              <th>Department</th>
               <th>Salary</th>
               <th>Action</th>
             </tr>
@@ -68,7 +68,7 @@ const Employee = () => {
                 <td>{e.phone}</td>
                 <td>{e.designation}</td>
                 <td>{e.manager}</td>
-                <td>{e.joiningDate}</td>
+                <td>{e.Department}</td>
                 <td>{e.salary}</td>
                 <td>
                   <Link
