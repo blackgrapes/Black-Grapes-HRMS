@@ -54,7 +54,7 @@ const EmployeeDetail = ({email}) => {
   };
 
   const handleLeave = () => {
-    navigate('/employee/Leave');
+    navigate(`/employee/Leave?email=${email}`);
   };
 
   if (loading) {
