@@ -26,7 +26,7 @@ import SignupHR from './Components/SignupHR';
 import Hradd from './Components/Hradd';
 import SuperAddEmployee from './Components/SuperAddEmployee';
 import SuperSignupEmployee from './Components/SuperSignupEmployee';
-
+import Category from './Components/Category';
 function App() {
   return (
     <BrowserRouter>
@@ -66,8 +66,7 @@ function App() {
           <Route path="/dashboard/add_employee" element={<AddEmployee />} />
           <Route path="/dashboard/payroll" element={<Payroll />} />
           <Route path="/dashboard/LeaveManagement" element={<LeaveManagement />} />
-          <Route path="/dashboard/calendar" element={<CustomCalendar />} />
-          <Route path="/dashboard/calendar" element={<CustomCalendar />} />
+          <Route path="/dashboard/Category" element={<Category />} />
           <Route path="/dashboard/Report" element={<Report />} />
           <Route path="/dashboard/signup_employee" element={<SignupEmployee />} />
           <Route path="/dashboard/Attendance" element={<Attendance />} />

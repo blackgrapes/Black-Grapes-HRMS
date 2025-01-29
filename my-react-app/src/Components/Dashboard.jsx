@@ -80,14 +80,14 @@ const Dashboard = () => {
                 </Link>
               </li>
 
-              {/* Calendar Link */}
+              {/*Category Link */}
               <li className="w-100">
                 <Link
-                  to="/dashboard/calendar"
+                  to="/dashboard/Category"
                   className="nav-link px-0 align-middle text-white"
                 >
-                  <i className="fs-4 bi-calendar ms-2"></i>
-                  <span className="ms-2 d-none d-sm-inline">Calendar</span>
+                  <i className="fs-4 bi-Category ms-2"></i>
+                  <span className="ms-2 d-none d-sm-inline">Category</span>
                 </Link>
               </li>
               
