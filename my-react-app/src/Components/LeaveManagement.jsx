@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './Leave.css';
+import './LeaveManagement.css';
 
 const LeaveManagement = () => {
-  const [leaveType, setLeaveType] = useState('');
-  const [leaveDays, setLeaveDays] = useState(0);
-  const [leaveReason, setLeaveReason] = useState('');
   const [leaveRequests, setLeaveRequests] = useState([]);
-  const [leaveBalance, setLeaveBalance] = useState(15);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -15,9 +11,7 @@ const LeaveManagement = () => {
     const fetchLeaveData = async () => {
       try {
         const response = await axios.get('/employeeLeave/leave-requests');
-        console.log(response.data); // Debug API response
         setLeaveRequests(response.data.leaveRequests || []);
-        setLeaveBalance(response.data.leaveBalance ?? 15);
       } catch (err) {
         setError('Failed to fetch leave data.');
       } finally {
@@ -28,36 +22,23 @@ const LeaveManagement = () => {
     fetchLeaveData();
   }, []);
 
-  const handleSubmitRequest = async () => {
-    if (!leaveType || leaveDays <= 0 || !leaveReason) {
-      alert('Please fill in all fields.');
-      return;
-    }
-
-    if (leaveDays > leaveBalance) {
-      alert('Invalid leave request or insufficient balance.');
-      return;
-    }
-
-    const newRequest = {
-      type: leaveType,
-      days: leaveDays,
-      reason: leaveReason,
-    };
-
+  const handleApproveReject = async (requestId, decision) => {
     try {
-      setError(null); // Clear previous error
-      const response = await axios.post('/employeeLeave/leave-requests', newRequest);
-      setLeaveRequests([
-        ...leaveRequests,
-        { ...newRequest, id: response.data.leaveRequestId, status: 'Pending' },
-      ]);
-      setLeaveBalance((prevBalance) => prevBalance - leaveDays);
-      setLeaveType('');
-      setLeaveDays(0);
-      setLeaveReason('');
+      const updatedRequest = {
+        status: decision,
+      };
+
+      // Update the leave request status
+      const response = await axios.put(`/employeeLeave/leave-requests/${requestId}`, updatedRequest);
+      
+      // Update the local state with the new status
+      setLeaveRequests(leaveRequests.map(request =>
+        request.id === requestId
+          ? { ...request, status: response.data.status }
+          : request
+      ));
     } catch (err) {
-      setError('Failed to submit leave request.');
+      setError('Failed to update leave status.');
     }
   };
 
@@ -66,44 +47,10 @@ const LeaveManagement = () => {
 
   return (
     <div className="leave-management-container">
-      <h2>Leave Management</h2>
-      <div className="leave-balance">
-        <p>Your Leave Balance: {leaveBalance} days</p>
-      </div>
-
-      <div className="leave-form">
-        <h3>Request Leave</h3>
-        <label>
-          Leave Type:
-          <select value={leaveType} onChange={(e) => setLeaveType(e.target.value)}>
-            <option value="">Select</option>
-            <option value="Sick">Sick Leave</option>
-            <option value="Vacation">Vacation Leave</option>
-            <option value="Casual">Casual Leave</option>
-          </select>
-        </label>
-        <label>
-          Number of Days:
-          <input
-            type="number"
-            value={leaveDays}
-            onChange={(e) => setLeaveDays(Number(e.target.value))}
-            min="1"
-            max="30"
-          />
-        </label>
-        <label>
-          Reason:
-          <textarea
-            value={leaveReason}
-            onChange={(e) => setLeaveReason(e.target.value)}
-          />
-        </label>
-        <button onClick={handleSubmitRequest}>Submit Leave Request</button>
-      </div>
+      <h2>Leave Management - Pending Requests</h2>
 
       <div className="leave-requests">
-        <h3>Your Leave Requests</h3>
+        <h3></h3>
         <table>
           <thead>
             <tr>
@@ -111,7 +58,10 @@ const LeaveManagement = () => {
               <th>Type</th>
               <th>Days</th>
               <th>Reason</th>
+              <th>From Date</th>
+              <th>To Date</th>
               <th>Status</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -121,7 +71,21 @@ const LeaveManagement = () => {
                 <td>{request.type}</td>
                 <td>{request.days}</td>
                 <td>{request.reason}</td>
+                <td>{new Date(request.startDate).toLocaleDateString()}</td> {/* Format date */}
+                <td>{new Date(request.endDate).toLocaleDateString()}</td>   {/* Format date */}
                 <td>{request.status}</td>
+                <td>
+                  {request.status === 'Pending' && (
+                    <>
+                      <button onClick={() => handleApproveReject(request.id, 'Approved')}>
+                        Approve
+                      </button>
+                      <button onClick={() => handleApproveReject(request.id, 'Rejected')}>
+                        Reject
+                      </button>
+                    </>
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>
