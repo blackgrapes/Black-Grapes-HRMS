@@ -7,19 +7,24 @@ const LeaveManagement = () => {
   const [leaveType, setLeaveType] = useState("");
   const [leaveDays, setLeaveDays] = useState(0);
   const [leaveReason, setLeaveReason] = useState("");
+  const [leaveStartDate, setLeaveStartDate] = useState("");
+  const [leaveEndDate, setLeaveEndDate] = useState("");
   const [leaveRequests, setLeaveRequests] = useState([]);
   const [leaveBalance, setLeaveBalance] = useState(15);
   const [error, setError] = useState(null);
   const [searchParams] = useSearchParams();
   const email = searchParams.get("email");
 
+  // Handle leave request submission
   const handleSubmitRequest = async () => {
-    if (leaveDays > 0 && leaveDays <= leaveBalance) {
+    if (leaveDays > 0 && leaveDays <= leaveBalance && leaveStartDate && leaveEndDate) {
       const body = {
         email,
         days: leaveDays,
         type: leaveType,
         reason: leaveReason,
+        startDate: leaveStartDate,
+        endDate: leaveEndDate,
       };
       try {
         const response = await axios.post(
@@ -30,8 +35,10 @@ const LeaveManagement = () => {
         setLeaveType("");
         setLeaveDays(0);
         setLeaveReason("");
+        setLeaveStartDate("");
+        setLeaveEndDate("");
       } catch (err) {
-        setError("Failed to submit leave request.", err);
+        setError("Failed to submit leave request.");
         console.log(err);
       }
     } else {
@@ -41,19 +48,19 @@ const LeaveManagement = () => {
 
   if (error) return <div className="error">{error}</div>;
 
+  // Fetch leave requests
   useEffect(() => {
     const fetchLeaveRequest = async () => {
       const response = await axios.get(
         "http://localhost:3000/employeeLeave/leave-requests"
       );
-      console.log(response)
-      if(response){
-        setLeaveRequests(response?.data?.leaveRequests)
+      if (response) {
+        setLeaveRequests(response?.data?.leaveRequests);
       }
     };
 
     fetchLeaveRequest();
-  },[]);
+  }, []);
 
   return (
     <div className="leave-management-container">
@@ -93,6 +100,22 @@ const LeaveManagement = () => {
             onChange={(e) => setLeaveReason(e.target.value)}
           />
         </label>
+        <label>
+          Start Date:
+          <input
+            type="date"
+            value={leaveStartDate}
+            onChange={(e) => setLeaveStartDate(e.target.value)}
+          />
+        </label>
+        <label>
+          End Date:
+          <input
+            type="date"
+            value={leaveEndDate}
+            onChange={(e) => setLeaveEndDate(e.target.value)}
+          />
+        </label>
         <button onClick={handleSubmitRequest}>Submit Leave Request</button>
       </div>
 
@@ -105,6 +128,8 @@ const LeaveManagement = () => {
               <th>Type</th>
               <th>Days</th>
               <th>Reason</th>
+              <th>Start Date</th>
+              <th>End Date</th>
               <th>Status</th>
             </tr>
           </thead>
@@ -114,6 +139,8 @@ const LeaveManagement = () => {
                 <td>{request.type}</td>
                 <td>{request.days}</td>
                 <td>{request.reason}</td>
+                <td>{new Date(request.startDate).toLocaleDateString()}</td> {/* Format date */}
+                <td>{new Date(request.endDate).toLocaleDateString()}</td> {/* Format date */}
                 <td>{request.status}</td>
               </tr>
             ))}
@@ -125,3 +152,11 @@ const LeaveManagement = () => {
 };
 
 export default LeaveManagement;
+// {
+//   "email": "employee@example.com",
+//   "days": 5,
+//   "type": "Vacation",
+//   "reason": "Vacation trip",
+//   "startDate": "2025-02-01",
+//   "endDate": "2025-02-05"
+// }
