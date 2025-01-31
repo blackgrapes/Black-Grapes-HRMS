@@ -53,9 +53,9 @@ const SuperAdminDashboard = () => {
           <nav className="sidebar-nav">
             <ul>
               <li><button onClick={() => navigate("/manage_employees")}>Manage Employees</button></li>
-              <li><button onClick={() => navigate("/view_reports")}>View Reports</button></li>
-              <li><button onClick={() => navigate("/system_settings")}>System Settings</button></li>
-              <li><button onClick={() => navigate("/user_activity")}>User Activity</button></li>
+              <li><button onClick={() => navigate("/SuperAdminReport")}>View Reports</button></li>
+              <li><button onClick={() => navigate("/SuperProfile")}>Profile</button></li>
+              <li><button onClick={() => navigate("/SuperAdminSignup")}>Add Super Admin</button></li>
             </ul>
           </nav>
 
@@ -79,13 +79,13 @@ const SuperAdminDashboard = () => {
             <div className="action-card">
               <h3>View Reports</h3>
               <p>Analyze system reports and statistics.</p>
-              <button className="btn btn-action" onClick={() => navigate("/view_reports")}>View Reports</button>
+              <button className="btn btn-action" onClick={() => navigate("/SuperAdminReport")}>View Reports</button>
             </div>
 
             <div className="action-card">
-              <h3>System Settings</h3>
+              <h3>Profile</h3>
               <p>Configure system-wide settings.</p>
-              <button className="btn btn-action" onClick={() => navigate("/system_settings")}>Go to Settings</button>
+              <button className="btn btn-action" onClick={() => navigate("/SuperProfile")}>Go to Settings</button>
             </div>
           </section>
         </main>

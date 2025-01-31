@@ -27,6 +27,13 @@ import Hradd from './Components/Hradd';
 import SuperAddEmployee from './Components/SuperAddEmployee';
 import SuperSignupEmployee from './Components/SuperSignupEmployee';
 import Category from './Components/Category';
+import SuperAdminReport from './Components/SuperAdminReport';
+import SuperProfile from './Components/SuperProfile';
+import SuperAdminSignup from './Components/SuperAdminSignup';
+
+
+
+
 function App() {
   return (
     <BrowserRouter>
@@ -49,6 +56,11 @@ function App() {
         <Route path="/add_HR" element={<Hradd />} />
         <Route path="/SuperAddEmployee" element={<SuperAddEmployee />} />
         <Route path="/SuperSignupEmployee" element={<SuperSignupEmployee />} />
+        <Route path="/SuperAdminReport" element={<SuperAdminReport />} />
+        <Route path="/SuperProfile" element={<SuperProfile />} />
+        <Route path="/SuperAdminSignup" element={<SuperAdminSignup />} />
+    
+        
         
 
 

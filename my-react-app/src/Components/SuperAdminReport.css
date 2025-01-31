@@ -1,0 +1,49 @@
+/* SuperAdminReport.css */
+.superadmin-report-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding: 20px;
+  }
+  
+  .report-section {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  .section-title {
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .report-content {
+    text-align: center;
+  }
+  
+  .report-table {
+    width: 100%;
+    margin-top: 15px;
+    border-collapse: collapse;
+  }
+  
+  .report-table th, .report-table td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+  }
+  
+  .report-table th {
+    background-color: #f4f4f4;
+  }
+  
+  .hr-section {
+    background-color: #e6f7ff;
+  }
+  
+  .employee-section {
+    background-color: #f4e6ff;
+  }
+  
