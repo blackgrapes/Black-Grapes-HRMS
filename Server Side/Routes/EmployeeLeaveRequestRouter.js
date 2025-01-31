@@ -70,13 +70,13 @@ router.get("/leave-requests", async (req, res) => {
         {
           $project: {
             _id: 1,
+            email: 1, // Fetch email directly from leave_requests
             type: 1,
             days: 1,
             reason: 1,
             status: 1,
             createdAt: 1,
             "employeeDetails.name": 1, // Include employee name
-            "employeeDetails.email": 1, // Include employee email
           },
         },
       ])

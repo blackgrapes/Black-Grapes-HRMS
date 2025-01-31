@@ -48,7 +48,8 @@ const LeaveManagement = () => {
         <table>
           <thead>
             <tr>
-              <th>ID</th>
+              <th>Email</th> {/* Changed from ID to Email */}
+              <th>Name</th> {/* Added Name for better clarity */}
               <th>Type</th>
               <th>Days</th>
               <th>Reason</th>
@@ -59,7 +60,8 @@ const LeaveManagement = () => {
           <tbody>
             {leaveRequests.map((request) => (
               <tr key={request._id}>
-                <td>{request._id}</td>
+                <td>{request.email}</td> {/* Displaying Email */}
+                <td>{request.employeeDetails?.name || "N/A"}</td> {/* Displaying Employee Name */}
                 <td>{request.type}</td>
                 <td>{request.days}</td>
                 <td>{request.reason}</td>
