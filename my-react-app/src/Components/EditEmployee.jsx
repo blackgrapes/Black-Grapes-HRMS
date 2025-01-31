@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import './EditEmployee.css';  // Importing the CSS file
 
 const EditEmployee = () => {
   const [searchParams] = useSearchParams();
@@ -22,7 +23,7 @@ const EditEmployee = () => {
   useEffect(() => {
     // Fetch employee details
     axios
-      .get(`http://localhost:3000/employeedetail/employee/${email}`) // Assuming the ID is the email
+      .get(`http://localhost:3000/employeedetail/employee/${email}`)
       .then((result) => {
         const data = result.data.Result;
         setEmployee({
@@ -37,7 +38,6 @@ const EditEmployee = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Prepare data to send to the backend
     const updateData = {
       phone: employee.phone,
       address: employee.address,
@@ -60,13 +60,11 @@ const EditEmployee = () => {
   const handleChangePassword = (e) => {
     e.preventDefault();
 
-    // Validate passwords
     if (passwords.newPassword !== passwords.confirmPassword) {
       alert('New Password and Confirm Password do not match.');
       return;
     }
 
-    // Send password update request to the backend
     const passwordData = {
       email,
       oldPassword: passwords.oldPassword,
@@ -78,7 +76,7 @@ const EditEmployee = () => {
       .then((result) => {
         if (result.data.message) {
           alert('Password Changed Successfully, Please Re-Login');
-          navigate(-1); 
+          navigate(-1);
 
           setPasswords({
             oldPassword: '',
@@ -93,131 +91,116 @@ const EditEmployee = () => {
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center mt-3">
-      <div className="p-3 rounded w-50 border">
-        <h3 className="text-center">Edit Employee</h3>
-        <form className="row g-1" onSubmit={handleSubmit}>
-          {/* Phone */}
-          <div className="col-12">
-            <label htmlFor="inputPhone" className="form-label">
-              Phone Number
-            </label>
-            <input
-              type="text"
-              className="form-control rounded-0"
-              id="inputPhone"
-              placeholder="Enter Phone Number"
-              value={employee.phone}
-              onChange={(e) =>
-                setEmployee({ ...employee, phone: e.target.value })
-              }
-            />
-          </div>
+    <div className="edit-employee-container">
+      <div className="form-container d-flex justify-content-center">
+        <div className="form-inner">
+        
 
-          {/* Address */}
-          <div className="col-12">
-            <label htmlFor="inputAddress" className="form-label">
-              Address
-            </label>
-            <input
-              type="text"
-              className="form-control rounded-0"
-              id="inputAddress"
-              placeholder="Enter Address"
-              value={employee.address}
-              onChange={(e) =>
-                setEmployee({ ...employee, address: e.target.value })
-              }
-            />
-          </div>
+          <h3 className="text-center">Edit Employee</h3>
 
-          {/* Designation */}
-          <div className="col-12">
-            <label htmlFor="inputDesignation" className="form-label">
-              Designation
-            </label>
-            <input
-              type="text"
-              className="form-control rounded-0"
-              id="inputDesignation"
-              placeholder="Enter Designation"
-              value={employee.designation}
-              onChange={(e) =>
-                setEmployee({ ...employee, designation: e.target.value })
-              }
-            />
-          </div>
+          {/* Employee Details Form */}
+          <form className="row g-3" onSubmit={handleSubmit}>
+            {/* Phone */}
+            <div className="col-12">
+              <label htmlFor="inputPhone" className="form-label">Phone Number</label>
+              <input
+                type="text"
+                className="form-control"
+                id="inputPhone"
+                placeholder="Enter Phone Number"
+                value={employee.phone}
+                onChange={(e) => setEmployee({ ...employee, phone: e.target.value })}
+                required
+              />
+            </div>
 
-          {/* Submit Button */}
-          <div className="col-12">
-            <button type="submit" className="btn btn-primary w-100">
-              Save Changes
-            </button>
-          </div>
-        </form>
+            {/* Address */}
+            <div className="col-12">
+              <label htmlFor="inputAddress" className="form-label">Address</label>
+              <input
+                type="text"
+                className="form-control"
+                id="inputAddress"
+                placeholder="Enter Address"
+                value={employee.address}
+                onChange={(e) => setEmployee({ ...employee, address: e.target.value })}
+                required
+              />
+            </div>
 
-        <hr />
+            {/* Designation */}
+            <div className="col-12">
+              <label htmlFor="inputDesignation" className="form-label">Designation</label>
+              <input
+                type="text"
+                className="form-control"
+                id="inputDesignation"
+                placeholder="Enter Designation"
+                value={employee.designation}
+                onChange={(e) => setEmployee({ ...employee, designation: e.target.value })}
+                required
+              />
+            </div>
 
-        <h3 className="text-center mt-3">Change Password</h3>
-        <form className="row g-1" onSubmit={handleChangePassword}>
-          {/* Old Password */}
-          <div className="col-12">
-            <label htmlFor="inputOldPassword" className="form-label">
-              Old Password
-            </label>
-            <input
-              type="password"
-              className="form-control rounded-0"
-              id="inputOldPassword"
-              placeholder="Enter Old Password"
-              value={passwords.oldPassword}
-              onChange={(e) =>
-                setPasswords({ ...passwords, oldPassword: e.target.value })
-              }
-            />
-          </div>
+            {/* Save Changes Button */}
+            <div className="col-12">
+              <button type="submit" className="btn btn-primary w-100">Save Changes</button>
+            </div>
+          </form>
 
-          {/* New Password */}
-          <div className="col-12">
-            <label htmlFor="inputNewPassword" className="form-label">
-              New Password
-            </label>
-            <input
-              type="password"
-              className="form-control rounded-0"
-              id="inputNewPassword"
-              placeholder="Enter New Password"
-              value={passwords.newPassword}
-              onChange={(e) =>
-                setPasswords({ ...passwords, newPassword: e.target.value })
-              }
-            />
-          </div>
+          <hr />
 
-          {/* Confirm Password */}
-          <div className="col-12">
-            <label htmlFor="inputConfirmPassword" className="form-label">
-              Confirm Password
-            </label>
-            <input
-              type="password"
-              className="form-control rounded-0"
-              id="inputConfirmPassword"
-              placeholder="Confirm New Password"
-              value={passwords.confirmPassword}
-              onChange={(e) =>
-                setPasswords({ ...passwords, confirmPassword: e.target.value })
-              }
-            />
-          </div>
+          {/* Change Password Section */}
+          <h3 className="text-center">Change Password</h3>
+          <form className="row g-3" onSubmit={handleChangePassword}>
+            {/* Old Password */}
+            <div className="col-12">
+              <label htmlFor="inputOldPassword" className="form-label">Old Password</label>
+              <input
+                type="password"
+                className="form-control"
+                id="inputOldPassword"
+                placeholder="Enter Old Password"
+                value={passwords.oldPassword}
+                onChange={(e) => setPasswords({ ...passwords, oldPassword: e.target.value })}
+                required
+              />
+            </div>
 
-          {/* Submit Button */}
-          <div className="col-12">
-            <button type="submit" className="btn btn-secondary w-100">
-              Change Password
-            </button>
-          </div>
-        </form>
+            {/* New Password */}
+            <div className="col-12">
+              <label htmlFor="inputNewPassword" className="form-label">New Password</label>
+              <input
+                type="password"
+                className="form-control"
+                id="inputNewPassword"
+                placeholder="Enter New Password"
+                value={passwords.newPassword}
+                onChange={(e) => setPasswords({ ...passwords, newPassword: e.target.value })}
+                required
+              />
+            </div>
+
+            {/* Confirm Password */}
+            <div className="col-12">
+              <label htmlFor="inputConfirmPassword" className="form-label">Confirm Password</label>
+              <input
+                type="password"
+                className="form-control"
+                id="inputConfirmPassword"
+                placeholder="Confirm New Password"
+                value={passwords.confirmPassword}
+                onChange={(e) => setPasswords({ ...passwords, confirmPassword: e.target.value })}
+                required
+              />
+            </div>
+
+            {/* Change Password Button */}
+            <div className="col-12">
+              <button type="submit" className="btn btn-secondary w-100">Change Password</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );
