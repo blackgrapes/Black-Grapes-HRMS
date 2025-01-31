@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import "./Leave.css";
 
-const LeaveManagement = () => {
+const Leave = () => {
   const [leaveType, setLeaveType] = useState("");
   const [leaveDays, setLeaveDays] = useState(0);
   const [leaveReason, setLeaveReason] = useState("");
@@ -151,7 +151,7 @@ const LeaveManagement = () => {
   );
 };
 
-export default LeaveManagement;
+export default Leave;
 // {
 //   "email": "employee@example.com",
 //   "days": 5,
