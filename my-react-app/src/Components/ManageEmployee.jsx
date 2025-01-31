@@ -159,12 +159,7 @@ const ManageEmployeeDetails = () => {
                   <td>{employee.joiningDate}</td>
                   <td>{employee.salary}</td>
                   <td>
-                    <Link
-                      to={`/dashboard/edit_employee/${employee.id}`}
-                      className="btn btn-warning btn-sm me-2"
-                    >
-                      Edit
-                    </Link>
+                   
                     <button
                       className="btn btn-danger btn-sm"
                       onClick={() => handleDeleteEmployee(employee.id)}
@@ -223,12 +218,7 @@ const ManageEmployeeDetails = () => {
                   <td>{hr.dob}</td>
                   <td>{hr.joiningDate}</td>
                   <td>
-                    <Link
-                      to={`/dashboard/edit_hr/${hr.id}`}
-                      className="btn btn-warning btn-sm me-2"
-                    >
-                      Edit
-                    </Link>
+                    
                     <button
                       className="btn btn-danger btn-sm"
                       onClick={() => handleDeleteHR(hr.id)}
