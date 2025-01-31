@@ -5,7 +5,9 @@ import EmployeeRouter from "./Routes/EmployeeRoute.js"; // Employee routes
 import SuperAdminRouter from "./Routes/SuperAdminRoute.js"; // SuperAdmin routes
 import EmployeeLeaveRequestRouter from "./Routes/EmployeeLeaveRequestRouter.js";
 import EmployeeDetailRouter from "./Routes/EmployeeDetailRoutes.js";
+import PayrollRouter from "./Routes/PayrollRoute.js";
 import HrDetailRouter from "./Routes/HrDetailRoutes.js";
+
 import cookieParser from "cookie-parser";
 import { connectToDatabase } from "./utils/db.js";
 
@@ -33,7 +35,9 @@ connectToDatabase()
     app.use("/superadmin", SuperAdminRouter); // SuperAdmin login/signup routes
     app.use ("/employeedetail", EmployeeDetailRouter)// employee data routes
     app.use ("/hrdetail", HrDetailRouter)// Hr data routes
-    app.use ("/employeeLeave", EmployeeLeaveRequestRouter)// Hr data routes
+    app.use ("/employeeLeave", EmployeeLeaveRequestRouter)// leave request
+    app.use ("/Payroll", PayrollRouter)// payroll
+
 
     app.use(express.static("Public")); // Serve static files from the 'Public' directory
 

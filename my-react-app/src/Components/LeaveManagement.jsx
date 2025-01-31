@@ -7,10 +7,11 @@ const LeaveManagement = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Fetch leave data from your API
   useEffect(() => {
     const fetchLeaveData = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/employeeLeave/leave-requests"); // Ensure correct API URL
+        const response = await axios.get("http://localhost:3000/employeeLeave/leave-requests"); // Correct URL to fetch leave requests
         setLeaveRequests(response.data.leaveRequests || []);
       } catch (err) {
         setError("Failed to fetch leave data.");
@@ -22,14 +23,19 @@ const LeaveManagement = () => {
     fetchLeaveData();
   }, []);
 
+  // Handle approve/reject requests
   const handleApproveReject = async (requestId, decision) => {
     try {
-      await axios.put(`http://localhost:5000/leave-requests/${requestId}/${decision.toLowerCase()}`);
+      // Send approval or rejection request to the backend
+      const response = await axios.put(`http://localhost:3000/employeeLeave/leave-requests/${requestId}`,{
+        decision:decision.toLowerCase()
+      });
 
-      // Update state after approval/rejection
+      // Update the state with the updated leave request
+      const updatedRequest = response.data.leaveRequest;
       setLeaveRequests((prevRequests) =>
         prevRequests.map((request) =>
-          request._id === requestId ? { ...request, status: decision } : request
+          request._id === updatedRequest._id ? { ...updatedRequest } : request
         )
       );
     } catch (err) {
@@ -48,11 +54,13 @@ const LeaveManagement = () => {
         <table>
           <thead>
             <tr>
-              <th>Email</th> {/* Changed from ID to Email */}
-              <th>Name</th> {/* Added Name for better clarity */}
+              <th>Email</th>
+              <th>Name</th>
               <th>Type</th>
               <th>Days</th>
               <th>Reason</th>
+              <th>Start Date</th>
+              <th>End Date</th>
               <th>Status</th>
               <th>Action</th>
             </tr>
@@ -60,11 +68,13 @@ const LeaveManagement = () => {
           <tbody>
             {leaveRequests.map((request) => (
               <tr key={request._id}>
-                <td>{request.email}</td> {/* Displaying Email */}
-                <td>{request.employeeDetails?.name || "N/A"}</td> {/* Displaying Employee Name */}
+                <td>{request.email}</td>
+                <td>{request.employeeDetails?.name || "N/A"}</td>
                 <td>{request.type}</td>
                 <td>{request.days}</td>
                 <td>{request.reason}</td>
+                <td>{new Date(request.startDate).toLocaleDateString()}</td>
+                <td>{new Date(request.endDate).toLocaleDateString()}</td>
                 <td>{request.status}</td>
                 <td>
                   {request.status === "Pending" && (
