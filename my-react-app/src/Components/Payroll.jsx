@@ -1,15 +1,9 @@
-import React, { useState } from "react";
-import './Payroll.css'
-
-// Sample data for employees
-const initialEmployees = [
-  { id: 1, name: "John Doe", basicSalary: 5000, allowances: 1000, deductions: 200 },
-  { id: 2, name: "Jane Smith", basicSalary: 6000, allowances: 1500, deductions: 300 },
-  { id: 3, name: "Michael Brown", basicSalary: 4500, allowances: 800, deductions: 150 },
-];
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import './Payroll.css';
 
 const Payroll = () => {
-  const [payrollData, setPayrollData] = useState(initialEmployees);
+  const [payrollData, setPayrollData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [newEmployee, setNewEmployee] = useState({
     name: "",
@@ -18,50 +12,93 @@ const Payroll = () => {
     deductions: "",
   });
 
+  const [employees  , setEmployees] = useState([]);
+
+
   const calculateTotalSalary = (basicSalary, allowances, deductions) => {
     return basicSalary + allowances - deductions;
   };
+
+  // Fetch payroll data from the backend (including employee details)
+  useEffect(() => {
+    const fetchEmployeeDetails = async () => {
+        try {
+          const response = await axios.get('http://localhost:3000/employeedetail/all')
+  
+          console.log("Employees",response)
+          if (response.data && response.data.Result) {
+            setEmployees(response.data.Result);
+          } else {
+            setError(response.data.Error || 'Failed to fetch employee details.');
+          }
+        } catch (err) {
+          console.error('Error fetching employee details:', err);
+          setError('An error occurred while fetching employee details.');
+        }
+      };
+
+    const fetchPayrollData = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/Payroll/payroll-with-details");
+        setPayrollData(response.data.payrollData);
+      } catch (error) {
+        console.error("Error fetching payroll data:", error);
+      }
+    };
+
+
+    fetchEmployeeDetails();
+    fetchPayrollData();
+  }, []);
 
   // Handle search functionality
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };
 
-  // Handle adding a new employee
-  const handleAddEmployee = () => {
+  // Handle adding a new employee to payroll
+  const handleAddEmployee = async () => {
     if (newEmployee.name && newEmployee.basicSalary && newEmployee.allowances && newEmployee.deductions) {
-      const newEmp = {
-        id: payrollData.length + 1,
-        name: newEmployee.name,
-        basicSalary: parseFloat(newEmployee.basicSalary),
-        allowances: parseFloat(newEmployee.allowances),
-        deductions: parseFloat(newEmployee.deductions),
-      };
-      setPayrollData([...payrollData, newEmp]);
-      setNewEmployee({
-        name: "",
-        basicSalary: "",
-        allowances: "",
-        deductions: "",
-      });
+      try {
+        const response = await axios.post("http://localhost:3000/Payroll/payroll", newEmployee);
+        setPayrollData([...payrollData, response.data.employee]);
+        setNewEmployee({
+          name: "",
+          basicSalary: "",
+          allowances: "",
+          deductions: "",
+        });
+      } catch (error) {
+        console.error("Error adding employee:", error);
+      }
     }
   };
 
-  // Handle editing an employee (optional)
-  const handleEditEmployee = (id) => {
-    const employee = payrollData.find(emp => emp.id === id);
+  // Handle editing an employee's payroll
+  const handleEditEmployee = async (id) => {
+    const employee = payrollData.find((emp) => emp._id === id);
     setNewEmployee({
       name: employee.name,
       basicSalary: employee.basicSalary,
       allowances: employee.allowances,
       deductions: employee.deductions,
     });
-    setPayrollData(payrollData.filter(emp => emp.id !== id));  // Temporarily remove to edit
+
+    // Remove the employee temporarily to edit
+    setPayrollData(payrollData.filter((emp) => emp._id !== id));
+
+    // Update the employee when changes are saved
+    await axios.put(`http://localhost:3000/Payroll/payroll/${id}`, newEmployee);
   };
 
-  // Handle deleting an employee
-  const handleDeleteEmployee = (id) => {
-    setPayrollData(payrollData.filter(emp => emp.id !== id));
+  // Handle deleting an employee from payroll
+  const handleDeleteEmployee = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3000/Payroll/payroll/${id}`);
+      setPayrollData(payrollData.filter((emp) => emp._id !== id));
+    } catch (error) {
+      console.error("Error deleting employee:", error);
+    }
   };
 
   const filteredData = payrollData.filter((employee) =>
@@ -114,6 +151,8 @@ const Payroll = () => {
         <thead>
           <tr>
             <th>Employee</th>
+            <th>Email</th>
+            <th>Department</th>
             <th>Basic Salary</th>
             <th>Allowances</th>
             <th>Deductions</th>
@@ -122,20 +161,22 @@ const Payroll = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredData.map((employee) => {
-            const { id, name, basicSalary, allowances, deductions } = employee;
-            const totalSalary = calculateTotalSalary(basicSalary, allowances, deductions);
+          {employees.map((employee) => {
+          
+            // const totalSalary = calculateTotalSalary(basicSalary, allowances, deductions);
 
             return (
-              <tr key={id}>
-                <td>{name}</td>
-                <td>${basicSalary}</td>
+              <tr key={employee._id}>
+                <td>{employee.name}</td>
+                <td>{employee.email}</td>
+                <td>{employee.department}</td>
+                {/* <td>${basicSalary}</td>
                 <td>${allowances}</td>
                 <td>${deductions}</td>
-                <td>${totalSalary}</td>
+                <td>${totalSalary}</td> */}
                 <td>
-                  <button onClick={() => handleEditEmployee(id)} className="edit-btn">Edit</button>
-                  <button onClick={() => handleDeleteEmployee(id)} className="delete-btn">Delete</button>
+                  <button onClick={() => handleEditEmployee(employee._id)} className="edit-btn">Edit</button>
+                  <button onClick={() => handleDeleteEmployee(employee._id)} className="delete-btn">Delete</button>
                 </td>
               </tr>
             );

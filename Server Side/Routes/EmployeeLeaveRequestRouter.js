@@ -114,57 +114,49 @@ router.get("/leave-request/:email", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
-
 // Route to approve a leave request
-router.put("/leave-requests/:id/approve", async (req, res) => {
+router.put('/leave-requests/:id', async (req, res) => {
   const { id } = req.params;
+  const{ decision } = req.body;
+  console.log(id,decision)
+
+
+  // Validate decision parameter
+  if (!['approved', 'rejected'].includes(decision)) {
+    return res.status(400).json({ error: 'Invalid decision. Use "approve" or "reject".' });
+  }
 
   try {
+    // Validate the ObjectId format
     if (!ObjectId.isValid(id)) {
-      return res.status(400).json({ error: "Invalid leave request ID" });
+      return res.status(400).json({ error: 'Invalid leave request ID' });
     }
 
-    const result = await db.collection("leave_requests").updateOne(
+    // Determine the status based on the decision
+    const status = decision.charAt(0).toUpperCase() + decision.slice(1); // Capitalize the first letter (approve/reject)
+
+    // Update the leave request status based on the decision
+    const result = await db.collection('leave_requests').updateOne(
       { _id: new ObjectId(id) },
-      { $set: { status: "Approved" } }
+      { $set: { status: status } }
     );
 
     if (result.matchedCount === 0) {
-      return res.status(404).json({ error: "Leave request not found" });
+      return res.status(404).json({ error: 'Leave request not found' });
     }
 
-    console.log("Leave request approved:", id);
-    res.status(200).json({ message: "Leave request approved successfully" });
+    // Fetch the updated leave request
+    const updatedRequest = await db.collection('leave_requests').findOne({ _id: new ObjectId(id) });
+
+    // Return the updated leave request
+    res.status(200).json({ message: `Leave request ${status.toLowerCase()}d successfully`, leaveRequest: updatedRequest });
   } catch (err) {
-    console.error("Error approving leave request:", err);
-    res.status(500).json({ error: "Internal server error" });
+    console.error(`Error ${decision} leave request:`, err);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
-// Route to reject a leave request
-router.put("/leave-requests/:id/reject", async (req, res) => {
-  const { id } = req.params;
 
-  try {
-    if (!ObjectId.isValid(id)) {
-      return res.status(400).json({ error: "Invalid leave request ID" });
-    }
 
-    const result = await db.collection("leave_requests").updateOne(
-      { _id: new ObjectId(id) },
-      { $set: { status: "Rejected" } }
-    );
-
-    if (result.matchedCount === 0) {
-      return res.status(404).json({ error: "Leave request not found" });
-    }
-
-    console.log("Leave request rejected:", id);
-    res.status(200).json({ message: "Leave request rejected successfully" });
-  } catch (err) {
-    console.error("Error rejecting leave request:", err);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
 
 export default router;
