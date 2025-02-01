@@ -9,16 +9,18 @@ const SuperAdminReport = () => {
   // Fetch HR and Employee data
   useEffect(() => {
     // Fetch HR report data
-    axios.get('http://localhost:3000/hr/report')
+    axios.get('http://localhost:3000/hrdetail/all')
       .then((response) => {
-        setHrData(response.data);
+        console.log("HR Report Data:", response.data);
+        setHrData(Array.isArray(response.data) ? response.data : response.data.hrData || []);
       })
       .catch((error) => console.error('Error fetching HR report:', error));
 
     // Fetch Employee report data
-    axios.get('http://localhost:3000/employee/report')
+    axios.get('http://localhost:3000/employeedetail/all')
       .then((response) => {
-        setEmployeeData(response.data);
+        console.log("Employee Report Data:", response.data);
+        setEmployeeData(Array.isArray(response.data) ? response.data : response.data.employees || []);
       })
       .catch((error) => console.error('Error fetching Employee report:', error));
   }, []);
@@ -39,8 +41,8 @@ const SuperAdminReport = () => {
               </tr>
             </thead>
             <tbody>
-              {hrData.map((hr, index) => (
-                <tr key={index}>
+              {hrData.map((hr) => (
+                <tr key={hr.id || hr._id}>
                   <td>{hr.name}</td>
                   <td>{hr.email}</td>
                   <td>{hr.designation}</td>
@@ -59,19 +61,35 @@ const SuperAdminReport = () => {
           <table className="report-table">
             <thead>
               <tr>
+                <th>Image</th>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Designation</th>
+                <th>Address</th>
                 <th>Phone</th>
+                <th>Designation</th>
+                <th>Manager</th>
+                <th>Joining Date</th>
+                <th>Salary</th>
               </tr>
             </thead>
             <tbody>
-              {employeeData.map((employee, index) => (
-                <tr key={index}>
+              {employeeData.map((employee) => (
+                <tr key={employee.id || employee._id}>
+                  <td>
+                    <img
+                      src={employee.image || 'https://via.placeholder.com/50'}
+                      alt={employee.name}
+                      className="employee-image"
+                    />
+                  </td>
                   <td>{employee.name}</td>
                   <td>{employee.email}</td>
-                  <td>{employee.designation}</td>
-                  <td>{employee.phone}</td>
+                  <td>{employee.address || "N/A"}</td>
+                  <td>{employee.phone || "N/A"}</td>
+                  <td>{employee.designation || "N/A"}</td>
+                  <td>{employee.manager || "N/A"}</td>
+                  <td>{employee.joiningDate ? new Date(employee.joiningDate).toLocaleDateString() : "N/A"}</td>
+                  <td>{employee.salary || "N/A"}</td>
                 </tr>
               ))}
             </tbody>
