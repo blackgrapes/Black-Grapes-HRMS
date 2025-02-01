@@ -1,28 +1,57 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Attendance.css';
 import DatePicker from 'react-datepicker'; // Importing DatePicker
 import 'react-datepicker/dist/react-datepicker.css'; // Import DatePicker styling
+import axios from 'axios'; // For making API calls
 
 const Attendance = () => {
-  const [attendanceData, setAttendanceData] = useState([
-    { id: 1, name: 'John Doe', date: '2025-01-23', status: 'Present' },
-    { id: 2, name: 'Jane Smith', date: '2025-01-23', status: 'Absent' },
-    { id: 3, name: 'Alice Johnson', date: '2025-01-23', status: 'Present' },
-  ]);
+  const [attendanceData, setAttendanceData] = useState([]); // State to store attendance data
   const [selectedDate, setSelectedDate] = useState(new Date()); // State to track selected date
+  const [employeeEmail, setEmployeeEmail] = useState(''); // Assuming this is the email of the employee logged in
 
-  const handleAttendanceChange = (id, status) => {
-    setAttendanceData((prevData) =>
-      prevData.map((record) =>
-        record.id === id ? { ...record, status, date: selectedDate.toISOString().split('T')[0] } : record
-      )
-    );
+  // Fetch attendance for the selected date
+  const fetchAttendance = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/attendance/attendance_by_date', {
+        params: { date: selectedDate.toISOString().split('T')[0] },
+      });
+      setAttendanceData(response.data.Result); // Update state with fetched data
+    } catch (error) {
+      console.error("Error fetching attendance:", error);
+    }
+  };
+
+  // Fetch attendance data whenever the selected date changes
+  useEffect(() => {
+    fetchAttendance();
+  }, [selectedDate]);
+
+  // Function to handle attendance change (mark present or absent)
+  const handleAttendanceChange = async (id, status) => {
+    try {
+      const response = await axios.post('http://localhost:3000/attendance/attendance', {
+        employeeEmail, // employee email
+        date: selectedDate.toISOString().split('T')[0], // format date as YYYY-MM-DD
+        status, // 'Present' or 'Absent'
+      });
+
+      if (response.status === 200) {
+        // Update state with the new status
+        setAttendanceData((prevData) =>
+          prevData.map((record) =>
+            record.id === id ? { ...record, status } : record
+          )
+        );
+      }
+    } catch (error) {
+      console.error("Error updating attendance:", error);
+    }
   };
 
   return (
     <div className="attendance-container">
       <h2 className="attendance-title">Employee Attendance</h2>
-      
+
       {/* Date Picker to select the date */}
       <div className="datepicker-container">
         <label htmlFor="attendance-date">Select Date: </label>

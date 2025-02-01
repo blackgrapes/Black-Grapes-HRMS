@@ -7,6 +7,7 @@ import EmployeeLeaveRequestRouter from "./Routes/EmployeeLeaveRequestRouter.js";
 import EmployeeDetailRouter from "./Routes/EmployeeDetailRoutes.js";
 import PayrollRouter from "./Routes/PayrollRoute.js";
 import HrDetailRouter from "./Routes/HrDetailRoutes.js";
+import AttendanceDetailRouter from "./Routes/AttendanceDetailRoute.js";
 
 import cookieParser from "cookie-parser";
 import { connectToDatabase } from "./utils/db.js";
@@ -37,6 +38,7 @@ connectToDatabase()
     app.use ("/hrdetail", HrDetailRouter)// Hr data routes
     app.use ("/employeeLeave", EmployeeLeaveRequestRouter)// leave request
     app.use ("/Payroll", PayrollRouter)// payroll
+    app.use ("/attendance", AttendanceDetailRouter)// attence
 
 
     app.use(express.static("Public")); // Serve static files from the 'Public' directory
