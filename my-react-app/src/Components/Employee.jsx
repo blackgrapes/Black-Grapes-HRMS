@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import './Employee.css'; 
+import './Employee.css'; // Import custom CSS for table styling
 
 const Employee = () => {
   const [employee, setEmployee] = useState([]);
@@ -54,7 +54,7 @@ const Employee = () => {
   };
 
   return (
-    <div className="px-5 mt-3">
+    <div className="employee-container px-5 mt-3">
       <div className="d-flex justify-content-center">
         <h3>Employee List</h3>
       </div>
@@ -90,8 +90,8 @@ const Employee = () => {
       </div>
 
       {/* Employee Table */}
-      <div className="mt-3">
-        <table className="table">
+      <div className="employee-table-container">
+        <table className="employee-table">
           <thead>
             <tr>
               <th>Name</th>
@@ -124,7 +124,7 @@ const Employee = () => {
                     Edit
                   </Link>
                   <button
-                    className="btn btn-warning btn-sm"
+                    className="btn btn-warning btn-sm btn-delete"
                     onClick={() => handleDelete(e.id)}
                   >
                     Delete
