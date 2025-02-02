@@ -1,172 +1,115 @@
 import express from 'express';
-import { ObjectId } from 'mongodb';
-import { db } from '../utils/db.js'; // Assuming db is your MongoDB connection
+import { db } from '../utils/db.js';
 
 const router = express.Router();
 
-// Route to add a new employee's payroll
+// ✅ Add Payroll Data (POST)
 router.post('/payroll', async (req, res) => {
-  const { name, basicSalary, allowances, deductions } = req.body;
+  const { email, basicSalary, allowances, deductions, paidUpto } = req.body;
 
   try {
-    // Validate input data
-    if (!name || !basicSalary || !allowances || !deductions) {
-      return res.status(400).json({
-        error: 'All fields are required',
-      });
+    if (!email || basicSalary === undefined || allowances === undefined || deductions === undefined) {
+      return res.status(400).json({ error: 'All fields are required' });
     }
 
-    // Step 1: Create a new employee record in the payroll collection
+    const totalSalary = parseFloat(basicSalary) + parseFloat(allowances) - parseFloat(deductions);
+
     const payrollData = {
-      name,
-      basicSalary: parseFloat(basicSalary), // Ensure these values are numbers
-      allowances: parseFloat(allowances),
-      deductions: parseFloat(deductions),
-      createdAt: new Date(),
-    };
-
-    // Step 2: Insert the new payroll data
-    const result = await db.collection('payroll').insertOne(payrollData);
-
-    // Return the response with the created payroll record
-    res.status(201).json({
-      message: 'Employee payroll added successfully',
-      employee: result.ops[0],
-    });
-  } catch (err) {
-    console.error('Error adding payroll data:', err);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
-// Route to fetch all employee payroll data
-router.get('/payroll', async (req, res) => {
-  try {
-    const payrollData = await db.collection('payroll').find().toArray();
-    res.status(200).json({ payrollData });
-  } catch (err) {
-    console.error('Error fetching payroll data:', err);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
-// Route to get a specific employee's payroll by ID
-router.get('/payroll/:id', async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    if (!ObjectId.isValid(id)) {
-      return res.status(400).json({ error: 'Invalid employee ID' });
-    }
-
-    const employee = await db.collection('payroll').findOne({ _id: new ObjectId(id) });
-
-    if (!employee) {
-      return res.status(404).json({ error: 'Employee not found' });
-    }
-
-    res.status(200).json({ employee });
-  } catch (err) {
-    console.error('Error fetching payroll data:', err);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
-// Route to update an employee's payroll
-router.put('/payroll/:id', async (req, res) => {
-  const { id } = req.params;
-  const { name, basicSalary, allowances, deductions } = req.body;
-
-  try {
-    if (!ObjectId.isValid(id)) {
-      return res.status(400).json({ error: 'Invalid employee ID' });
-    }
-
-    // Validate input data
-    if (!name || !basicSalary || !allowances || !deductions) {
-      return res.status(400).json({
-        error: 'All fields are required',
-      });
-    }
-
-    const updatedPayrollData = {
-      name,
+      email,
       basicSalary: parseFloat(basicSalary),
       allowances: parseFloat(allowances),
       deductions: parseFloat(deductions),
+      totalSalary,
+      paidUpto: paidUpto ? new Date(paidUpto) : null,
+      createdAt: new Date(),
+    };
+
+    const result = await db.collection('payroll').insertOne(payrollData);
+
+    res.status(201).json({ message: 'Payroll added successfully', payroll: payrollData });
+  } catch (err) {
+    console.error('Error adding payroll:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// ✅ Fetch all employees & merge payroll details (GET)
+router.get('/payroll-with-details', async (req, res) => {
+  try {
+    const employees = await db.collection('employees_detail').find().toArray();
+    const payrollData = await db.collection('payroll').find().toArray();
+
+    const mergedData = employees.map((employee) => {
+      const payroll = payrollData.find((p) => p.email === employee.email);
+
+      return {
+        _id: employee._id,
+        name: employee.name,
+        email: employee.email,
+        department: employee.department,
+        basicSalary: payroll ? payroll.basicSalary : 0,
+        allowances: payroll ? payroll.allowances : 0,
+        deductions: payroll ? payroll.deductions : 0,
+        totalSalary: payroll ? payroll.totalSalary : 0,
+        paidUpto: payroll?.paidUpto ? payroll.paidUpto.toISOString().split("T")[0] : "", // Format date for frontend
+      };
+    });
+
+    res.status(200).json({ payrollData: mergedData });
+  } catch (err) {
+    console.error('Error fetching payroll with employee details:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// ✅ Update Payroll Data (PUT)
+router.put('/payroll/:email', async (req, res) => {
+  const { email } = req.params;
+  const { basicSalary, allowances, deductions, paidUpto } = req.body;
+
+  try {
+    if (basicSalary === undefined || allowances === undefined || deductions === undefined) {
+      return res.status(400).json({ error: 'All fields are required' });
+    }
+
+    const totalSalary = parseFloat(basicSalary) + parseFloat(allowances) - parseFloat(deductions);
+
+    const updatedPayroll = {
+      basicSalary: parseFloat(basicSalary),
+      allowances: parseFloat(allowances),
+      deductions: parseFloat(deductions),
+      totalSalary,
+      paidUpto: paidUpto ? new Date(paidUpto) : null,
       updatedAt: new Date(),
     };
 
     const result = await db.collection('payroll').updateOne(
-      { _id: new ObjectId(id) },
-      { $set: updatedPayrollData }
+      { email },
+      { $set: updatedPayroll },
+      { upsert: true } // Create payroll if not exists
     );
 
-    if (result.matchedCount === 0) {
-      return res.status(404).json({ error: 'Employee not found' });
-    }
-
-    const updatedEmployee = await db.collection('payroll').findOne({ _id: new ObjectId(id) });
-
-    res.status(200).json({ message: 'Employee payroll updated successfully', employee: updatedEmployee });
+    res.status(200).json({ message: 'Payroll updated successfully', payroll: updatedPayroll });
   } catch (err) {
-    console.error('Error updating payroll data:', err);
+    console.error('Error updating payroll:', err);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
 
-// Route to delete an employee's payroll data
-router.delete('/payroll/:id', async (req, res) => {
-  const { id } = req.params;
+// ✅ Delete Payroll Data (DELETE)
+router.delete('/payroll/:email', async (req, res) => {
+  const { email } = req.params;
 
   try {
-    if (!ObjectId.isValid(id)) {
-      return res.status(400).json({ error: 'Invalid employee ID' });
-    }
-
-    const result = await db.collection('payroll').deleteOne({ _id: new ObjectId(id) });
+    const result = await db.collection('payroll').deleteOne({ email });
 
     if (result.deletedCount === 0) {
-      return res.status(404).json({ error: 'Employee not found' });
+      return res.status(404).json({ error: 'Employee payroll not found' });
     }
 
-    res.status(200).json({ message: 'Employee payroll deleted successfully' });
+    res.status(200).json({ message: 'Payroll deleted successfully' });
   } catch (err) {
-    console.error('Error deleting payroll data:', err);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
-// Route to fetch payroll with employee details
-router.get('/payroll-with-details', async (req, res) => {
-  try {
-    const payrollData = await db.collection('payroll').aggregate([
-      {
-        $lookup: {
-          from: 'employees_detail', // Join with employees_detail collection
-          localField: 'name', // Match payroll name with employee name
-          foreignField: 'name', // Assuming employee name is unique
-          as: 'employeeDetails', // Alias for joined data
-        },
-      },
-      { $unwind: '$employeeDetails' }, // Unwind the employeeDetails array
-      {
-        $project: {
-          _id: 1,
-          name: 1,
-          basicSalary: 1,
-          allowances: 1,
-          deductions: 1,
-          totalSalary: { $sum: ['$basicSalary', '$allowances', { $multiply: [-1, '$deductions'] }] },
-          'employeeDetails.email': 1,
-          'employeeDetails.department': 1,
-        },
-      },
-    ]).toArray();
-
-    res.status(200).json({ payrollData });
-  } catch (err) {
-    console.error('Error fetching payroll data with employee details:', err);
+    console.error('Error deleting payroll:', err);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
