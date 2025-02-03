@@ -1,50 +1,59 @@
 import React, { useState, useEffect } from 'react';
 import './Attendance.css';
-import DatePicker from 'react-datepicker'; // Importing DatePicker
-import 'react-datepicker/dist/react-datepicker.css'; // Import DatePicker styling
-import axios from 'axios'; // For making API calls
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import axios from 'axios';
 
 const Attendance = () => {
-  const [attendanceData, setAttendanceData] = useState([]); // State to store attendance data
-  const [selectedDate, setSelectedDate] = useState(new Date()); // State to track selected date
-  const [employeeEmail, setEmployeeEmail] = useState(''); // Assuming this is the email of the employee logged in
+  const [attendanceData, setAttendanceData] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
-  // Fetch attendance for the selected date
+  // Fetch attendance data from backend
   const fetchAttendance = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/attendance/attendance_by_date', {
-        params: { date: selectedDate.toISOString().split('T')[0] },
-      });
-      setAttendanceData(response.data.Result); // Update state with fetched data
+      const response = await axios.get('http://localhost:3000/attendance/attendance-with-details');
+      if (response.status === 200) {
+        setAttendanceData(response.data.attendanceData);
+      }
     } catch (error) {
-      console.error("Error fetching attendance:", error);
+      console.error('Error fetching attendance:', error);
     }
   };
 
-  // Fetch attendance data whenever the selected date changes
+  // Fetch data in real time
   useEffect(() => {
-    fetchAttendance();
-  }, [selectedDate]);
+    fetchAttendance(); // Initial fetch
+    const interval = setInterval(fetchAttendance, 5000); // Update every 5 seconds
+    return () => clearInterval(interval); // Cleanup on unmount
+  }, []);
 
-  // Function to handle attendance change (mark present or absent)
-  const handleAttendanceChange = async (id, status) => {
+  // Filter attendance data for the selected date
+  const filteredData = attendanceData.map((employee) => {
+    const attendanceForDate = employee.attendance.find(
+      (record) => record.date === selectedDate.toISOString().split('T')[0]
+    );
+    return {
+      ...employee,
+      status: attendanceForDate ? attendanceForDate.status : 'Not Marked',
+    };
+  });
+
+  // Handle marking attendance
+  const handleAttendanceChange = async (email, status) => {
     try {
       const response = await axios.post('http://localhost:3000/attendance/attendance', {
-        employeeEmail, // employee email
-        date: selectedDate.toISOString().split('T')[0], // format date as YYYY-MM-DD
-        status, // 'Present' or 'Absent'
+        employeeEmail: email,
+        date: selectedDate.toISOString().split('T')[0],
+        status,
       });
 
       if (response.status === 200) {
-        // Update state with the new status
-        setAttendanceData((prevData) =>
-          prevData.map((record) =>
-            record.id === id ? { ...record, status } : record
-          )
-        );
+        alert(`Attendance marked as ${status} for ${email}`);
+        window.location.reload(); // Reload the page after marking attendance
       }
     } catch (error) {
-      console.error("Error updating attendance:", error);
+      console.error('Error updating attendance:', error);
+      alert('Failed to update attendance. Please try again.');
     }
   };
 
@@ -52,7 +61,7 @@ const Attendance = () => {
     <div className="attendance-container">
       <h2 className="attendance-title">Employee Attendance</h2>
 
-      {/* Date Picker to select the date */}
+      {/* Date Picker */}
       <div className="datepicker-container">
         <label htmlFor="attendance-date">Select Date: </label>
         <DatePicker
@@ -67,40 +76,31 @@ const Attendance = () => {
       <table className="attendance-table">
         <thead>
           <tr>
-            <th>ID</th>
             <th>Name</th>
-            <th>Date</th>
+            <th>Email</th>
+            <th>Department</th>
             <th>Status</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          {attendanceData.map((record) => (
-            <tr key={record.id} className={record.status === 'Absent' ? 'absent-row' : ''}>
-              <td>{record.id}</td>
-              <td>{record.name}</td>
-              <td>{record.date}</td>
-              <td>{record.status}</td>
+          {filteredData.map((employee) => (
+            <tr key={employee.email} className={employee.status === 'Absent' ? 'absent-row' : ''}>
+              <td>{employee.name}</td>
+              <td>{employee.email}</td>
+              <td>{employee.department}</td>
+              <td>{employee.status}</td>
               <td>
-                {/* Buttons to mark attendance as Present or Absent */}
-                {record.date === selectedDate.toISOString().split('T')[0] ? (
-                  <>
-                    <button
-                      className="attendance-btn present"
-                      onClick={() => handleAttendanceChange(record.id, 'Present')}
-                    >
-                      Mark Present
-                    </button>
-                    <button
-                      className="attendance-btn absent"
-                      onClick={() => handleAttendanceChange(record.id, 'Absent')}
-                    >
-                      Mark Absent
-                    </button>
-                  </>
-                ) : (
-                  <span>No action for past date</span>
-                )}
+                {employee.status === 'Not Marked' || employee.status === 'Absent' ? (
+                  <button className="attendance-btn present" onClick={() => handleAttendanceChange(employee.email, 'Present')}>
+                    Mark Present
+                  </button>
+                ) : null}
+                {employee.status === 'Not Marked' || employee.status === 'Present' ? (
+                  <button className="attendance-btn absent" onClick={() => handleAttendanceChange(employee.email, 'Absent')}>
+                    Mark Absent
+                  </button>
+                ) : null}
               </td>
             </tr>
           ))}
