@@ -9,17 +9,16 @@ const Card = ({ title, value, buttonText, buttonClass, onClick }) => (
   <div className="card">
     <div className="text-center pb-1">
       <h4>{title}</h4>
+      <br />
     </div>
-    <hr />
-    <div className="d-flex justify-content-between">
       <h5>Total:</h5>
       <h5>{value}</h5>
-    </div>
     <button className={`btn ${buttonClass}`} onClick={onClick}>
       {buttonText}
     </button>
   </div>
 );
+
 
 // Pie Chart Component
 const PieChartComponent = ({ title, data, colors }) => (
