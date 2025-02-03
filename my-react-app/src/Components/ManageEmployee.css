@@ -150,7 +150,7 @@ h4 {
 }
 
 .d-flex .form-control {
-  width: 33.33%; /* Ensure search bar takes the same width as buttons */
+ /* Ensure search bar takes the same width as buttons */
   margin-right: 10px;
 }
 
