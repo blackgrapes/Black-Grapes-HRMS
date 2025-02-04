@@ -13,9 +13,7 @@ const SuperAdminReport = () => {
       .get("http://localhost:3000/hrdetail/all")
       .then((response) => {
         console.log("HR Report Data:", response.data);
-        setHrData(
-          response.data.Result ? response.data.Result : []
-        );
+        setHrData(response.data.Result || []); // Set HR data or empty array
       })
       .catch((error) => console.error("Error fetching HR report:", error));
 
@@ -24,9 +22,7 @@ const SuperAdminReport = () => {
       .get("http://localhost:3000/employeedetail/all")
       .then((response) => {
         console.log("Employee Report Data:", response.data);
-        setEmployeeData(
-          response.data.Result ? response.data.Result : []
-        );
+        setEmployeeData(response.data.Result || []); // Set employee data or empty array
       })
       .catch((error) =>
         console.error("Error fetching Employee report:", error)
@@ -43,17 +39,37 @@ const SuperAdminReport = () => {
           <table className="report-table">
             <thead>
               <tr>
+                <th>Image</th>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Designation</th>
+                <th>Address</th>
+                <th>Phone</th>
+                <th>Department</th>
+                <th>Joining Date</th>
+                <th>Salary</th>
               </tr>
             </thead>
             <tbody>
               {hrData.map((hr) => (
                 <tr key={hr.id || hr._id}>
+                  <td>
+                    <img
+                      src={hr.image || "https://via.placeholder.com/50"}
+                      alt={hr.name}
+                      className="hr-image"
+                    />
+                  </td>
                   <td>{hr.name}</td>
                   <td>{hr.email}</td>
-                  <td>{hr.designation}</td>
+                  <td>{hr.address || "N/A"}</td>
+                  <td>{hr.phone || "N/A"}</td>
+                  <td>{hr.department || "N/A"}</td>
+                  <td>
+                    {hr.joiningDate
+                      ? new Date(hr.joiningDate).toLocaleDateString()
+                      : "N/A"}
+                  </td>
+                  <td>{hr.salary || "N/A"}</td>
                 </tr>
               ))}
             </tbody>
@@ -74,6 +90,7 @@ const SuperAdminReport = () => {
                 <th>Email</th>
                 <th>Address</th>
                 <th>Phone</th>
+                <th>Department</th>
                 <th>Designation</th>
                 <th>Manager</th>
                 <th>Joining Date</th>
@@ -94,6 +111,7 @@ const SuperAdminReport = () => {
                   <td>{employee.email}</td>
                   <td>{employee.address || "N/A"}</td>
                   <td>{employee.phone || "N/A"}</td>
+                  <td>{employee.department || "N/A"}</td>
                   <td>{employee.designation || "N/A"}</td>
                   <td>{employee.manager || "N/A"}</td>
                   <td>
