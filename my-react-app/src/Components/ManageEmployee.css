@@ -128,39 +128,41 @@ h4 {
 }
 
 .btn-sm {
-  font-size: 14px; /* Increased font size */
-  padding: 8px 15px; /* Increased padding */
+  font-size: 12px; /* Smaller font size for smaller buttons */
+  padding: 6px 12px; /* Reduced padding for smaller buttons */
 }
 
 /* Back Button */
 .btn-secondary {
-  margin-top: 10px;
-  margin-bottom: 30px;
-  padding: 8px 15px; /* Match padding to other buttons */
-  font-size: 14px; /* Match font size to other buttons */
-  width: 33.33%; /* Ensure all buttons have the same width */
+  padding: 6px 12px; /* Smaller padding for the Back button */
+  font-size: 12px; /* Smaller font size for the Back button */
+  width: auto; /* Ensure Back button does not take full space */
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 /* Search Bar and HR Scroll Button */
 .d-flex {
   display: flex; /* Use flexbox for row layout */
-  justify-content: space-between; /* Align search bar, HR List, and Back button */
+  justify-content: center; /* Center the search bar */
   gap: 15px; /* Space between buttons */
   margin-bottom: 20px; /* Add space between the search bar and the sections */
 }
 
+/* Search Bar styling */
 .d-flex .form-control {
-  width: 33.33%; /* Ensure search bar takes the same width as buttons */
-  margin-right: 10px;
+  width: 40%; /* Make the search bar slightly smaller and centered */
+  margin: 0% 25%; /* Space on both sides */
 }
 
+/* HR List Button and Back Button */
 .d-flex .btn-info,
 .d-flex .btn-primary {
-  width: 33.33%; /* Ensure the HR List and Search buttons have equal width */
+  width: auto; /* HR List button should not stretch */
 }
 
-.d-flex .btn {
-  margin: 0; /* Reset margin */
+.d-flex .btn-secondary {
+  width: auto; /* Back button should also have an auto width */
 }
 
 /* Responsive Adjustments */

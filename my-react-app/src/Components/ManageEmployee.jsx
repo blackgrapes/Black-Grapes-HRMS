@@ -110,9 +110,6 @@ const ManageEmployeeDetails = () => {
           value={searchTerm}
           onChange={handleSearchChange}
         />
-        <button className="btn btn-info" onClick={scrollToHRSection}>
-          HR List
-        </button>
       </div>
 
       {/* Employee Section */}
@@ -125,6 +122,9 @@ const ManageEmployeeDetails = () => {
           <Link to="/SuperSignupEmployee" className="btn btn-primary">
             SignUp Employee
           </Link>
+          <button className="btn btn-info" onClick={scrollToHRSection}>
+          HR List
+        </button>
         </div>
 
         {/* Employee Table */}
