@@ -97,9 +97,10 @@ router.get('/hr', async (req, res) => {
 });
 
 // Route to update HR details
-router.put('/update_hr/:email', async (req, res) => {
+router.put('/update_hr/:email', upload.single('profilePicture'), async (req, res) => {
   const { email } = req.params; // Extract email from the request parameters
-  const { phone, salary } = req.body; // Get updated fields from the request body
+  const { phone, address, department } = req.body; // Get updated fields from the request body
+  const profilePicture = req.file ? req.file.filename : null; // Handle profile picture upload
 
   try {
     // Validate email
@@ -110,7 +111,9 @@ router.put('/update_hr/:email', async (req, res) => {
     // Prepare update data
     const updateData = {};
     if (phone) updateData.phone = phone;
-    if (salary) updateData.salary = salary;
+    if (address) updateData.address = address;
+    if (department) updateData.department = department;
+    if (profilePicture) updateData.image = profilePicture; // Update profile picture
 
     // Ensure there are fields to update
     if (Object.keys(updateData).length === 0) {

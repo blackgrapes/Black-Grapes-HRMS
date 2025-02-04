@@ -14,6 +14,7 @@ const Profile = () => {
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [originalDetails, setOriginalDetails] = useState({});
 
   // Retrieve email from localStorage
   const email = localStorage.getItem("email");
@@ -32,7 +33,9 @@ const Profile = () => {
         });
 
         if (response.data && response.data.Result) {
-          sethrDetails(response.data.Result); // Update state with fetched details
+          const fetchedDetails = response.data.Result;
+          sethrDetails(fetchedDetails); // Update state with fetched details
+          setOriginalDetails(fetchedDetails); // Save original data for cancellation
         } else {
           setError(response.data.Error || "Failed to fetch employee details.");
         }
@@ -45,11 +48,11 @@ const Profile = () => {
     };
 
     fetchhrDetails();
-  }, [email]); // Fetch details on component mount or email change
+  }, [email]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setEmployeeDetails((prevDetails) => ({
+    sethrDetails((prevDetails) => ({
       ...prevDetails,
       [name]: value,
     }));
@@ -67,6 +70,32 @@ const Profile = () => {
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const handleSaveChanges = async () => {
+    try {
+      const response = await axios.put(
+        `http://localhost:3000/hrdetail/update_hr/${hrDetails.email}`,
+        {
+          phone: hrDetails.phone,
+          address: hrDetails.address,
+          department: hrDetails.department,
+          profilePicture: hrDetails.profilePicture, // If you want to update the profile picture
+        }
+      );
+
+      if (response.status === 200) {
+        alert("Changes saved successfully!");
+        setOriginalDetails(hrDetails); // Update original details after save
+      }
+    } catch (err) {
+      console.error("Error saving changes:", err);
+      alert("An error occurred while saving changes.");
+    }
+  };
+
+  const handleCancelChanges = () => {
+    sethrDetails(originalDetails); // Reset form to original details
   };
 
   if (loading) {
@@ -122,10 +151,10 @@ const Profile = () => {
           />
         </div>
         <div className="profile-field">
-          <label>address</label>
+          <label>Address</label>
           <input
             type="text"
-            name="location"
+            name="address"
             value={hrDetails.address}
             onChange={handleChange}
           />
@@ -142,8 +171,12 @@ const Profile = () => {
       </div>
 
       <div className="profile-actions">
-        <button className="save-btn">Save Changes</button>
-        <button className="cancel-btn">Cancel</button>
+        <button className="save-btn" onClick={handleSaveChanges}>
+          Save Changes
+        </button>
+        <button className="cancel-btn" onClick={handleCancelChanges}>
+          Cancel
+        </button>
       </div>
     </div>
   );
