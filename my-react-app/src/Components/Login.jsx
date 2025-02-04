@@ -27,7 +27,8 @@ const Login = () => {
       .then((result) => {
         if (result.data.loginStatus) {
           localStorage.setItem("valid", true);
-          navigate("/dashboard");
+          localStorage.setItem("email", values.email); // Store email in localStorage
+          navigate("/dashboard/profile"); // Redirect to the profile page
         } else {
           setError(result.data.Error);
           setAttempts((prev) => prev + 1); // Increment incorrect attempts

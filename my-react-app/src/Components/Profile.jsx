@@ -1,16 +1,51 @@
-import React, { useState } from 'react';
-import './Profile.css'; // Import the corresponding CSS file
+import React, { useEffect, useState } from "react";
+import axios from "axios";  // Make sure axios is imported to fetch data
+import "./Profile.css"; // Import the corresponding CSS file
 
 const Profile = () => {
-  const [employeeDetails, setEmployeeDetails] = useState({
-    name: 'Michael Johnson',
-    position: 'HR Specialist',
-    department: 'Human Resources',
-    email: 'michael.johnson@company.com',
-    phone: '123-456-7890',
-    location: 'New York, NY',
-    profilePicture: 'https://via.placeholder.com/150', // Placeholder image URL
+  const [hrDetails, sethrDetails] = useState({
+    name: "",
+    position: "",
+    department: "",
+    email: "",
+    phone: "",
+    address: "",
+    profilePicture: "https://via.placeholder.com/150", // Placeholder image URL
   });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Retrieve email from localStorage
+  const email = localStorage.getItem("email");
+
+  useEffect(() => {
+    const fetchhrDetails = async () => {
+      if (!email) {
+        setError("Email is required to fetch employee details.");
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const response = await axios.get("http://localhost:3000/hrdetail/hr", {
+          params: { email }, // Pass query parameters for email
+        });
+
+        if (response.data && response.data.Result) {
+          sethrDetails(response.data.Result); // Update state with fetched details
+        } else {
+          setError(response.data.Error || "Failed to fetch employee details.");
+        }
+      } catch (err) {
+        console.error("Error fetching employee details:", err);
+        setError("An error occurred while fetching employee details.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchhrDetails();
+  }, [email]); // Fetch details on component mount or email change
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,7 +60,7 @@ const Profile = () => {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setEmployeeDetails((prevDetails) => ({
+        sethrDetails((prevDetails) => ({
           ...prevDetails,
           profilePicture: reader.result,
         }));
@@ -34,13 +69,21 @@ const Profile = () => {
     }
   };
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="error">{error}</div>;
+  }
+
   return (
     <div className="profile-container">
       <div className="profile-header">
         <div className="profile-picture-container">
           <img
             className="profile-picture"
-            src={employeeDetails.profilePicture}
+            src={hrDetails.profilePicture}
             alt="Profile"
           />
           <label htmlFor="profilePicture" className="change-profile-btn">
@@ -54,8 +97,8 @@ const Profile = () => {
             onChange={handleImageChange}
           />
         </div>
-        <h1 className="profile-title">{employeeDetails.name}</h1>
-        <p className="profile-position">{employeeDetails.position}</p>
+        <h1 className="profile-title">{hrDetails.name}</h1>
+        <p className="profile-position">HR</p>
       </div>
 
       <div className="profile-details">
@@ -64,8 +107,9 @@ const Profile = () => {
           <input
             type="email"
             name="email"
-            value={employeeDetails.email}
+            value={hrDetails.email}
             onChange={handleChange}
+            disabled
           />
         </div>
         <div className="profile-field">
@@ -73,16 +117,16 @@ const Profile = () => {
           <input
             type="tel"
             name="phone"
-            value={employeeDetails.phone}
+            value={hrDetails.phone}
             onChange={handleChange}
           />
         </div>
         <div className="profile-field">
-          <label>Location</label>
+          <label>address</label>
           <input
             type="text"
             name="location"
-            value={employeeDetails.location}
+            value={hrDetails.address}
             onChange={handleChange}
           />
         </div>
@@ -91,7 +135,7 @@ const Profile = () => {
           <input
             type="text"
             name="department"
-            value={employeeDetails.department}
+            value={hrDetails.department}
             onChange={handleChange}
           />
         </div>

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import './SuperAdminReport.css';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import "./SuperAdminReport.css";
 
 const SuperAdminReport = () => {
   const [hrData, setHrData] = useState([]);
@@ -9,20 +9,28 @@ const SuperAdminReport = () => {
   // Fetch HR and Employee data
   useEffect(() => {
     // Fetch HR report data
-    axios.get('http://localhost:3000/hrdetail/all')
+    axios
+      .get("http://localhost:3000/hrdetail/all")
       .then((response) => {
         console.log("HR Report Data:", response.data);
-        setHrData(Array.isArray(response.data) ? response.data : response.data.hrData || []);
+        setHrData(
+          response.data.Result ? response.data.Result : []
+        );
       })
-      .catch((error) => console.error('Error fetching HR report:', error));
+      .catch((error) => console.error("Error fetching HR report:", error));
 
     // Fetch Employee report data
-    axios.get('http://localhost:3000/employeedetail/all')
+    axios
+      .get("http://localhost:3000/employeedetail/all")
       .then((response) => {
         console.log("Employee Report Data:", response.data);
-        setEmployeeData(Array.isArray(response.data) ? response.data : response.data.employees || []);
+        setEmployeeData(
+          response.data.Result ? response.data.Result : []
+        );
       })
-      .catch((error) => console.error('Error fetching Employee report:', error));
+      .catch((error) =>
+        console.error("Error fetching Employee report:", error)
+      );
   }, []);
 
   return (
@@ -77,7 +85,7 @@ const SuperAdminReport = () => {
                 <tr key={employee.id || employee._id}>
                   <td>
                     <img
-                      src={employee.image || 'https://via.placeholder.com/50'}
+                      src={employee.image || "https://via.placeholder.com/50"}
                       alt={employee.name}
                       className="employee-image"
                     />
@@ -88,7 +96,11 @@ const SuperAdminReport = () => {
                   <td>{employee.phone || "N/A"}</td>
                   <td>{employee.designation || "N/A"}</td>
                   <td>{employee.manager || "N/A"}</td>
-                  <td>{employee.joiningDate ? new Date(employee.joiningDate).toLocaleDateString() : "N/A"}</td>
+                  <td>
+                    {employee.joiningDate
+                      ? new Date(employee.joiningDate).toLocaleDateString()
+                      : "N/A"}
+                  </td>
                   <td>{employee.salary || "N/A"}</td>
                 </tr>
               ))}

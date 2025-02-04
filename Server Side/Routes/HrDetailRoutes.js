@@ -18,11 +18,11 @@ const router = express.Router();
 
 // Route to add a new HR
 router.post("/add_hr", upload.single('image'), async (req, res) => {
-  const { name, email, phone, salary, dob, joiningDate } = req.body;
+  const { name, email, phone, salary, dob, joiningDate, address, department } = req.body;
 
   try {
     // Validate input data
-    if (!name || !email || !phone || !salary || !dob || !joiningDate) {
+    if (!name || !email || !phone || !salary || !dob || !joiningDate || !address || !department) {
       return res.status(400).json({ Error: "All fields are required" });
     }
 
@@ -40,6 +40,8 @@ router.post("/add_hr", upload.single('image'), async (req, res) => {
       salary,
       dob,
       joiningDate,
+      address,        // Save address
+      department,     // Save department
       image: req.file ? req.file.filename : null, // Save image filename if uploaded
     };
 
@@ -53,6 +55,7 @@ router.post("/add_hr", upload.single('image'), async (req, res) => {
     return res.status(500).json({ Error: "Internal server error" });
   }
 });
+
 
 // Route to fetch all HR records
 router.get('/all', async (req, res) => {

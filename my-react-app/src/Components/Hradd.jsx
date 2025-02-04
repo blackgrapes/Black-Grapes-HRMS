@@ -11,6 +11,8 @@ const AddHR = () => {
     image: '',
     dob: '',
     joiningDate: '',
+    address: '',   // New field for address
+    department: '' // New field for department
   });
 
   const [errorMessage, setErrorMessage] = useState('');
@@ -28,7 +30,9 @@ const AddHR = () => {
       !hr.salary ||
       !hr.image ||
       !hr.dob ||
-      !hr.joiningDate
+      !hr.joiningDate ||
+      !hr.address ||        // Check for the new address field
+      !hr.department        // Check for the new department field
     ) {
       setErrorMessage('Please fill all fields.');
       return;
@@ -57,7 +61,9 @@ const AddHR = () => {
             image: '',
             dob: '',
             joiningDate: '',
-          }); // Clear the form
+            address: '',   // Reset new fields
+            department: ''  // Reset new fields
+          });
           navigate('/SignupHR'); // Redirect to HR management page
           alert("Please Sign-Up HR with the same Email");
         } else {
@@ -158,6 +164,34 @@ const AddHR = () => {
               id="inputJoiningDate"
               value={hr.joiningDate}
               onChange={(e) => setHR({ ...hr, joiningDate: e.target.value })}
+            />
+          </div>
+
+          <div className="col-12">
+            <label htmlFor="inputAddress" className="form-label">
+              Address
+            </label>
+            <input
+              type="text"
+              className="form-control rounded-0"
+              id="inputAddress"
+              placeholder="Enter Address"
+              value={hr.address}
+              onChange={(e) => setHR({ ...hr, address: e.target.value })}
+            />
+          </div>
+
+          <div className="col-12">
+            <label htmlFor="inputDepartment" className="form-label">
+              Department
+            </label>
+            <input
+              type="text"
+              className="form-control rounded-0"
+              id="inputDepartment"
+              placeholder="Enter Department"
+              value={hr.department}
+              onChange={(e) => setHR({ ...hr, department: e.target.value })}
             />
           </div>
 
