@@ -151,8 +151,8 @@ h4 {
 
 /* Search Bar styling */
 .d-flex .form-control {
-  width: 40%; /* Make the search bar slightly smaller and centered */
-  margin: 0% 25%; /* Space on both sides */
+  /* Ensure search bar takes the same width as buttons */
+  margin-right: 10px;
 }
 
 /* HR List Button and Back Button */

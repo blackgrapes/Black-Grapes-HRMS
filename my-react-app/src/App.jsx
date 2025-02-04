@@ -30,6 +30,7 @@ import Category from './Components/Category';
 import SuperAdminReport from './Components/SuperAdminReport';
 import SuperProfile from './Components/SuperProfile';
 import SuperAdminSignup from './Components/SuperAdminSignup';
+import ShowAttendance from './Components/ShowAttendance';
 
 
 
@@ -82,6 +83,7 @@ function App() {
           <Route path="/dashboard/Report" element={<Report />} />
           <Route path="/dashboard/signup_employee" element={<SignupEmployee />} />
           <Route path="/dashboard/Attendance" element={<Attendance />} />
+          <Route path="/dashboard/ShowAttendance" element={<ShowAttendance/>} />
          
 
 
