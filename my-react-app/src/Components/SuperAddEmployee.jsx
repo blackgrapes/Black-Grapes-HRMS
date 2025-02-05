@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import './SuperAddEmployee.css'; 
+
 const AddEmployee = () => {
   const [employee, setEmployee] = useState({
     name: "",
@@ -9,12 +10,12 @@ const AddEmployee = () => {
     salary: "",
     address: "",
     phone: "",
-    role: "", // Updated this field to "role" instead of "designation"
+    role: "",
     image: "",
     manager: "",
     dob: "",
     joiningDate: "",
-    department: "", // Added department
+    department: "",
   });
 
   const [errorMessage, setErrorMessage] = useState("");
@@ -24,35 +25,32 @@ const AddEmployee = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  
-    // Simple validation
+
     if (
       !employee.name ||
       !employee.email ||
       !employee.salary ||
       !employee.phone ||
-      !employee.role || // Updated validation to check for "role"
+      !employee.role ||
       !employee.image ||
       !employee.manager ||
       !employee.dob ||
       !employee.joiningDate ||
-      !employee.department // Added validation for department
+      !employee.department
     ) {
       setErrorMessage("Please fill all fields.");
       return;
     }
-  
+
     setIsSubmitting(true);
-  
+
     axios
       .post("http://localhost:3000/employeedetail/add_employee", employee)
       .then((result) => {
         console.log(result);
         if (result.status === 409) {
           alert("Employee already exists");
-          console.log("already exists");
         }
-        // Clear the form by resetting the state to initial values
         if (result.status === 200) {
           setEmployee({
             name: "",
@@ -60,12 +58,12 @@ const AddEmployee = () => {
             salary: "",
             address: "",
             phone: "",
-            role: "", // Reset the "role"
+            role: "",
             image: "",
             manager: "",
             dob: "",
             joiningDate: "",
-            department: "", // Reset department as well
+            department: "",
           });
           navigate("/SuperSignupEmployee");
           alert("Employee added successfully. Please sign up with the same email.");
@@ -75,24 +73,26 @@ const AddEmployee = () => {
       })
       .catch((err) => console.log(err))
       .finally(() => {
-        // Set isSubmitting to false once the request is complete
         setIsSubmitting(false);
       });
   };
 
   return (
     <div className="d-flex justify-content-center align-items-center mt-3">
-      <div className="p-3 rounded w-50 border">
-        <h3 className="text-center">Add Employee</h3>
+      {/* Main container for the box */}
+      <div className="employee-form-box p-4 rounded border shadow-lg w-75">
+        <h3 className="text-center mb-4">Add Employee</h3>
         {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
-        <form className="row g-1" onSubmit={handleSubmit}>
+        
+        {/* Form starts here */}
+        <form className="row g-3" onSubmit={handleSubmit}>
           <div className="col-12">
             <label htmlFor="inputName" className="form-label">
               Name
             </label>
             <input
               type="text"
-              className="form-control rounded-0"
+              className="form-control"
               id="inputName"
               placeholder="Enter Name"
               onChange={(e) => setEmployee({ ...employee, name: e.target.value })}
@@ -105,7 +105,7 @@ const AddEmployee = () => {
             </label>
             <input
               type="email"
-              className="form-control rounded-0"
+              className="form-control"
               id="inputEmail4"
               placeholder="Enter Email"
               autoComplete="off"
@@ -119,7 +119,7 @@ const AddEmployee = () => {
             </label>
             <input
               type="text"
-              className="form-control rounded-0"
+              className="form-control"
               id="inputPhone"
               placeholder="Enter Phone Number"
               onChange={(e) => setEmployee({ ...employee, phone: e.target.value })}
@@ -132,7 +132,7 @@ const AddEmployee = () => {
             </label>
             <input
               type="date"
-              className="form-control rounded-0"
+              className="form-control"
               id="inputDOB"
               onChange={(e) => setEmployee({ ...employee, dob: e.target.value })}
             />
@@ -144,7 +144,7 @@ const AddEmployee = () => {
             </label>
             <input
               type="date"
-              className="form-control rounded-0"
+              className="form-control"
               id="inputJoiningDate"
               onChange={(e) => setEmployee({ ...employee, joiningDate: e.target.value })}
             />
@@ -156,7 +156,7 @@ const AddEmployee = () => {
             </label>
             <input
               type="text"
-              className="form-control rounded-0"
+              className="form-control"
               id="inputManager"
               placeholder="Enter Manager's Name"
               onChange={(e) => setEmployee({ ...employee, manager: e.target.value })}
@@ -169,10 +169,10 @@ const AddEmployee = () => {
             </label>
             <input
               type="text"
-              className="form-control rounded-0"
+              className="form-control"
               id="inputRole"
               placeholder="Enter Role"
-              onChange={(e) => setEmployee({ ...employee, role: e.target.value })} // Updated field to "role"
+              onChange={(e) => setEmployee({ ...employee, role: e.target.value })}
             />
           </div>
 
@@ -182,7 +182,7 @@ const AddEmployee = () => {
             </label>
             <input
               type="text"
-              className="form-control rounded-0"
+              className="form-control"
               id="inputDepartment"
               placeholder="Enter Department"
               onChange={(e) => setEmployee({ ...employee, department: e.target.value })}
@@ -195,7 +195,7 @@ const AddEmployee = () => {
             </label>
             <input
               type="text"
-              className="form-control rounded-0"
+              className="form-control"
               id="inputSalary"
               placeholder="Enter Salary"
               autoComplete="off"
@@ -209,21 +209,21 @@ const AddEmployee = () => {
             </label>
             <input
               type="text"
-              className="form-control rounded-0"
+              className="form-control"
               id="inputAddress"
-              placeholder="1234 Main St"
+              placeholder="Enter Address"
               autoComplete="off"
               onChange={(e) => setEmployee({ ...employee, address: e.target.value })}
             />
           </div>
 
           <div className="col-12 mb-3">
-            <label className="form-label" htmlFor="inputGroupFile01">
+            <label htmlFor="inputGroupFile01" className="form-label">
               Select Image
             </label>
             <input
               type="file"
-              className="form-control rounded-0"
+              className="form-control"
               id="inputGroupFile01"
               name="image"
               onChange={(e) => setEmployee({ ...employee, image: e.target.files[0] })}
@@ -234,7 +234,7 @@ const AddEmployee = () => {
             <button
               type="submit"
               className="btn btn-primary w-100"
-              disabled={isSubmitting} // Disable button when submitting
+              disabled={isSubmitting}
             >
               {isSubmitting ? "Adding..." : "Add Employee"}
             </button>

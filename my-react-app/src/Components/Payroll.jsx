@@ -80,6 +80,7 @@ const Payroll = () => {
     <div className="payroll-container">
       <h1>Payroll Management</h1>
 
+      {/* Search bar */}
       <input
         type="text"
         placeholder="Search Employee"
@@ -88,71 +89,74 @@ const Payroll = () => {
         className="search-bar"
       />
 
-      <table className="payroll-table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Department</th>
-            <th>Basic Salary</th>
-            <th>Allowances</th>
-            <th>Deductions</th>
-            <th>Total Salary</th>
-            <th>Paid Upto</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredData.map((employee) => {
-            const basicSalary = parseFloat(employee.basicSalary) || 0;
-            const allowances = parseFloat(employee.allowances) || 0;
-            const deductions = parseFloat(employee.deductions) || 0;
-            const totalSalary = basicSalary + allowances - deductions;
+      {/* Div to contain payroll details */}
+      <div className="payroll-details-container">
+        <table className="payroll-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Department</th>
+              <th>Basic Salary</th>
+              <th>Allowances</th>
+              <th>Deductions</th>
+              <th>Total Salary</th>
+              <th>Paid Upto</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredData.map((employee) => {
+              const basicSalary = parseFloat(employee.basicSalary) || 0;
+              const allowances = parseFloat(employee.allowances) || 0;
+              const deductions = parseFloat(employee.deductions) || 0;
+              const totalSalary = basicSalary + allowances - deductions;
 
-            return (
-              <tr key={employee.email}>
-                <td>{employee.name}</td>
-                <td>{employee.email}</td>
-                <td>{employee.department}</td>
-                <td>
-                  <input
-                    type="number"
-                    value={employee.basicSalary}
-                    onChange={(e) => handleInputChange(employee.email, "basicSalary", e.target.value)}
-                  />
-                </td>
-                <td>
-                  <input
-                    type="number"
-                    value={employee.allowances}
-                    onChange={(e) => handleInputChange(employee.email, "allowances", e.target.value)}
-                  />
-                </td>
-                <td>
-                  <input
-                    type="number"
-                    value={employee.deductions}
-                    onChange={(e) => handleInputChange(employee.email, "deductions", e.target.value)}
-                  />
-                </td>
-                <td>${totalSalary.toFixed(2)}</td>
-                <td>
-                  <input
-                    type="date"
-                    value={employee.paidUpto || ""}
-                    onChange={(e) => handleInputChange(employee.email, "paidUpto", e.target.value)}
-                  />
-                </td>
-                <td>
-                  <button onClick={() => handleSavePayroll(employee)} className="save-btn">
-                    Save
-                  </button>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+              return (
+                <tr key={employee.email}>
+                  <td>{employee.name}</td>
+                  <td>{employee.email}</td>
+                  <td>{employee.department}</td>
+                  <td>
+                    <input
+                      type="number"
+                      value={employee.basicSalary}
+                      onChange={(e) => handleInputChange(employee.email, "basicSalary", e.target.value)}
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="number"
+                      value={employee.allowances}
+                      onChange={(e) => handleInputChange(employee.email, "allowances", e.target.value)}
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="number"
+                      value={employee.deductions}
+                      onChange={(e) => handleInputChange(employee.email, "deductions", e.target.value)}
+                    />
+                  </td>
+                  <td>${totalSalary.toFixed(2)}</td>
+                  <td>
+                    <input
+                      type="date"
+                      value={employee.paidUpto || ""}
+                      onChange={(e) => handleInputChange(employee.email, "paidUpto", e.target.value)}
+                    />
+                  </td>
+                  <td>
+                    <button onClick={() => handleSavePayroll(employee)} className="save-btn">
+                      Save
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
