@@ -38,7 +38,7 @@ const ManageEmployeeDetails = () => {
   const handleDeleteEmployee = (id) => {
     if (window.confirm("Are you sure you want to delete this employee?")) {
       axios
-        .delete(`http://localhost:3000/auth/delete_employee/${id}`)
+        .delete(`http://localhost:3000/employeedetail/delete_employee/${id}`)
         .then((result) => {
           if (result.data.Status) {
             alert("Employee deleted successfully");

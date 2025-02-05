@@ -45,6 +45,7 @@ router.post("/add_employee", async (req, res) => {
       manager,
       dob,
       joiningDate,
+      createdAt: new Date(), // Store creation time for sorting
       image: req.file ? req.file.filename : null, // Save image filename if uploaded
     };
 
@@ -59,10 +60,10 @@ router.post("/add_employee", async (req, res) => {
   }
 });
 
-// Route to fetch all employees
+// Route to fetch all employees (sorted by latest created)
 router.get('/all', async (req, res) => {
   try {
-    const employees = await db.collection("employees_detail").find({}).toArray(); // Convert cursor to array
+    const employees = await db.collection("employees_detail").find({}).sort({ createdAt: -1 }).toArray(); // Sort by latest
     console.log('Fetching employees...');
     if (employees.length === 0) {
       return res.status(404).json({ Error: 'No employees found' });
@@ -136,6 +137,30 @@ router.put('/update_employee/:email', async (req, res) => {
   } catch (err) {
     console.error('Error updating employee:', err.message);
     res.status(500).json({ Error: 'Internal server error' });
+  }
+});
+
+// Route to delete employee by ID
+router.delete('/delete_employee/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Validate ObjectId
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({ Error: "Invalid Employee ID" });
+    }
+
+    const result = await db.collection("employees_detail").deleteOne({ _id: new ObjectId(id) });
+
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ Error: "Employee not found" });
+    }
+
+    console.log("Employee deleted:", id);
+    res.status(200).json({ message: "Employee deleted successfully" });
+  } catch (err) {
+    console.error("Error deleting employee:", err);
+    res.status(500).json({ Error: "Internal server error" });
   }
 });
 
