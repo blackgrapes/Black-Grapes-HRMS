@@ -3,17 +3,14 @@ import { db } from "../utils/db.js";
 
 const router = express.Router();
 
+// Fetch attendance with employee details
 router.get("/attendance-with-details", async (req, res) => {
   try {
-    const currentDate = new Date().toISOString().split("T")[0]; // Get today's date in YYYY-MM-DD format
+    const currentDate = new Date().toISOString().split("T")[0]; // Format: YYYY-MM-DD
 
-    // Fetch all employees
+    // Fetch employees, attendance, and approved leave requests
     const employees = await db.collection("employees_detail").find().toArray();
-
-    // Fetch all attendance records
     const attendanceData = await db.collection("attendance").find().toArray();
-
-    // Fetch all approved leave requests for today
     const leaveData = await db
       .collection("leave_requests")
       .find({
@@ -23,35 +20,29 @@ router.get("/attendance-with-details", async (req, res) => {
       })
       .toArray();
 
-    // Array to store new attendance entries for employees on leave
     const newAttendanceEntries = [];
 
-    // Process each employee
+    // Process employee attendance
     const mergedData = employees.map((employee) => {
-      // Get attendance records for this employee
-      let attendanceRecords = attendanceData.filter(
+      const attendanceRecords = attendanceData.filter(
         (a) => a.employeeEmail === employee.email
       );
 
-      // Check if employee is on approved leave today
       const isOnLeave = leaveData.some(
         (leave) => leave.email === employee.email
       );
 
-      // Check if an attendance record exists for today
       const hasAttendanceToday = attendanceRecords.some(
         (record) => record.date === currentDate
       );
 
       if (isOnLeave) {
         if (hasAttendanceToday) {
-          // Update existing attendance record to "On Leave"
           db.collection("attendance").updateOne(
             { employeeEmail: employee.email, date: currentDate },
             { $set: { status: "On Leave" } }
           );
         } else {
-          // Create new attendance record for leave
           const newAttendance = {
             employeeEmail: employee.email,
             date: currentDate,
@@ -59,7 +50,7 @@ router.get("/attendance-with-details", async (req, res) => {
             createdAt: new Date(),
           };
           newAttendanceEntries.push(newAttendance);
-          attendanceRecords.push(newAttendance); // Add it to the response structure
+          attendanceRecords.push(newAttendance);
         }
       }
 
@@ -75,7 +66,6 @@ router.get("/attendance-with-details", async (req, res) => {
       };
     });
 
-    // Insert new attendance records into the database
     if (newAttendanceEntries.length > 0) {
       await db.collection("attendance").insertMany(newAttendanceEntries);
     }
@@ -87,7 +77,7 @@ router.get("/attendance-with-details", async (req, res) => {
   }
 });
 
-// Route to add or update attendance
+// Add or update attendance
 router.post("/attendance", async (req, res) => {
   const { employeeEmail, date, status } = req.body;
 
@@ -101,33 +91,28 @@ router.post("/attendance", async (req, res) => {
     const employee = await db
       .collection("employees_detail")
       .findOne({ email: employeeEmail });
+
     if (!employee) {
       return res.status(404).json({ error: "Employee not found" });
     }
 
-    const existingAttendance = await db
+    // Upsert (update if exists, insert if not)
+    await db
       .collection("attendance")
-      .findOne({ employeeEmail, date });
-    if (existingAttendance) {
-      await db
-        .collection("attendance")
-        .updateOne({ employeeEmail, date }, { $set: { status } });
-      return res
-        .status(200)
-        .json({ message: "Attendance updated successfully" });
-    } else {
-      await db
-        .collection("attendance")
-        .insertOne({ employeeEmail, date, status });
-      return res.status(200).json({ message: "Attendance added successfully" });
-    }
+      .updateOne(
+        { employeeEmail, date },
+        { $set: { status } },
+        { upsert: true }
+      );
+
+    res.status(200).json({ message: "Attendance updated successfully" });
   } catch (err) {
     console.error("Error updating attendance:", err);
-    return res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
-// Route to get attendance for a specific employee
+// Get attendance for a specific employee within a date range
 router.get("/attendance", async (req, res) => {
   const { employeeEmail, fromDate, toDate } = req.query;
 
@@ -142,7 +127,7 @@ router.get("/attendance", async (req, res) => {
       .collection("attendance")
       .find({
         employeeEmail,
-        date: { $gte: fromDate, $lte: toDate }, // MongoDB query to filter by date range
+        date: { $gte: fromDate, $lte: toDate },
       })
       .toArray();
 
