@@ -3,10 +3,12 @@ import './Attendance.css';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom'; // Import the useNavigate hook from react-router-dom
 
 const Attendance = () => {
   const [attendanceData, setAttendanceData] = useState([]);
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const navigate = useNavigate(); // Initialize the navigate function
 
   // Fetch attendance data from backend
   const fetchAttendance = async () => {
@@ -57,6 +59,12 @@ const Attendance = () => {
     }
   };
 
+  // Handle showing attendance report
+  const handleShowReport = () => {
+    // Navigate to the attendance report page (replace '/attendance-report' with your route)
+    navigate("/dashboard/ShowAttendance");
+  };
+
   return (
     <div className="attendance-container">
       <h2 className="attendance-title">Employee Attendance</h2>
@@ -71,6 +79,11 @@ const Attendance = () => {
           dateFormat="yyyy-MM-dd"
         />
       </div>
+
+      {/* Show Attendance Report Button */}
+      <button className="show-report-btn" onClick={handleShowReport}>
+        Show Attendance Report
+      </button>
 
       {/* Attendance Table */}
       <table className="attendance-table">
