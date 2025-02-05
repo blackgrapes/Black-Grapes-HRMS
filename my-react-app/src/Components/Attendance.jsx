@@ -3,31 +3,30 @@ import './Attendance.css';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Import the useNavigate hook from react-router-dom
+import { useNavigate } from 'react-router-dom';
 
 const Attendance = () => {
   const [attendanceData, setAttendanceData] = useState([]);
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const navigate = useNavigate(); // Initialize the navigate function
+  const navigate = useNavigate();
 
   // Fetch attendance data from backend
   const fetchAttendance = async () => {
     try {
       const response = await axios.get('http://localhost:3000/attendance/attendance-with-details');
       if (response.status === 200) {
-        setAttendanceData(response.data.attendanceData);
+        console.log(response.data);
+        setAttendanceData(response.data);
       }
     } catch (error) {
       console.error('Error fetching attendance:', error);
     }
   };
 
-  // Fetch data in real time
+  // Fetch data only once when the component mounts
   useEffect(() => {
-    fetchAttendance(); // Initial fetch
-    const interval = setInterval(fetchAttendance, 5000); // Update every 5 seconds
-    return () => clearInterval(interval); // Cleanup on unmount
-  }, []);
+    fetchAttendance();
+  }, []); // Empty dependency array ensures it runs only once
 
   // Filter attendance data for the selected date
   const filteredData = attendanceData.map((employee) => {
@@ -51,7 +50,7 @@ const Attendance = () => {
 
       if (response.status === 200) {
         alert(`Attendance marked as ${status} for ${email}`);
-        window.location.reload(); // Reload the page after marking attendance
+        fetchAttendance(); // Refresh data after marking attendance
       }
     } catch (error) {
       console.error('Error updating attendance:', error);
@@ -61,7 +60,6 @@ const Attendance = () => {
 
   // Handle showing attendance report
   const handleShowReport = () => {
-    // Navigate to the attendance report page (replace '/attendance-report' with your route)
     navigate("/dashboard/ShowAttendance");
   };
 
