@@ -8,13 +8,16 @@
 }
 
 .attendance-title {
+  text-align: center; 
   font-size: 24px;
   color: #333;
-  margin-bottom: 20px;
+  margin-bottom: 0px;
 }
 
 /* Date Picker Container */
 .datepicker-container {
+  display: flex;
+  align-items: center;
   margin-bottom: 20px;
   font-size: 16px;
 }
@@ -27,18 +30,18 @@
   border: 1px solid #ccc;
 }
 
-/* Button Styles */
+/* Show Report Button (Aligned next to Date Picker) */
+/* Show Report Button (Aligned next to Date Picker) */
 .show-report-btn {
-  position: absolute;
-  top: 20px; /* Adjust to your preference */
-  right: 20px; /* Align to the right of the screen */
-  padding: 6px 12px; /* Decrease padding to make the button smaller */
-  background-color: #007BFF;
-  color: white;
+  padding: 6px 10px; /* Reduce the padding to decrease the button length */
+  font-size: 14px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 14px; /* Smaller font size */
+  background-color: #007BFF;
+  color: white;
+  margin-left: 10px; /* Space between the date picker and the button */
+  width: auto; /* Adjust width to the content */
 }
 
 .show-report-btn:hover {
@@ -50,7 +53,7 @@
 .attendance-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 60px; /* Ensure space for the "Show Attendance Report" button */
+  margin-top: 20px; /* Adjust space from the date picker row */
 }
 
 .attendance-table th,
@@ -117,9 +120,12 @@
     font-size: 12px;
   }
 
+  .datepicker-container {
+    flex-direction: column; /* Stack vertically on smaller screens */
+  }
+
   .show-report-btn {
-    font-size: 14px;
-    top: 10px;
-    right: 10px;
+    margin-left: 0; /* Remove the left margin */
+    margin-top: 10px; /* Add top margin for spacing */
   }
 }

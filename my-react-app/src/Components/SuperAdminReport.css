@@ -32,11 +32,13 @@
   .report-table th, .report-table td {
     padding: 10px;
     text-align: center;
-    border: 1px solid #ddd;
+    border: 1px solid #160202;
   }
   
   .report-table th {
+    color: #080101;
     background-color: #f4f4f4;
+
   }
   
   .hr-section {
@@ -44,6 +46,6 @@
   }
   
   .employee-section {
-    background-color: #e6f7ff;
+    background-color: #f3fcff;
   }
   
