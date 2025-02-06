@@ -31,6 +31,7 @@ import SuperAdminReport from './Components/SuperAdminReport';
 import SuperProfile from './Components/SuperProfile';
 import SuperAdminSignup from './Components/SuperAdminSignup';
 import ShowAttendance from './Components/ShowAttendance';
+import Employeeforgot from './Components/Employeeforgot';
 
 
 
@@ -46,6 +47,7 @@ function App() {
         <Route path="/employee_detail/:id" element={<EmployeeDetail />} />
         <Route path="/employee/edit_employee/" element={<EditEmployee />} />
         <Route path="/employee/Leave" element={<Leave/>} />
+        <Route path="/employee/Employeeforgot" element={<Employeeforgot/>} />
         
 
 
