@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 import './ShowAttendance.css';
 
 const ShowAttendance = () => {
@@ -39,6 +41,78 @@ const ShowAttendance = () => {
     fetchAttendance();
   };
 
+  const countStatuses = () => {
+    let presentCount = 0;
+    let absentCount = 0;
+    let leaveCount = 0;
+    let halfDayCount = 0;
+
+    attendanceData.forEach(record => {
+      if (record.status === 'Present') presentCount++;
+      if (record.status === 'Absent') absentCount++;
+      if (record.status === 'On Leave') leaveCount++;
+      if (record.status === 'Half Day') halfDayCount++;
+    });
+
+    return { presentCount, absentCount, leaveCount, halfDayCount };
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return date.toLocaleDateString(undefined, options);
+  };
+
+  const downloadPDF = () => {
+    const doc = new jsPDF();
+
+    // Add header
+    doc.setFontSize(18);
+    doc.setFont("bold");
+    doc.text("BLACK GRAPES GROUP", 105, 15, null, null, "center");
+
+    // Add subheading
+    doc.setFontSize(12);
+    doc.text("Employee Detail Report", 105, 22, null, null, "center");
+
+    // Add download date
+    const downloadDate = new Date().toLocaleDateString();
+    doc.setFontSize(10);
+    doc.text(`Date: ${downloadDate}`, 14, 35);
+
+    // Add employee email in bold
+    doc.setFont("bold");
+    doc.text(`Employee Email: ${email}`, 14, 45);
+
+    // Add date range in words
+    doc.setFont("normal");
+    doc.text(`From: ${formatDate(fromDate)}`, 14, 55);
+    doc.text(`To: ${formatDate(toDate)}`, 14, 60);
+
+    // Calculate attendance status counts
+    const { presentCount, absentCount, leaveCount, halfDayCount } = countStatuses();
+
+    // Add attendance status counts
+    doc.text(`Present: ${presentCount}`, 14, 70);
+    doc.text(`Absent: ${absentCount}`, 14, 75);
+    doc.text(`On Leave: ${leaveCount}`, 14, 80);
+    doc.text(`Half Day: ${halfDayCount}`, 14, 85);
+
+    // Add the attendance data table
+    const tableColumn = ['Date', 'Status'];
+    const tableRows = attendanceData.map(record => [record.date, record.status]);
+
+    // Corrected autoTable usage to ensure proper positioning
+    doc.autoTable({
+      head: [tableColumn],
+      body: tableRows,
+      startY: 95, // Adjust startY position after adding counts and other details
+    });
+
+    // Save the PDF
+    doc.save(`Attendance_Report_${email}_${fromDate}_to_${toDate}.pdf`);
+  };
+
   return (
     <div className="attendance-container">
       <h2>Attendance Tracker</h2>
@@ -59,22 +133,35 @@ const ShowAttendance = () => {
 
       <div className="attendance-list">
         {attendanceData.length > 0 ? (
-          <table>
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {attendanceData.map((record, index) => (
-                <tr key={index}>
-                  <td>{record.date}</td>
-                  <td>{record.status}</td>
+          <>
+            <div className="attendance-summary">
+              <p><strong>Attendance Summary</strong></p>
+              <p><strong>From:</strong> {formatDate(fromDate)}</p>
+              <p><strong>To:</strong> {formatDate(toDate)}</p>
+              <p><strong>Present:</strong> {countStatuses().presentCount}</p>
+              <p><strong>Absent:</strong> {countStatuses().absentCount}</p>
+              <p><strong>On Leave:</strong> {countStatuses().leaveCount}</p>
+              <p><strong>Half Day:</strong> {countStatuses().halfDayCount}</p>
+            </div>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Status</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {attendanceData.map((record, index) => (
+                  <tr key={index}>
+                    <td>{record.date}</td>
+                    <td>{record.status}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <button onClick={downloadPDF} className="download-btn">Download PDF</button>
+          </>
         ) : (
           <div>No attendance data available for this period.</div>
         )}
