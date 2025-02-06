@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './EmployeeLogin.css';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import EmployeeDetail from './EmployeeDetail';
 
 const EmployeeLogin = () => {
@@ -13,7 +13,7 @@ const EmployeeLogin = () => {
     const [error, setError] = useState(null);
     const [attempts, setAttempts] = useState(0); // Track incorrect attempts
     const [isLocked, setIsLocked] = useState(false); // Lockout state
-    const navigate = useNavigate();
+    const navigate = useNavigate(); // Define navigate using useNavigate
     axios.defaults.withCredentials = true;
 
     const handleSubmit = (event) => {
@@ -23,7 +23,8 @@ const EmployeeLogin = () => {
             setError("Too many incorrect attempts. Please try again later.");
             return;
         }
-console.log("values", values)
+
+        console.log("values", values);
         axios.post('http://localhost:3000/employee/employee_login', values)
             .then(result => {
                 if (result.data.loginStatus) {
@@ -47,8 +48,13 @@ console.log("values", values)
             });
     };
 
-    if(employeeLoggedIn){
-        return <EmployeeDetail email={values.email} />
+    const handleForgotPassword = () => {
+        // Navigate to the Forgot Password page
+        navigate('/employee/Employeeforgot'); // Update with the correct route
+    };
+
+    if (employeeLoggedIn) {
+        return <EmployeeDetail email={values.email} />;
     }
 
     return (
@@ -57,7 +63,7 @@ console.log("values", values)
                 <div className="logo-container">
                     <img src="./src/assets/logo.png" alt="Logo" className="logo-image" />
                 </div>
-                <h2 className="text-center">Employee Login </h2>
+                <h2 className="text-center">Employee Login</h2>
                 <div className="text-warning text-center">
                     {error && error}
                 </div>
@@ -90,10 +96,21 @@ console.log("values", values)
                         disabled={isLocked} // Disable button if locked
                         type='Submit'
                     >
-                       
                         Log in
                     </button>
                 </form>
+
+                {/* Forgot Password link */}
+                <div className="forgot-password-link">
+                    <button
+                        className="btn btn-link"
+                        type="button"
+                        onClick={handleForgotPassword}
+                    >
+                        Forgot Password?
+                    </button>
+                </div>
+
                 {attempts > 0 && !isLocked && (
                     <div className="attempts-info">
                         Incorrect attempts: {attempts}/3

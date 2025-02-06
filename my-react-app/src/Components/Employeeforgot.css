@@ -1,0 +1,116 @@
+/* General container for the forgot password form */
+.forgot-password-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f6f9;
+}
+
+.forgot-password-form-container {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 450px;
+}
+
+.forgot-password-logo-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.forgot-password-logo-container img {
+    width: 120px;
+    height: auto;
+}
+
+/* Title */
+.forgot-password-form-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+}
+
+/* Input fields */
+.forgot-password-form-container .form-group {
+    margin-bottom: 20px;
+}
+
+.forgot-password-form-container label {
+    font-size: 14px;
+    color: #555;
+    font-weight: 500;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.forgot-password-form-container input {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    color: #333;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 5px;
+}
+
+.forgot-password-form-container input:focus {
+    border-color: #5e72e4;
+    outline: none;
+}
+
+/* Forgot password button */
+.forgot-password-form-container .btn {
+    background-color: #5e72e4;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 12px;
+    width: 100%;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.forgot-password-form-container .btn:hover {
+    background-color: #4e61d4;
+}
+
+/* Error message */
+.error-message {
+    color: #f44336;
+    font-size: 14px;
+    text-align: center;
+    margin-top: 10px;
+}
+
+/* Success message */
+.success-message {
+    color: #4caf50;
+    font-size: 14px;
+    text-align: center;
+    margin-top: 10px;
+}
+
+/* Back to login link */
+.forgot-password-link {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.forgot-password-link a {
+    color: #5e72e4;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.forgot-password-link a:hover {
+    text-decoration: underline;
+}
