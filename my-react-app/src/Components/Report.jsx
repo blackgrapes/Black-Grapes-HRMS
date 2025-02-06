@@ -57,7 +57,8 @@ const Report = () => {
       employee.name.toLowerCase().includes(value) ||
       employee.email.toLowerCase().includes(value) ||
       employee.role.toLowerCase().includes(value) ||
-      (employee.department && employee.department.toLowerCase().includes(value))
+      (employee.department && employee.department.toLowerCase().includes(value)) ||
+      (employee.company && employee.company.toLowerCase().includes(value))
     );
     setFilteredEmployees(filtered);
   };
@@ -87,9 +88,12 @@ const Report = () => {
       ["Email", employee.email],
       ["Address", employee.address],
       ["Phone", employee.phone],
-      ["Role", employee.role],
+      ["Company", employee.company || "-"],
       ["Department", employee.department || "-"],
-      ["Manager", employee.manager],
+      ["Role", employee.role],
+      ["Manager", employee.manager || "-"],
+      ["Date of Birth", employee.dob || "-"],
+      ["Joining Date", employee.joiningDate || "-"],
       ["Total Salary (Rs.)", payroll.totalSalary],
       ["Paid Upto", payroll.paidUpto]
     ];
@@ -112,7 +116,7 @@ const Report = () => {
         <input
           type="text"
           className="search-input"
-          placeholder="Search by name, email, role, or department"
+          placeholder="Search by name, email, role, department, or company"
           value={searchTerm}
           onChange={handleSearch}
         />
@@ -127,9 +131,9 @@ const Report = () => {
             <th>Email</th>
             <th>Address</th>
             <th>Phone</th>
-            <th>Role</th>
+            <th>Company</th> 
             <th>Department</th>
-            <th>Manager</th>
+            <th>Role</th>      
             <th>Total Salary (Rs.)</th>
             <th>Paid Upto</th>
             <th>Actions</th>
@@ -144,9 +148,9 @@ const Report = () => {
                 <td>{employee.email}</td>
                 <td>{employee.address}</td>
                 <td>{employee.phone}</td>
-                <td>{employee.role}</td>
+                <td>{employee.company || "-"}</td>
                 <td>{employee.department || "-"}</td>
-                <td>{employee.manager}</td>
+                <td>{employee.role}</td>
                 <td>{payroll.totalSalary}</td>
                 <td>{payroll.paidUpto}</td>
                 <td>

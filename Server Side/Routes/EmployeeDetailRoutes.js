@@ -17,13 +17,42 @@ const upload = multer({ storage });
 
 const router = express.Router();
 
+// Companies and their departments and roles
+const companies = {
+  "Black Grapes Associate": {
+    "Finance": ["Financial Analyst", "Accountant", "Auditor"],
+    "Marketing": ["Marketing Manager", "SEO Specialist", "Content Strategist"],
+    "IT Support": ["IT Technician", "Help Desk Support"],
+  },
+  "Black Grapes Softech": {
+    "Software Engineering": ["Frontend Developer", "Backend Developer", "Full Stack Developer"],
+    "Sales": ["Sales Executive", "Business Development Manager"],
+  },
+  "Black Grapes Real Estate": {
+    "Sales": ["Real Estate Agent", "Property Manager"],
+    "Marketing": ["Marketing Coordinator", "SEO Specialist"],
+  },
+  "Black Grapes Valuers & Engineers": {
+    "Engineering": ["Civil Engineer", "Structural Engineer"],
+    "Accounting": ["Accountant", "Auditor"],
+  },
+  "Black Grapes Investment Pvt. Ltd.": {
+    "Finance": ["Investment Analyst", "Portfolio Manager"],
+    "Accounting": ["Senior Accountant", "Tax Specialist"],
+  },
+  "Black Grapes Insurance Surveyors & Loss Assessors Pvt. Ltd.": {
+    "Insurance": ["Claims Adjuster", "Loss Assessor"],
+    "Finance": ["Financial Analyst", "Accountant"],
+  },
+};
+
 // Route to add a new employee
-router.post("/add_employee", async (req, res) => {
-  const { name, email, address, phone, role, department, manager, dob, joiningDate } = req.body;
+router.post("/add_employee", upload.single('image'), async (req, res) => {
+  const { name, email, address, phone, role, department, manager, dob, joiningDate, company } = req.body;
 
   try {
     // Validate input data
-    if (!name || !email || !address || !phone || !role || !department || !manager || !dob || !joiningDate) {
+    if (!name || !email || !address || !phone || !role || !department || !manager || !dob || !joiningDate || !company) {
       return res.status(400).json({ Error: "All fields are required" });
     }
 
@@ -44,6 +73,7 @@ router.post("/add_employee", async (req, res) => {
       manager,
       dob,
       joiningDate,
+      company,
       createdAt: new Date(), // Store creation time for sorting
       image: req.file ? req.file.filename : null, // Save image filename if uploaded
     };
@@ -101,7 +131,7 @@ router.get('/employee', async (req, res) => {
 // Route to update employee details
 router.put('/update_employee/:email', async (req, res) => {
   const { email } = req.params; // Extract email from the request parameters
-  const { address, phone, role, department } = req.body; // Get updated fields from the request body
+  const { address, phone, role, department, company } = req.body; // Get updated fields from the request body
 
   try {
     // Validate email
@@ -115,6 +145,7 @@ router.put('/update_employee/:email', async (req, res) => {
     if (phone) updateData.phone = phone;
     if (role) updateData.role = role;
     if (department) updateData.department = department;
+    if (company) updateData.company = company;
 
     // Ensure there are fields to update
     if (Object.keys(updateData).length === 0) {
@@ -135,6 +166,16 @@ router.put('/update_employee/:email', async (req, res) => {
     res.status(200).json({ message: 'Employee updated successfully' });
   } catch (err) {
     console.error('Error updating employee:', err.message);
+    res.status(500).json({ Error: 'Internal server error' });
+  }
+});
+
+// Route to fetch all companies with their departments and roles
+router.get('/companies', async (req, res) => {
+  try {
+    res.status(200).json({ companies });
+  } catch (err) {
+    console.error('Error fetching companies:', err.message);
     res.status(500).json({ Error: 'Internal server error' });
   }
 });

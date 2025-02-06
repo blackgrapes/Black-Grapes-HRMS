@@ -12,6 +12,58 @@ const departments = {
   "Software Engineering": ["Frontend Developer", "Backend Developer", "Full Stack Developer"],
 };
 
+// Mapping companies to departments and roles
+const companies = {
+  "Black Grapes Associate": {
+    departments: ["Finance", "Marketing", "Sales"],
+    roles: {
+      Finance: ["Financial Analyst", "Accountant"],
+      Marketing: ["SEO Specialist", "Content Strategist"],
+      Sales: ["Sales Executive", "Business Development Manager"],
+    },
+  },
+  "Black Grapes Softech": {
+    departments: ["Software Engineering", "IT Support", "Marketing"],
+    roles: {
+      "Software Engineering": ["Frontend Developer", "Backend Developer", "Full Stack Developer"],
+      "IT Support": ["IT Technician", "Help Desk Support"],
+      Marketing: ["SEO Specialist", "Content Strategist"],
+    },
+  },
+  "Black Grapes Real Estate": {
+    departments: ["Sales", "Accounting", "Housekeeping"],
+    roles: {
+      Sales: ["Sales Executive", "Business Development Manager"],
+      Accounting: ["Senior Accountant", "Tax Specialist"],
+      Housekeeping: ["Housekeeping Supervisor", "Cleaning Staff"],
+    },
+  },
+  "Black Grapes Valuers & Engineers": {
+    departments: ["Finance", "Software Engineering", "Sales"],
+    roles: {
+      Finance: ["Financial Analyst", "Accountant"],
+      "Software Engineering": ["Frontend Developer", "Backend Developer", "Full Stack Developer"],
+      Sales: ["Sales Executive", "Business Development Manager"],
+    },
+  },
+  "Black Grapes Investment Pvt. Ltd.": {
+    departments: ["Finance", "Accounting", "Sales"],
+    roles: {
+      Finance: ["Financial Analyst", "Accountant", "Auditor"],
+      Accounting: ["Senior Accountant", "Tax Specialist"],
+      Sales: ["Sales Executive", "Business Development Manager"],
+    },
+  },
+  "Black Grapes Insurance Surveyors & Loss Assessors Pvt. Ltd.": {
+    departments: ["Sales", "Marketing", "Accounting"],
+    roles: {
+      Sales: ["Sales Executive", "Business Development Manager"],
+      Marketing: ["SEO Specialist", "Content Strategist"],
+      Accounting: ["Senior Accountant", "Tax Specialist"],
+    },
+  },
+};
+
 const AddEmployee = () => {
   const [employee, setEmployee] = useState({
     name: "",
@@ -24,11 +76,23 @@ const AddEmployee = () => {
     dob: "",
     joiningDate: "",
     department: "",
+    company: "",
   });
 
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Handle company change and update departments dynamically
+  const handleCompanyChange = (e) => {
+    const selectedCompany = e.target.value;
+    setEmployee({
+      ...employee,
+      company: selectedCompany,
+      department: "", // Reset department when company changes
+      role: "", // Reset role when company changes
+    });
+  };
 
   // Handle department change and update roles dynamically
   const handleDepartmentChange = (e) => {
@@ -52,7 +116,8 @@ const AddEmployee = () => {
       !employee.manager ||
       !employee.dob ||
       !employee.joiningDate ||
-      !employee.department
+      !employee.department ||
+      !employee.company
     ) {
       setErrorMessage("Please fill all fields.");
       return;
@@ -78,6 +143,7 @@ const AddEmployee = () => {
             dob: "",
             joiningDate: "",
             department: "",
+            company: "",
           });
           navigate("/dashboard/signup_employee");
           alert("Employee added successfully. Please sign up with the same email.");
@@ -156,20 +222,39 @@ const AddEmployee = () => {
             />
           </div>
 
-          {/* Department Dropdown */}
+          {/* Company Dropdown */}
           <div className="col-12">
-            <label className="form-label">Department</label>
-            <select className="form-control rounded-0" onChange={handleDepartmentChange}>
-              <option value="">Select Department</option>
-              {Object.keys(departments).map((dept) => (
-                <option key={dept} value={dept}>
-                  {dept}
+            <label className="form-label">Company</label>
+            <select className="form-control rounded-0" onChange={handleCompanyChange}>
+              <option value="">Select Company</option>
+              {Object.keys(companies).map((company) => (
+                <option key={company} value={company}>
+                  {company}
                 </option>
               ))}
             </select>
           </div>
 
-          {/* Role Dropdown (Updates based on Department) */}
+          {/* Department Dropdown */}
+          <div className="col-12">
+            <label className="form-label">Department</label>
+            <select
+              className="form-control rounded-0"
+              value={employee.department}
+              onChange={handleDepartmentChange}
+              disabled={!employee.company}
+            >
+              <option value="">Select Department</option>
+              {employee.company &&
+                companies[employee.company].departments.map((dept) => (
+                  <option key={dept} value={dept}>
+                    {dept}
+                  </option>
+                ))}
+            </select>
+          </div>
+
+          {/* Role Dropdown */}
           <div className="col-12">
             <label className="form-label">Role</label>
             <select
@@ -180,7 +265,7 @@ const AddEmployee = () => {
             >
               <option value="">Select Role</option>
               {employee.department &&
-                departments[employee.department].map((role) => (
+                companies[employee.company].roles[employee.department].map((role) => (
                   <option key={role} value={role}>
                     {role}
                   </option>

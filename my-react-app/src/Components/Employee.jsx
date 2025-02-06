@@ -105,28 +105,31 @@ const Employee = () => {
               <th>Email</th>
               <th>Address</th>
               <th>Phone</th>
-              <th>Role</th>
               <th>Manager</th>
+              <th>Company</th>
               <th>Department</th>
+              <th>Role</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
             {filteredEmployees.map((emp) => (
              <tr key={emp._id}>
-             <td>{emp.name || "N/A"}</td>
-             <td>{emp.email || "N/A"}</td>
-             <td>{emp.address || "N/A"}</td>
-             <td>{emp.phone || "N/A"}</td>
-             <td>{emp.designation || emp.role || "N/A"}</td>
-             <td>{emp.manager || "N/A"}</td>
-             <td>{emp.Department || emp.department || "N/A"}</td>
-                <td>
-                  <button className="btn btn-danger" onClick={() => handleDelete(emp._id)}>
-                    Delete
-                  </button>
-                </td>
-              </tr>
+               <td>{emp.name || "N/A"}</td>
+               <td>{emp.email || "N/A"}</td>
+               <td>{emp.address || "N/A"}</td>
+               <td>{emp.phone || "N/A"}</td>
+               <td>{emp.manager || "N/A"}</td>
+               <td>{emp.company || "N/A"}</td> 
+               <td>{emp.Department || emp.department || "N/A"}</td>
+               <td>{emp.designation || emp.role || "N/A"}</td>
+             
+               <td>
+                 <button className="btn btn-danger" onClick={() => handleDelete(emp._id)}>
+                   Delete
+                 </button>
+               </td>
+             </tr>
             ))}
           </tbody>
         </table>
