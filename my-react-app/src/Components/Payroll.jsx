@@ -135,7 +135,7 @@ const Payroll = () => {
                     onChange={(e) => handleInputChange(employee.email, "deductions", e.target.value)}
                   />
                 </td>
-                <td>${totalSalary.toFixed(2)}</td>
+                <td>Rs.{totalSalary.toFixed(2)}</td>
                 <td>
                   <input
                     type="date"
