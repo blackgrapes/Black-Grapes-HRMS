@@ -7,6 +7,7 @@ const EmployeeDetail = ({ email }) => {
   const [employee, setEmployee] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [payroll, setPayroll] = useState({}); 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,9 +34,17 @@ const EmployeeDetail = ({ email }) => {
       } finally {
         setLoading(false);
       }
-    };
+    }; 
+
+    const payrolldata = async () => {
+      const response = await axios.get('http://localhost:3000/Payroll/payroll-with-details');
+      console.log(response) 
+      setPayroll(response?.data?.payrollData?.[0] ?? {});
+     
+    }
 
     fetchEmployeeDetails();
+    payrolldata();
   }, [email]);
 
   const handleLogout = () => {
@@ -101,7 +110,7 @@ const EmployeeDetail = ({ email }) => {
               <h3>{employee.name || "-"}</h3>
               <h3>{employee.email || "-"}</h3>
               <h3>{employee._id || "-"}</h3>
-              <h3>${employee.salary || "-"}</h3>
+              <h3>Rs.{payroll?.totalSalary || "-"}</h3>
               <h3>{employee.department || "-"}</h3>
               <h3>{employee.role || "-"}</h3>
               <h3>{employee.manager || "-"}</h3>
