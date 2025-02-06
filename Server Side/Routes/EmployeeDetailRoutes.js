@@ -139,14 +139,14 @@ router.put('/update_employee/:email', async (req, res) => {
   }
 });
 
-// Route to delete employee by ID
 router.delete('/delete_employee/:id', async (req, res) => {
   const { id } = req.params;
+  console.log("Received ID for deletion:", id);  // Debug log
 
   try {
     // Validate ObjectId
     if (!ObjectId.isValid(id)) {
-      return res.status(400).json({ Error: "Invalid Employee ID" });
+      return res.status(400).json({ Error: `Invalid Employee ID: ${id}` });
     }
 
     const result = await db.collection("employees_detail").deleteOne({ _id: new ObjectId(id) });
@@ -155,8 +155,8 @@ router.delete('/delete_employee/:id', async (req, res) => {
       return res.status(404).json({ Error: "Employee not found" });
     }
 
-    console.log("Employee deleted:", id);
-    res.status(200).json({ message: "Employee deleted successfully" });
+    console.log("Employee deleted successfully:", id);
+    res.status(200).json({ Status: true, message: "Employee deleted successfully" });
   } catch (err) {
     console.error("Error deleting employee:", err);
     res.status(500).json({ Error: "Internal server error" });
