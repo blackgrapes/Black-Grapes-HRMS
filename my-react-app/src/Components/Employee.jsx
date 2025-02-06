@@ -26,36 +26,37 @@ const Employee = () => {
 
   // Function to handle the search and filtering logic
   const handleSearch = () => {
-    let filteredData = employee.filter((e) => {
-      if (category === "name") {
-        return e.name.toLowerCase().includes(searchTerm.toLowerCase());
-      } else if (category === "email") {
-        return e.email.toLowerCase().includes(searchTerm.toLowerCase());
-      } else if (category === "role") {
-        return e.designation?.toLowerCase().includes(searchTerm.toLowerCase());
-      } else if (category === "department") {
-        return e.Department?.toLowerCase().includes(searchTerm.toLowerCase());
-      }
-      return e; // Default return in case no category is matched
+    const filteredData = employee.filter((e) => {
+      const searchValue = searchTerm.toLowerCase();
+      if (category === "name") return e.name?.toLowerCase().includes(searchValue);
+      if (category === "email") return e.email?.toLowerCase().includes(searchValue);
+      if (category === "role") return e.designation?.toLowerCase().includes(searchValue);
+      if (category === "department") return e.Department?.toLowerCase().includes(searchValue);
+      return true; // Default return to show all if no category matches
     });
     setFilteredEmployees(filteredData);
   };
 
   // Function to handle employee deletion
   const handleDelete = (id) => {
+    console.log("Deleting employee with ID:", id); // Debug log
+
     if (window.confirm("Are you sure you want to delete this employee?")) {
       axios
-        .delete("http://localhost:3000/auth/delete_employee/" + id)
+        .delete(`http://localhost:3000/employeedetail/delete_employee/${id}`)
         .then((result) => {
-          if (result.data.Status) {
+          if (result.status === 200) { // Check HTTP status code
             // Remove employee from local state after deletion
-            setEmployee(employee.filter(emp => emp.id !== id));
-            setFilteredEmployees(filteredEmployees.filter(emp => emp.id !== id));
+            setEmployee(employee.filter(emp => emp._id !== id)); // Use _id
+            setFilteredEmployees(filteredEmployees.filter(emp => emp._id !== id)); // Use _id
           } else {
             alert(result.data.Error);
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.error("Error deleting employee:", err);
+          alert(`Error: ${err.response?.data?.Error || "Something went wrong"}`);
+        });
     }
   };
 
@@ -111,20 +112,17 @@ const Employee = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredEmployees?.map((e) => (
-              <tr key={e.id}>
-                <td>{e.name}</td>
-                <td>{e.email}</td>
-                <td>{e.address}</td>
-                <td>{e.phone}</td>
-                <td>{e.designation}</td>
-                <td>{e.manager}</td>
-                <td>{e.Department}</td>
+            {filteredEmployees.map((emp) => (
+             <tr key={emp._id}>
+             <td>{emp.name || "N/A"}</td>
+             <td>{emp.email || "N/A"}</td>
+             <td>{emp.address || "N/A"}</td>
+             <td>{emp.phone || "N/A"}</td>
+             <td>{emp.designation || emp.role || "N/A"}</td>
+             <td>{emp.manager || "N/A"}</td>
+             <td>{emp.Department || emp.department || "N/A"}</td>
                 <td>
-                  <button
-                    className="btn btn-warning btn-sm"
-                    onClick={() => handleDelete(e.id)}
-                  >
+                  <button className="btn btn-danger" onClick={() => handleDelete(emp._id)}>
                     Delete
                   </button>
                 </td>
