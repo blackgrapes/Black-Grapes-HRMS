@@ -19,11 +19,11 @@ const router = express.Router();
 
 // Route to add a new employee
 router.post("/add_employee", async (req, res) => {
-  const { name, email, salary, address, phone, role, department, manager, dob, joiningDate } = req.body;
+  const { name, email, address, phone, role, department, manager, dob, joiningDate } = req.body;
 
   try {
     // Validate input data
-    if (!name || !email || !salary || !address || !phone || !role || !department || !manager || !dob || !joiningDate) {
+    if (!name || !email || !address || !phone || !role || !department || !manager || !dob || !joiningDate) {
       return res.status(400).json({ Error: "All fields are required" });
     }
 
@@ -37,7 +37,6 @@ router.post("/add_employee", async (req, res) => {
     const employeeData = {
       name,
       email,
-      salary,
       address,
       phone,
       role,

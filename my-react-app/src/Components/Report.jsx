@@ -68,7 +68,7 @@ const Report = () => {
             <th>Designation</th>
             <th>Manager</th>
             <th>Joining Date</th>
-            <th>Salary</th>
+             {/* <th>Salary</th>  */}
           </tr>
         </thead>
         <tbody>

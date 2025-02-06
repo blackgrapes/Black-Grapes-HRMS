@@ -7,7 +7,6 @@ const departments = {
   Marketing: ["Marketing Manager", "SEO Specialist", "Content Strategist"],
   Accounting: ["Senior Accountant", "Tax Specialist"],
   Housekeeping: ["Housekeeping Supervisor", "Cleaning Staff"],
-  // "Human Resource": ["HR Manager", "Recruiter"],
   "IT Support": ["IT Technician", "Help Desk Support"],
   Sales: ["Sales Executive", "Business Development Manager"],
   "Software Engineering": ["Frontend Developer", "Backend Developer", "Full Stack Developer"],
@@ -17,7 +16,6 @@ const AddEmployee = () => {
   const [employee, setEmployee] = useState({
     name: "",
     email: "",
-    salary: "",
     address: "",
     phone: "",
     role: "",
@@ -48,7 +46,6 @@ const AddEmployee = () => {
     if (
       !employee.name ||
       !employee.email ||
-      !employee.salary ||
       !employee.phone ||
       !employee.role ||
       !employee.image ||
@@ -73,7 +70,6 @@ const AddEmployee = () => {
           setEmployee({
             name: "",
             email: "",
-            salary: "",
             address: "",
             phone: "",
             role: "",
@@ -190,17 +186,6 @@ const AddEmployee = () => {
                   </option>
                 ))}
             </select>
-          </div>
-
-          <div className="col-12">
-            <label className="form-label">Salary</label>
-            <input
-              type="text"
-              className="form-control rounded-0"
-              placeholder="Enter Salary"
-              autoComplete="off"
-              onChange={(e) => setEmployee({ ...employee, salary: e.target.value })}
-            />
           </div>
 
           <div className="col-12">
