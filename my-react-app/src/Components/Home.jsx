@@ -4,120 +4,186 @@ import { useNavigate } from 'react-router-dom';
 import { PieChart, Pie, Tooltip, Cell, Legend } from 'recharts';
 import './Home.css';
 
-// Card Component
+// ✅ Card Component
 const Card = ({ title, value, buttonText, buttonClass, onClick }) => (
   <div className="card">
     <div className="text-center pb-1">
       <h4>{title}</h4>
       <br />
     </div>
-      <h5>Total:</h5>
-      <h5>{value}</h5>
+    <h5>Total : {value !== undefined ? value : 'Loading...'}</h5> {/* Added fallback */}
     <button className={`btn ${buttonClass}`} onClick={onClick}>
       {buttonText}
     </button>
   </div>
 );
 
-
-// Pie Chart Component
+// ✅ Pie Chart Component
 const PieChartComponent = ({ title, data, colors }) => (
   <div className="pie-chart-container">
     <h3>{title}</h3>
-    <PieChart width={300} height={300} className="pie-chart-border">
-      <Pie
-        data={data}
-        dataKey="value"
-        nameKey="name"
-        cx="50%"
-        cy="50%"
-        outerRadius={120}
-        label
-      >
-        {data.map((entry, index) => (
-          <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
-        ))}
-      </Pie>
-      <Tooltip />
-      <Legend />
-    </PieChart>
+    {data.length > 0 ? (
+      <PieChart width={300} height={300} className="pie-chart-border">
+        <Pie
+          data={data}
+          dataKey="value"
+          nameKey="name"
+          cx="50%"
+          cy="50%"
+          outerRadius={120}
+          label
+        >
+          {data.map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
+          ))}
+        </Pie>
+        <Tooltip />
+        <Legend />
+      </PieChart>
+    ) : (
+      <p>No data available</p> // Handle empty data gracefully
+    )}
   </div>
 );
 
-// HR Table Component
+// ✅ HR Table Component
 const HRTable = ({ hrRecords }) => (
   <div className="mt-4 px-5 pt-3">
     <h3>List of HR Records</h3>
-    <table className="table">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Email</th>
-        </tr>
-      </thead>
-      <tbody>
-        {hrRecords.map((record) => (
-          <tr key={record._id}>
-            <td>{record.name}</td>
-            <td>{record.email}</td>
+    {hrRecords.length > 0 ? (
+      <table className="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {hrRecords.map((record) => (
+            <tr key={record._id}>
+              <td>{record.name}</td>
+              <td>{record.email}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    ) : (
+      <p>No HR records found</p>
+    )}
   </div>
 );
 
-// Home Component
+// ✅ Home Component
 const Home = () => {
   const [employeeTotal, setEmployeeTotal] = useState(0);
   const [salaryTotal, setSalaryTotal] = useState(0);
+  const [leaveCount, setLeaveCount] = useState(0); // ✅ New state for Leave Count
   const [hrRecords, setHrRecords] = useState([]);
+  const [employeeCategories, setEmployeeCategories] = useState([]);
+  const [roleDistribution, setRoleDistribution] = useState([]);
+
   const navigate = useNavigate();
 
-  const [employeeCategories, setEmployeeCategories] = useState([
-    { name: 'HR', value: 10 },
-    { name: 'Engineer', value: 25 },
-    { name: 'Sales', value: 15 },
-    { name: 'Marketing', value: 5 },
-  ]);
-
-  const [roleDistribution, setRoleDistribution] = useState([
-    { name: 'Manager', value: 20 },
-    { name: 'Developer', value: 40 },
-    { name: 'Designer', value: 15 },
-    { name: 'QA', value: 25 },
-  ]);
-
   useEffect(() => {
-    fetchEmployeeData();
-    fetchSalaryData();
-    fetchHRData(); // Fetch HR data
+    const fetchData = async () => {
+      await Promise.all([
+        fetchEmployeeData(),
+        fetchSalaryData(),
+        fetchHRData(),
+        fetchLeaveData(), // ✅ Fetch Leave Data
+      ]);
+    };
+    fetchData();
   }, []);
 
+  // ✅ Fetch Employee Data
+  const fetchEmployeeData = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/employeedetail/all', {
+        withCredentials: true,
+      });
+
+      const employees = response.data?.Result || [];
+      setEmployeeTotal(employees.length);
+
+      const departmentCount = {};
+      const roleCount = {};
+
+      employees.forEach((emp) => {
+        departmentCount[emp.department] = (departmentCount[emp.department] || 0) + 1;
+        roleCount[emp.role] = (roleCount[emp.role] || 0) + 1;
+      });
+
+      setEmployeeCategories(
+        Object.entries(departmentCount).map(([name, value]) => ({ name, value }))
+      );
+      setRoleDistribution(
+        Object.entries(roleCount).map(([name, value]) => ({ name, value }))
+      );
+    } catch (error) {
+      console.error('Error fetching employee data:', error);
+    }
+  };
+
+  // ✅ Fetch HR Data
   const fetchHRData = async () => {
     try {
       const response = await axios.get('http://localhost:3000/hrdetail/all', {
         withCredentials: true,
       });
-      if (response.data && response.data.Result) {
-        setHrRecords(response.data.Result);
-      } else {
-        console.warn('No HR records found');
-      }
+      setHrRecords(response.data?.Result || []);
     } catch (error) {
       console.error('Error fetching HR data:', error);
     }
   };
 
-  const fetchEmployeeData = () => setEmployeeTotal(50);
-  const fetchSalaryData = () => setSalaryTotal(100000);
+  // ✅ Fetch Salary Data (Calculate Total Salary)
+  const fetchSalaryData = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/Payroll/payroll-with-details', {
+        withCredentials: true,
+      });
 
+      const payrollData = response.data?.payrollData || [];
+      const total = payrollData.reduce(
+        (acc, record) => acc + (record.totalSalary || 0),
+        0
+      );
+
+      setSalaryTotal(total);
+    } catch (error) {
+      console.error('Error fetching payroll data:', error);
+    }
+  };
+
+  // ✅ Fetch Leave Data (Count People on Leave)
+  const fetchLeaveData = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/employeeLeave/leave-requests', {
+        withCredentials: true,
+      });
+
+      const leaveRequests = response.data?.leaveRequests || [];
+
+      // ✅ Filter approved leaves
+      const approvedLeaves = leaveRequests.filter(request => request.status === 'Approved');
+
+      // ✅ Count unique employees currently on leave
+      const uniqueEmployeesOnLeave = new Set(approvedLeaves.map(request => request.email));
+      setLeaveCount(uniqueEmployeesOnLeave.size);
+    } catch (error) {
+      console.error('Error fetching leave data:', error);
+    }
+  };
+
+  // ✅ Navigation Handlers
   const handleEmployeeAction = () => navigate('/dashboard/employee');
   const handleSalaryAction = () => navigate('/dashboard/payroll');
   const handleLeaveAction = () => navigate('/dashboard/LeaveManagement');
 
   return (
     <div>
+      {/* ✅ Dashboard Cards */}
       <section className="button-row p-3 mt-3">
         <Card
           title="Employee"
@@ -128,32 +194,35 @@ const Home = () => {
         />
         <Card
           title="Salary"
-          value={`$${salaryTotal}`}
+          value={`Rs. ${salaryTotal.toLocaleString()}`} // ✅ Formatting for better readability
           buttonText="Salary Action"
           buttonClass="salary-btn"
           onClick={handleSalaryAction}
         />
         <Card
           title="Leave"
+          value={leaveCount} // ✅ Display the leave count
           buttonText="Leave"
           buttonClass="btn-warning"
           onClick={handleLeaveAction}
         />
       </section>
 
+      {/* ✅ Pie Charts */}
       <section className="pie-charts-row">
         <PieChartComponent
           title="Employee Category Distribution"
           data={employeeCategories}
-          colors={['#0088FE', '#00C49F', '#FFBB28', '#FF8042']}
+          colors={['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#A569BD']}
         />
         <PieChartComponent
           title="Employee Role Distribution"
           data={roleDistribution}
-          colors={['#FF6347', '#48C9B0', '#F39C12', '#8E44AD']}
+          colors={['#FF6347', '#48C9B0', '#F39C12', '#8E44AD', '#5DADE2']}
         />
       </section>
 
+      {/* ✅ HR Records Table */}
       <HRTable hrRecords={hrRecords} />
     </div>
   );
