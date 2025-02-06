@@ -1,19 +1,14 @@
 /* Basic Styling for the Payroll Container */
 .payroll-container {
   font-family: Arial, sans-serif;
+  text-align: center;
   margin: 20px;
   padding: 20px;
   background-color: #f4f7fa;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  overflow-x: hidden; /* Ensures no horizontal scroll on the entire page */
-}
-
-h1 {
-  font-size: 2rem;
-  margin-bottom: 20px;
-  color: #333;
-  text-align: center;
+  /* Remove the horizontal scroll */
+  overflow-x: hidden;
 }
 
 /* Search bar styling */
@@ -31,13 +26,12 @@ h1 {
   outline: none;
   border-color: #007bff;
 }
-
 /* Styling the Payroll Details Container */
 .payroll-details-container {
-  max-height: 500px;
-  overflow-y: auto;
-  margin-top: 20px;
+  /* Removed overflow-y: auto; to prevent internal scrolling */
   width: 100%; /* Ensure container takes full width */
+  margin-top: 20px;
+  padding-bottom: 20px; /* Prevents extra space at the bottom */
 }
 
 /* Table Styling */
@@ -49,6 +43,8 @@ h1 {
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   table-layout: fixed; /* Prevent horizontal overflow */
+  max-height: 500px; /* Ensure table is scrollable when content exceeds height */
+  overflow-y: auto; /* Adds vertical scroll to the table */
 }
 
 .payroll-table th, .payroll-table td {
@@ -62,7 +58,7 @@ h1 {
 .payroll-table th {
   background-color: #007bff;
   color: #fff;
-  font-size: 1rem;
+  font-size: 13px;
 }
 
 .payroll-table td {

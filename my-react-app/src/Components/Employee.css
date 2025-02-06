@@ -1,57 +1,114 @@
-/* Container for the entire employee section */
+/* Basic Styling for the Employee Container */
 .employee-container {
-  padding: 10px; /* Reduced padding to fit the content better */
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin: 20px;
+  padding: 20px;
+  background-color: #f4f7fa;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* Remove the horizontal scroll */
+  overflow-x: hidden;
 }
 
-.employee-table-container {
-  margin-top: 10px; /* Reduced margin to avoid unnecessary space around the table */
-  width: 100%; /* Ensure the container takes up the full width */
-  overflow: visible; /* Ensure no horizontal scrolling */
+/* Search bar styling */
+.employee-search-bar {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
 }
 
+.employee-search-bar:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+/* Styling the Employee Details Container */
+.employee-details-container {
+  /* Removed overflow-y: auto; to prevent internal scrolling */
+  width: 100%; /* Ensure container takes full width */
+  margin-top: 20px;
+  padding-bottom: 20px; /* Prevents extra space at the bottom */
+}
+
+/* Table Styling */
 .employee-table {
-  width: 100%; /* Table takes up full width of the container */
+  width: 100%;
   border-collapse: collapse;
-  table-layout: fixed; /* Ensure fixed column widths to prevent overflow */
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  table-layout: fixed; /* Prevent horizontal overflow */
+  max-height: 500px; /* Ensure table is scrollable when content exceeds height */
+  overflow-y: auto; /* Adds vertical scroll to the table */
 }
 
 .employee-table th, .employee-table td {
-  padding: 2px; /* Reduced padding for a more compact table */
-  border: 1px solid #f9f6f6;
+  padding: 12px;
   text-align: left;
-  word-wrap: break-word; /* Allows content to wrap within the cell */
-  white-space: normal; /* Ensures text is allowed to break and wrap */
-  font-size: 12px; /* Reduced font size */
+  border-bottom: 1px solid #ddd;
+  word-wrap: break-word; /* Prevents content from overflowing */
+  overflow: hidden;
 }
 
 .employee-table th {
-  background-color: #f4f4f4;
-  font-weight: bold;
-}
-
-.employee-table tr:nth-child(even) {
-  background-color: #f9f9f9;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 13px;
 }
 
 .employee-table td {
-  font-size: 14px;                    
-  word-wrap: break-word;
-  white-space: normal; /* Allow wrapping of long text */
+  font-size: 13px;
+  color: #333;
 }
 
-.employee-table td button, .employee-table td a {
-  min-width: 60px; /* Reduced button width */
-  text-align: center;
+/* Button Styling */
+.delete-btn {
+  padding: 4px 8px;
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background-color 0.3s;
 }
 
-.employee-table td a {
-  margin-right: 5px; /* Reduced margin between links */
+.delete-btn:hover {
+  background-color: #c82333;
 }
 
-/* Make sure buttons are aligned correctly */
-.employee-table .btn-info,
-.employee-table .btn-warning {
-  padding: 5px 8px; /* Reduced padding to make buttons more compact */
-  font-size: 10px; /* Reduced button font size */
-  margin: 2px;
+.delete-btn:focus {
+  outline: none;
+}
+
+/* Add a hover effect to rows in the table */
+.employee-table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .employee-table th, .employee-table td {
+    font-size: 13px;
+    padding: 8px;
+  }
+
+  .delete-btn {
+    font-size: 7px;
+  }
+
+  /* Prevent horizontal scroll on small screens */
+  .employee-details-container {
+    overflow-x: hidden;
+  }
+
+  .employee-table {
+    table-layout: auto; /* Auto layout for better responsiveness */
+  }
 }

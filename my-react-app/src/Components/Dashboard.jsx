@@ -5,6 +5,7 @@ import axios from "axios";
 
 const Dashboard = () => {
   const navigate = useNavigate();
+
   axios.defaults.withCredentials = true;
 
   const handleLogout = () => {
@@ -21,19 +22,31 @@ const Dashboard = () => {
     <div className="container-fluid">
       <div className="row flex-nowrap">
         <div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
-          <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+          <div className="d-flex flex-column align-items-center align-items-sm-start p-0 m-0 text-white min-vh-100">
             <Link
               to="/dashboard"
-              className="d-flex align-items-center pb-3 mb-md-1 mt-md-3 me-md-auto text-white text-decoration-none"
+              className="d-flex align-items-center pb-0 mb-md-1 mt-md-3 me-md-auto text-white text-decoration-none"
             >
-              <span className="fs-5 fw-bolder d-none d-sm-inline">
-                HRMS
-              </span>
+              {/* Logo positioned at top-left */}
+              <div className="d-flex justify-content-start align-items-start" style={{ width: '100%', marginTop: '0' }}>
+                <img
+                  src= "./src/assets/logo.png "// Make sure to update the path
+                  alt="logo"
+                  className="d-block "
+                  style={{
+                    maxWidth: '180px', // Adjust the size as needed
+                    margin: 0, // Remove any default margin/padding
+                    display: 'block', // Ensures the image behaves as a block element
+                    marginTop: '0', // Ensure the image is aligned to the top
+                  }}
+                />
+              </div>
             </Link>
             <ul
               className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
               id="menu"
             >
+              {/* Menu Links */}
               <li className="w-100">
                 <Link
                   to="/dashboard"
@@ -80,7 +93,7 @@ const Dashboard = () => {
                 </Link>
               </li>
 
-              {/*Category Link */}
+              {/* Category Link */}
               <li className="w-100">
                 <Link
                   to="/dashboard/Category"
@@ -90,8 +103,7 @@ const Dashboard = () => {
                   <span className="ms-2 d-none d-sm-inline">Category</span>
                 </Link>
               </li>
-              
-              
+
               <li className="w-100">
                 <Link
                   to="/dashboard/LeaveManagement"
@@ -112,7 +124,6 @@ const Dashboard = () => {
                 </Link>
               </li>
 
-
               <li className="w-100" onClick={handleLogout}>
                 <Link
                   className="nav-link px-0 align-middle text-white"
@@ -125,8 +136,8 @@ const Dashboard = () => {
           </div>
         </div>
         <div className="col p-0 m-0">
-          <div className="p-2 d-flex justify-content-center shadow">
-            <h4>Employee Management System</h4>
+          <div className="p-2 justify-content-center shadow">
+            <h3>Employee Management System</h3>
           </div>
           <Outlet />
         </div>

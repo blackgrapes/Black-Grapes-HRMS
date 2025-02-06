@@ -14,7 +14,7 @@ const Employee = () => {
     axios
       .get("http://localhost:3000/employeedetail/all")
       .then((result) => {
-        if (result) {
+        if (result.data.Result) {
           setEmployee(result.data.Result);
           setFilteredEmployees(result.data.Result); // Initially show all employees
         } else {
@@ -31,33 +31,32 @@ const Employee = () => {
         return e.name.toLowerCase().includes(searchTerm.toLowerCase());
       } else if (category === "email") {
         return e.email.toLowerCase().includes(searchTerm.toLowerCase());
-      } else if (category === "role") { // Changed to "role"
-        return e.role?.toLowerCase().includes(searchTerm.toLowerCase());
-      } else if (category === "department") { // Changed to "department"
-        return e.department?.toLowerCase().includes(searchTerm.toLowerCase());
+      } else if (category === "role") {
+        return e.designation?.toLowerCase().includes(searchTerm.toLowerCase());
+      } else if (category === "department") {
+        return e.Department?.toLowerCase().includes(searchTerm.toLowerCase());
       }
-      return e;
+      return e; // Default return in case no category is matched
     });
     setFilteredEmployees(filteredData);
   };
 
-  // Fix: Delete employee by id
+  // Function to handle employee deletion
   const handleDelete = (id) => {
-    if (window.confirm("Are you sure you want to delete this employee?"))
-    axios
-      .delete(`http://localhost:3000/employeedetail/delete_employee/${id}`)
-      .then((result) => {
-        if (result.data.message === "Employee deleted successfully") { // Check for successful delete message
-          setEmployee(employee.filter(emp => emp._id !== id)); // Remove from local state
-          setFilteredEmployees(filteredEmployees.filter(emp => emp._id !== id)); // Update filtered list
-        } else {
-          alert(result.data.Error);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        alert("An error occurred while deleting the employee");
-      });
+    if (window.confirm("Are you sure you want to delete this employee?")) {
+      axios
+        .delete("http://localhost:3000/auth/delete_employee/" + id)
+        .then((result) => {
+          if (result.data.Status) {
+            // Remove employee from local state after deletion
+            setEmployee(employee.filter(emp => emp.id !== id));
+            setFilteredEmployees(filteredEmployees.filter(emp => emp.id !== id));
+          } else {
+            alert(result.data.Error);
+          }
+        })
+        .catch((err) => console.log(err));
+    }
   };
 
   return (
@@ -108,25 +107,23 @@ const Employee = () => {
               <th>Role</th>
               <th>Manager</th>
               <th>Department</th>
-              <th>Salary</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            {filteredEmployees.map((e) => (
-              <tr key={e._id}>
+            {filteredEmployees?.map((e) => (
+              <tr key={e.id}>
                 <td>{e.name}</td>
                 <td>{e.email}</td>
                 <td>{e.address}</td>
                 <td>{e.phone}</td>
-                <td>{e.role}</td> {/* Fixed from designation to role */}
+                <td>{e.designation}</td>
                 <td>{e.manager}</td>
-                <td>{e.department}</td> {/* Fixed from Department to department */}
-                <td>{e.salary}</td>
+                <td>{e.Department}</td>
                 <td>
                   <button
                     className="btn btn-warning btn-sm"
-                    onClick={() => handleDelete(e._id)} // Correct usage of id here
+                    onClick={() => handleDelete(e.id)}
                   >
                     Delete
                   </button>
