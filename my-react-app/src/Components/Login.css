@@ -9,7 +9,8 @@
 body, html {
   height: 100%;
   background-color: #cfe2ff; /* Colorful gradient */
-} */
+  
+}
 
 /* Container for the login page */
 .loginPage {
@@ -23,7 +24,7 @@ body, html {
 /* Main container that holds both sections */
 .loginContainer {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* Align left and right sections side by side */
   align-items: center;
   width: 80%; /* Allow container to occupy most of the screen */
   max-width: 1000px; /* Max width to prevent stretching on large screens */
@@ -58,32 +59,33 @@ body, html {
 /* Right Section - Login Form */
 .loginForm {
   flex: 1; /* Takes up the other half of the space */
-  padding: 30px;
+  padding: 20px; /* Reduced padding for compactness */
   border-radius: 50px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   background-color: #f8f9fa;
-  max-width: 400px; /* Increased form width slightly */
+  max-width: 400px; /* Maintain form width */
   width: 100%;
   text-align: center; /* Center content horizontally */
+  height: auto; /* Allow dynamic height adjustment */
 }
 
 /* Center Logo in Login Form */
 .logo {
   display: block;
-  margin: 0 auto 20px auto; /* Center the logo and add space below */
+  margin: 0 auto 15px auto; /* Reduced space below the logo */
 }
 
 /* Heading */
 h2 {
-  font-size: 28px;
+  font-size: 24px; /* Reduced font size for a more compact heading */
   color: #333;
   font-weight: 600;
-  margin-bottom: 20px;
+  margin-bottom: 15px; /* Reduced margin for compactness */
 }
 
 /* Input Fields */
 .mb-3 {
-  margin-bottom: 50px;
+  margin-bottom: 30px; /* Reduced margin for more compact form */
   border-radius: 50px;
 }
 
@@ -97,10 +99,10 @@ h2 {
 
 .form-control {
   width: 100%;
-  padding: 12px;
+  padding: 10px; /* Reduced padding */
   border: 2px solid #ddd;
   border-radius: 25px; /* Slightly rounded input fields */
-  font-size: 16px;
+  font-size: 14px; /* Reduced font size */
   color: #333;
   transition: border-color 0.3s ease;
 }
@@ -115,8 +117,8 @@ h2 {
 button {
   background-color: #333;
   color: white;
-  padding: 14px;
-  font-size: 16px;
+  padding: 12px; /* Reduced padding */
+  font-size: 14px; /* Reduced font size */
   border-radius: 30px; /* More roundness to the buttons */
   border: none;
   width: 100%;
@@ -126,6 +128,25 @@ button {
 
 button:hover {
   background-color: #333;
+}
+
+/* Forgot Password Button */
+.forgot-btn {
+  background-color: transparent;
+  color: #333;
+  padding: 8px; /* Reduced padding */
+  font-size: 14px;
+  border: 2px solid #333;
+  border-radius: 30px;
+  width: 100%;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin-top: 10px; /* Reduced space between the buttons */
+}
+
+.forgot-btn:hover {
+  background-color: #333;
+  color: white;
 }
 
 /* Terms and Conditions */
@@ -191,6 +212,5 @@ label[for="password"] {
   .form-control {
     font-size: 14px;
     border-radius: 20px;
-    
   }
 }

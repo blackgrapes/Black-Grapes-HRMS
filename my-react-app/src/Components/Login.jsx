@@ -100,7 +100,17 @@ const Login = () => {
             >
               Log in
             </button>
+
+            {/* Forgot Password Button */}
+            <button
+              type="button"
+              className="btn btn-link w-100 text-decoration-none"
+              onClick={() => navigate("/Adminforgot")}
+            >
+              Forgot Password?
+            </button>
           </form>
+
           {attempts > 0 && !isLocked && (
             <div className="text-danger mt-2">
               Incorrect attempts: {attempts}/3

@@ -32,9 +32,8 @@ import SuperProfile from './Components/SuperProfile';
 import SuperAdminSignup from './Components/SuperAdminSignup';
 import ShowAttendance from './Components/ShowAttendance';
 import Employeeforgot from './Components/Employeeforgot';
-
-
-
+import Adminforgot from './Components/Adminforgot';
+import Superadminforgot from './Components/Superadminforgot';
 
 function App() {
   return (
@@ -46,10 +45,8 @@ function App() {
         <Route path="/employee_login" element={<EmployeeLogin />} />
         <Route path="/employee_detail/:id" element={<EmployeeDetail />} />
         <Route path="/employee/edit_employee/" element={<EditEmployee />} />
-        <Route path="/employee/Leave" element={<Leave/>} />
-        <Route path="/employee/Employeeforgot" element={<Employeeforgot/>} />
-        
-
+        <Route path="/employee/Leave" element={<Leave />} />
+        <Route path="/employee/Employeeforgot" element={<Employeeforgot />} />
 
         {/* SuperAdmin Routes */}
         <Route path="/superadminlogin" element={<SuperAdminLogin />} />
@@ -62,11 +59,7 @@ function App() {
         <Route path="/SuperAdminReport" element={<SuperAdminReport />} />
         <Route path="/SuperProfile" element={<SuperProfile />} />
         <Route path="/SuperAdminSignup" element={<SuperAdminSignup />} />
-    
-        
-        
-
-
+        <Route path="/Superadminforgot" element={<Superadminforgot />} /> 
 
         {/* Protected Routes */}
         <Route path="/dashboard" element={
@@ -85,12 +78,9 @@ function App() {
           <Route path="/dashboard/Report" element={<Report />} />
           <Route path="/dashboard/signup_employee" element={<SignupEmployee />} />
           <Route path="/dashboard/Attendance" element={<Attendance />} />
-          <Route path="/dashboard/ShowAttendance" element={<ShowAttendance/>} />
-         
-
-
+          <Route path="/dashboard/ShowAttendance" element={<ShowAttendance />} />
         </Route>
-      </Routes>
+        <Route path="/adminforgot" element={<Adminforgot />} /></Routes>
     </BrowserRouter>
   );
 }
