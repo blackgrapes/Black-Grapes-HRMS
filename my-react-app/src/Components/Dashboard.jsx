@@ -28,18 +28,9 @@ const Dashboard = () => {
               className="d-flex align-items-center pb-0 mb-md-1 mt-md-3 me-md-auto text-white text-decoration-none"
             >
               {/* Logo positioned at top-left */}
-              <div className="d-flex justify-content-start align-items-start" style={{ width: '100%', marginTop: '0' }}>
-                <img
-                  src= "./src/assets/logo.png "// Make sure to update the path
-                  alt="logo"
-                  className="d-block "
-                  style={{
-                    maxWidth: '180px', // Adjust the size as needed
-                    margin: 0, // Remove any default margin/padding
-                    display: 'block', // Ensures the image behaves as a block element
-                    marginTop: '0', // Ensure the image is aligned to the top
-                  }}
-                />
+              <div className="d-flex justify-content-start align-items-center" style={{ width: '100%', marginTop: '0' }}>
+            
+                <h1>HRMS</h1>
               </div>
             </Link>
             <ul

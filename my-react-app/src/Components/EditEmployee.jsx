@@ -11,7 +11,7 @@ const EditEmployee = () => {
   const [employee, setEmployee] = useState({
     phone: '',
     address: '',
-    designation: '',
+    // designation: '',
   });
 
   const [passwords, setPasswords] = useState({
@@ -41,7 +41,7 @@ const EditEmployee = () => {
     const updateData = {
       phone: employee.phone,
       address: employee.address,
-      designation: employee.designation,
+      // designation: employee.designation,
     };
 
     axios
@@ -129,7 +129,7 @@ const EditEmployee = () => {
             </div>
 
             {/* Designation */}
-            <div className="col-12">
+            {/* <div className="col-12">
               <label htmlFor="inputDesignation" className="form-label">Designation</label>
               <input
                 type="text"
@@ -140,7 +140,7 @@ const EditEmployee = () => {
                 onChange={(e) => setEmployee({ ...employee, designation: e.target.value })}
                 required
               />
-            </div>
+            </div> */}
 
             {/* Save Changes Button */}
             <div className="col-12">

@@ -1,20 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './EmployeeDetail.css';
 
-const EmployeeDetail = ({email}) => {
+const EmployeeDetail = ({ email }) => {
   const [employee, setEmployee] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-//   const [searchParams] = useSearchParams(); // Access query parameters
 
   useEffect(() => {
     const fetchEmployeeDetails = async () => {
-    //   const id = searchParams.get('id'); // Get "id" from query parameters
-    //   const email = searchParams.get('email'); // Get "email" from query parameters
-
       if (!email) {
         setError('Email is required to fetch employee details.');
         setLoading(false);
@@ -26,7 +22,6 @@ const EmployeeDetail = ({email}) => {
           params: { email }, // Pass query parameters
         });
 
-        console.log(response)
         if (response.data && response.data.Result) {
           setEmployee(response.data.Result);
         } else {
@@ -44,17 +39,26 @@ const EmployeeDetail = ({email}) => {
   }, [email]);
 
   const handleLogout = () => {
-    localStorage.removeItem('valid');
-    navigate('/'); // Redirect to homepage after logout
+    const confirmLogout = window.confirm("Are you sure you want to log out? You will need to log in again.");
+    if (confirmLogout) {
+      localStorage.removeItem('valid');
+      alert("You have been logged out. Please log in again.");
+      navigate('/'); // Redirect to homepage after logout
+    }
   };
 
   const handleEdit = () => {
-    console.log("email", email)
-    navigate(`/employee/edit_employee?email=${email}`); // Navigate to edit page with employee ID
+    const confirmEdit = window.confirm("Are you sure you want to edit the details?  YOU HAVE TO RE-LOGIN");
+    if (confirmEdit) {
+      navigate(`/employee/edit_employee?email=${email}`); // Navigate to edit page with employee ID
+    }
   };
 
   const handleLeave = () => {
-    navigate(`/employee/Leave?email=${email}`);
+    const confirmLeave = window.confirm("Are you sure you want to apply for leave?  YOU HAVE TO RE-LOGIN.");
+    if (confirmLeave) {
+      navigate(`/employee/Leave?email=${email}`);
+    }
   };
 
   if (loading) {
@@ -92,11 +96,10 @@ const EmployeeDetail = ({email}) => {
               <h3>Address:</h3>
               <h3>Date of Birth:</h3>
               <h3>Joining Date:</h3>
-              <h3>Performance Rating:</h3>
             </div>
             <div className="employee-values">
               <h3>{employee.name || "-"}</h3>
-              <h3>{employee.email|| "-"}</h3>
+              <h3>{employee.email || "-"}</h3>
               <h3>{employee._id || "-"}</h3>
               <h3>${employee.salary || "-"}</h3>
               <h3>{employee.department || "-"}</h3>
@@ -106,7 +109,6 @@ const EmployeeDetail = ({email}) => {
               <h3>{employee.address || "-"}</h3>
               <h3>{employee.dob || "-"}</h3>
               <h3>{employee.joiningDate || "-"}</h3>
-              <h3>{employee.performanceRating || "-"}</h3>
             </div>
           </div>
           <div className="employee-actions">
