@@ -22,27 +22,33 @@ const Card = ({ title, value, buttonText, buttonClass, onClick }) => (
 const PieChartComponent = ({ title, data, colors }) => (
   <div className="pie-chart-container">
     <h3>{title}</h3>
-    {data.length > 0 ? (
-      <PieChart width={300} height={300} className="pie-chart-border">
-        <Pie
-          data={data}
-          dataKey="value"
-          nameKey="name"
-          cx="50%"
-          cy="50%"
-          outerRadius={120}
-          label
-        >
-          {data.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
-          ))}
-        </Pie>
-        <Tooltip />
-        <Legend />
-      </PieChart>
-    ) : (
-      <p>No data available</p> // Handle empty data gracefully
-    )}
+    <div className="pie-chart-content">
+      <div className="pie-chart">
+        <PieChart width={300} height={300} className="pie-chart-border">
+          <Pie
+            data={data}
+            dataKey="value"
+            nameKey="name"
+            cx="50%"  // Horizontal center
+            cy="50%"  // Vertical center
+            outerRadius={120}
+            label
+          >
+            {data.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
+            ))}
+          </Pie>
+          <Tooltip />
+        </PieChart>
+      </div>
+      <div className="pie-chart-details">
+        <Legend
+          verticalAlign="middle"
+          layout="vertical"
+          align="left" // Align legend to the left within its container
+        />
+      </div>
+    </div>
   </div>
 );
 
