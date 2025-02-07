@@ -41,6 +41,11 @@ const SuperAdminLogin = () => {
       });
   };
 
+  const handleForgotPassword = () => {
+    // Navigate to the forgot password page or show a modal
+    navigate('/Superadminforgot'); // Example route, adjust to your actual route
+  };
+
   return (
     <div className="main-container">
       <div className="superadmin-login-container">
@@ -83,6 +88,15 @@ const SuperAdminLogin = () => {
             Incorrect attempts: {attempts}/3
           </div>
         )}
+        
+        {/* Forgot Password Button */}
+        <button
+          className="btn btn-forgot-password"
+          onClick={handleForgotPassword}
+          disabled={isLocked} // Disable if locked
+        >
+          Forgot Password?
+        </button>
       </div>
     </div>
   );

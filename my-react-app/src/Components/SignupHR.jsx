@@ -8,6 +8,7 @@ const SignupAdmin = () => {
     name: '',
     email: '',
     password: '',
+    dob: '', // Added dob field to state
   });
 
   const [error, setError] = useState('');
@@ -20,8 +21,8 @@ const SignupAdmin = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!adminData.name || !adminData.email || !adminData.password) {
-      setError('Name, email, and password are required.');
+    if (!adminData.name || !adminData.email || !adminData.password || !adminData.dob) {
+      setError('Name, email, password, and date of birth are required.');
       return;
     }
 
@@ -77,6 +78,20 @@ const SignupAdmin = () => {
             placeholder="Enter password"
           />
         </div>
+        
+        {/* DOB Field Added */}
+        <div className="form-group">
+          <label>Date of Birth</label>
+          <input
+            type="date"
+            name="dob"
+            value={adminData.dob}
+            onChange={handleChange}
+            className="form-control"
+            required
+          />
+        </div>
+
         {error && <div className="error-message">{error}</div>}
         <button type="submit" className="btn btn-success">
           Sign Up

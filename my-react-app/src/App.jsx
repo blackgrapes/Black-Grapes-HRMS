@@ -5,12 +5,12 @@ import Dashboard from './Components/Dashboard';
 import Home from './Components/Home';
 import Employee from './Components/Employee';
 import Profile from './Components/Profile';
-import AddCategory from './Components/AddCategory';
+// import AddCategory from './Components/AddCategory';
 import AddEmployee from './Components/AddEmployee';
 import EditEmployee from './Components/EditEmployee';
 import Start from './Components/Start';
 import Payroll from './Components/Payroll';
-import CustomCalendar from './Components/CustomCalendar';
+// import CustomCalendar from './Components/CustomCalendar';
 import EmployeeLogin from './Components/EmployeeLogin';
 import EmployeeDetail from './Components/EmployeeDetail';
 import PrivateRoute from './Components/PrivateRoute';
@@ -26,7 +26,7 @@ import SignupHR from './Components/SignupHR';
 import Hradd from './Components/Hradd';
 import SuperAddEmployee from './Components/SuperAddEmployee';
 import SuperSignupEmployee from './Components/SuperSignupEmployee';
-import Category from './Components/Category';
+// import Category from './Components/Category';
 import SuperAdminReport from './Components/SuperAdminReport';
 import SuperProfile from './Components/SuperProfile';
 import SuperAdminSignup from './Components/SuperAdminSignup';
@@ -70,11 +70,11 @@ function App() {
           <Route path="" element={<Home />} />
           <Route path="/dashboard/employee" element={<Employee />} />
           <Route path="/dashboard/profile" element={<Profile />} />
-          <Route path="/dashboard/add_category" element={<AddCategory />} />
+          {/* <Route path="/dashboard/add_category" element={<AddCategory />} /> */}
           <Route path="/dashboard/add_employee" element={<AddEmployee />} />
           <Route path="/dashboard/payroll" element={<Payroll />} />
           <Route path="/dashboard/LeaveManagement" element={<LeaveManagement />} />
-          <Route path="/dashboard/Category" element={<Category />} />
+          {/* <Route path="/dashboard/Category" element={<Category />} /> */}
           <Route path="/dashboard/Report" element={<Report />} />
           <Route path="/dashboard/signup_employee" element={<SignupEmployee />} />
           <Route path="/dashboard/Attendance" element={<Attendance />} />

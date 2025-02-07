@@ -1,0 +1,95 @@
+/* Container to center the form */
+.forgot-password-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full screen height */
+  background-color: #f4f7fc; /* Soft background color */
+  padding: 0 20px; /* Padding on left and right for responsiveness */
+}
+
+/* Heading Style */
+h2 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px; /* Space between heading and form */
+}
+
+/* Form container with padding and shadow */
+form {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px; /* Max width for form */
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Space between form elements */
+}
+
+/* Style for each form group (label + input) */
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+input {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  background-color: #f9f9f9;
+  box-sizing: border-box;
+}
+
+button {
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Error and success messages */
+.error-message,
+.success-message {
+  text-align: center;
+  font-size: 14px;
+}
+
+.error-message {
+  color: red;
+}
+
+.success-message {
+  color: green;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 480px) {
+  h2 {
+    font-size: 20px;
+  }
+
+  input,
+  button {
+    padding: 10px;
+  }
+}

@@ -48,14 +48,7 @@ const Dashboard = () => {
                 </Link>
               </li>
               <li className="w-100">
-                <Link
-                  to="/dashboard/payroll"
-                  className="nav-link text-white px-0 align-middle"
-                >
-                  <i className="fs-4 bi-cash-coin ms-2"></i>
-                  <span className="ms-2 d-none d-sm-inline">Payroll</span>
-                </Link>
-              </li>
+
               <li className="w-100">
                 <Link
                   to="/dashboard/employee"
@@ -65,45 +58,18 @@ const Dashboard = () => {
                   <span className="ms-2 d-none d-sm-inline">Manage Employees</span>
                 </Link>
               </li>
-              <li className="w-100">
-                <Link
-                  to="/dashboard/Report"
-                  className="nav-link px-0 align-middle text-white"
-                >
-                  <i className="fs-4 bi-clipboard ms-2"></i>
-                  <span className="ms-2 d-none d-sm-inline">Report</span>
-                </Link>
-              </li>
-              <li className="w-100">
-                <Link
-                  to="/dashboard/profile"
-                  className="nav-link px-0 align-middle text-white"
-                >
-                  <i className="fs-4 bi-person ms-2"></i>
-                  <span className="ms-2 d-none d-sm-inline">Profile</span>
-                </Link>
-              </li>
 
-              {/* Category Link */}
-              <li className="w-100">
-                <Link
-                  to="/dashboard/Category"
-                  className="nav-link px-0 align-middle text-white"
-                >
-                  <i className="fs-4 bi-Category ms-2"></i>
-                  <span className="ms-2 d-none d-sm-inline">Category</span>
-                </Link>
-              </li>
 
               <li className="w-100">
                 <Link
-                  to="/dashboard/LeaveManagement"
-                  className="nav-link px-0 align-middle text-white"
+                  to="/dashboard/payroll"
+                  className="nav-link text-white px-0 align-middle"
                 >
-                  <i className="fs-4 bi-clock ms-2"></i>
-                  <span className="ms-2 d-none d-sm-inline">Leave Management</span>
+                  <i className="fs-4 bi-cash-coin ms-2"></i>
+                  <span className="ms-2 d-none d-sm-inline">Payroll</span>
                 </Link>
               </li>
+
 
               <li className="w-100">
                 <Link
@@ -115,6 +81,42 @@ const Dashboard = () => {
                 </Link>
               </li>
 
+
+              <li className="w-100">
+                <Link
+                  to="/dashboard/LeaveManagement"
+                  className="nav-link px-0 align-middle text-white"
+                >
+                  <i className="fs-4 bi-clock ms-2"></i>
+                  <span className="ms-2 d-none d-sm-inline">Leave Management</span>
+                </Link>
+              </li>
+              
+                <Link
+                  to="/dashboard/Report"
+                  className="nav-link px-0 align-middle text-white"
+                >
+                  <i className="fs-4 bi-clipboard ms-2"></i>
+                  <span className="ms-2 d-none d-sm-inline">Report</span>
+                </Link>
+              </li>
+
+             
+
+
+
+              <li className="w-100">
+                <Link
+                  to="/dashboard/profile"
+                  className="nav-link px-0 align-middle text-white"
+                >
+                  <i className="fs-4 bi-person ms-2"></i>
+                  <span className="ms-2 d-none d-sm-inline">Profile</span>
+                </Link>
+              </li>
+
+            
+
               <li className="w-100" onClick={handleLogout}>
                 <Link
                   className="nav-link px-0 align-middle text-white"
@@ -123,11 +125,14 @@ const Dashboard = () => {
                   <span className="ms-2 d-none d-sm-inline">Logout</span>
                 </Link>
               </li>
+
+
+
             </ul>
           </div>
         </div>
         <div className="col p-0 m-0">
-          <div className="p-2 justify-content-center shadow">
+          <div className="p-2 justify-content-center shadow justify-content: center">
             <h3>Employee Management System</h3>
           </div>
           <Outlet />

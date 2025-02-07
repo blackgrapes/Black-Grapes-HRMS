@@ -7,6 +7,7 @@ const SignupEmployee = () => {
   const [name, setName] = useState(""); // New state for name
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [dob, setDob] = useState(""); // State for Date of Birth
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -14,14 +15,14 @@ const SignupEmployee = () => {
     e.preventDefault();
 
     // Basic validation
-    if (!name || !email || !password) {
+    if (!name || !email || !password || !dob) {
       setError("Please fill out all fields.");
       return;
     }
 
     // Send data to backend
     axios
-      .post("http://localhost:3000/employee/employee_signup", { name, email, password })
+      .post("http://localhost:3000/employee/employee_signup", { name, email, password, dob })
       .then((response) => {
         if (response.data.signupStatus) {
           navigate("/manage_employees"); 
@@ -78,6 +79,19 @@ const SignupEmployee = () => {
             onChange={(e) => setPassword(e.target.value)}
             className="form-control"
             placeholder="Enter password"
+            required
+          />
+        </div>
+
+        {/* DOB Field Added */}
+        <div className="form-group">
+          <label htmlFor="dob">Date of Birth</label>
+          <input
+            type="date"
+            id="dob"
+            value={dob}
+            onChange={(e) => setDob(e.target.value)}
+            className="form-control"
             required
           />
         </div>

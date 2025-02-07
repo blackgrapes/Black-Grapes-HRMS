@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import 'font-awesome/css/font-awesome.min.css'; // Import Font Awesome
 import './Report.css';
 
 const Report = () => {
@@ -131,9 +132,9 @@ const Report = () => {
             <th>Email</th>
             <th>Address</th>
             <th>Phone</th>
-            <th>Company</th> 
+            <th>Company</th>
             <th>Department</th>
-            <th>Role</th>      
+            <th>Role</th>
             <th>Total Salary (Rs.)</th>
             <th>Paid Upto</th>
             <th>Actions</th>
@@ -155,7 +156,8 @@ const Report = () => {
                 <td>{payroll.paidUpto}</td>
                 <td>
                   <button className="button" onClick={() => downloadEmployeePDF(employee)}>
-                    Download
+                  <i className="fa-solid fa-arrow-circle-down"></i>
+                  {/* Font Awesome download icon */}
                   </button>
                 </td>
               </tr>

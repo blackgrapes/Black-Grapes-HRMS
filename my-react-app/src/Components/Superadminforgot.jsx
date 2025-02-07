@@ -1,93 +1,100 @@
-import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import './Superadminforgot.css'; // Import the CSS for styling
+import React, { useState } from "react";
+import './Superadminforgot.css'; // Import the CSS file for styling
 
 const Superadminforgot = () => {
   const [email, setEmail] = useState("");
-  const [dob, setDob] = useState("");
-  const [newPassword, setNewPassword] = useState("");
+  const [dob, setDob] = useState(""); // For Date of Birth
+  const [newPassword, setNewPassword] = useState(""); // For New Password
   const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  const [message, setMessage] = useState(null); // For success messages
+  const [step, setStep] = useState(1); // To track the steps of the process (1 - email + dob, 2 - new password)
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    if (!email || !dob || !newPassword) {
-      setError("Please fill in all fields.");
-      return;
-    }
+    if (step === 1) {
+      // Step 1: Check if email and DOB match
+      try {
+        const response = await axios.post("http://localhost:3000/superadmin/forgotpassword", { email, dob });
 
-    setLoading(true);
-
-    axios
-      .post("http://localhost:3000/superadmin/reset-password", { email, dob, newPassword })
-      .then((response) => {
-        if (response.data.success) {
-          setSuccess("Password updated successfully!");
-          setEmail("");
-          setDob("");
-          setNewPassword("");
-          setError(null);
-          setTimeout(() => {
-            navigate("/superadminlogin"); // Redirect to login page after success
-          }, 2000);
+        if (response.data.Status) {
+          setStep(2); // If email and DOB match, move to the next step (new password input)
         } else {
-          setError(response.data.message || "Incorrect details. Please try again.");
+          setError("No matching record found. Please check your email and DOB.");
         }
-      })
-      .catch((err) => {
-        setError("Something went wrong. Please try again later.");
-        console.error(err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+      } catch (err) {
+        setError("An error occurred. Please try again later.");
+      }
+    } else if (step === 2) {
+      // Step 2: Change the password
+      try {
+        const response = await axios.post("http://localhost:3000/superadmin/resetpassword", { email, newPassword });
+
+        if (response.data.Status) {
+          setMessage("Your password has been successfully updated!");
+        } else {
+          setError("Failed to update the password. Please try again.");
+        }
+      } catch (err) {
+        setError("An error occurred. Please try again later.");
+      }
+    }
   };
 
   return (
-    <div className="forgot-container">
-      <div className="forgot-form">
-        <h2>Super Admin - Forgot Password</h2>
-        {error && <div className="error-message">{error}</div>}
-        {success && <div className="success-message">{success}</div>}
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Email:</label>
-            <input
-              type="email"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label>Date of Birth:</label>
-            <input
-              type="date"
-              value={dob}
-              onChange={(e) => setDob(e.target.value)}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label>New Password:</label>
-            <input
-              type="password"
-              placeholder="Enter new password"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              required
-            />
-          </div>
-          <button type="submit" disabled={loading}>
-            {loading ? "Processing..." : "Reset Password"}
-          </button>
-        </form>
-      </div>
+    <div className="forgot-password-container">
+      <h2>Super Admin - Forgot Password</h2>
+
+      {error && <div className="error-message">{error}</div>}
+      {message && <div className="success-message">{message}</div>}
+
+      <form onSubmit={handleSubmit}>
+        {step === 1 && (
+          <>
+            <div className="form-group">
+              <label>Email:</label>
+              <input
+                type="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>Date of Birth:</label>
+              <input
+                type="date"
+                value={dob}
+                onChange={(e) => setDob(e.target.value)}
+                required
+              />
+            </div>
+            <button type="submit" className="btn btn-submit">
+              Verify
+            </button>
+          </>
+        )}
+
+        {step === 2 && (
+          <>
+            <div className="form-group">
+              <label>New Password:</label>
+              <input
+                type="password"
+                placeholder="Enter your new password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                required
+              />
+            </div>
+            <button type="submit" className="btn btn-submit">
+              Reset Password
+            </button>
+          </>
+        )}
+      </form>
     </div>
   );
 };
