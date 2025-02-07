@@ -10,24 +10,28 @@ const Leave = () => {
   const [leaveStartDate, setLeaveStartDate] = useState("");
   const [leaveEndDate, setLeaveEndDate] = useState("");
   const [leaveRequests, setLeaveRequests] = useState([]);
+  const [leaveBalance, setLeaveBalance] = useState(30);
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
   const [searchParams] = useSearchParams();
   const email = searchParams.get("email");
 
-  // Automatically update the end date when leave days or start date changes
+  // Calculate End Date based on start date and leave days
   useEffect(() => {
     if (leaveStartDate && leaveDays > 0) {
       const startDateObj = new Date(leaveStartDate);
       startDateObj.setDate(startDateObj.getDate() + (leaveDays - 1));
-      setLeaveEndDate(startDateObj.toISOString().split("T")[0]); // Format as YYYY-MM-DD
+      setLeaveEndDate(startDateObj.toISOString().split("T")[0]);
     }
   }, [leaveStartDate, leaveDays]);
 
   // Fetch leave requests for the employee
   const fetchLeaveRequests = async () => {
-    if (!email) return; // Ensure email is present
+    if (!email) return;
     try {
-      const response = await axios.get(`http://localhost:3000/employeeLeave/leave-request/${email}`);
+      const response = await axios.get(
+        `http://localhost:3000/employeeLeave/leave-request/${email}`
+      );
       setLeaveRequests(response.data.leaveRequests || []);
     } catch (err) {
       console.error("Failed to fetch leave requests:", err);
@@ -35,15 +39,32 @@ const Leave = () => {
     }
   };
 
-  // Fetch leave requests when email changes
+  // Fetch current leave balance
+  const fetchLeaveBalance = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/employeeLeave/leave-balance/${email}`
+      );
+      setLeaveBalance(response.data.paidLeavesRemaining);
+    } catch (err) {
+      console.error("Failed to fetch leave balance:", err);
+    }
+  };
+
   useEffect(() => {
-    fetchLeaveRequests();
+    if (email) {
+      fetchLeaveRequests();
+      fetchLeaveBalance();
+    }
   }, [email]);
 
-  // Handle leave request submission
+  // Handle Leave Request Submission
   const handleSubmitRequest = async () => {
+    setError(null);
+    setSuccess(null);
+
     if (!leaveStartDate || leaveDays <= 0 || !leaveType || !leaveReason) {
-      alert("Please fill in all fields correctly.");
+      setError("Please fill in all fields correctly.");
       return;
     }
 
@@ -63,7 +84,11 @@ const Leave = () => {
       setLeaveReason("");
       setLeaveStartDate("");
       setLeaveEndDate("");
-      fetchLeaveRequests(); // Refresh leave requests after submission
+      setSuccess("Leave request submitted successfully.");
+
+      // Refresh data
+      fetchLeaveRequests();
+      fetchLeaveBalance();
     } catch (err) {
       console.error("Failed to submit leave request:", err);
       setError("Failed to submit leave request.");
@@ -74,7 +99,13 @@ const Leave = () => {
     <div className="leave-management-container">
       <h2>Leave Management</h2>
 
+      <div className="leave-balance">
+        <h3>Leave Balance</h3>
+        <p>Paid Leaves Remaining: <strong>{leaveBalance}</strong> days</p>
+      </div>
+
       {error && <div className="error">{error}</div>}
+      {success && <div className="success">{success}</div>}
 
       <div className="leave-form">
         <h3>Request Leave</h3>
@@ -102,17 +133,18 @@ const Leave = () => {
             value={leaveDays}
             onChange={(e) => setLeaveDays(Number(e.target.value))}
             min="1"
-            max="30"
-            disabled={!leaveStartDate} // Prevents selecting days without a start date
           />
         </label>
         <label>
           End Date:
-          <input type="date" value={leaveEndDate} readOnly /> {/* Now auto-calculated */}
+          <input type="date" value={leaveEndDate} readOnly />
         </label>
         <label>
           Reason:
-          <textarea value={leaveReason} onChange={(e) => setLeaveReason(e.target.value)} />
+          <textarea
+            value={leaveReason}
+            onChange={(e) => setLeaveReason(e.target.value)}
+          />
         </label>
         <button onClick={handleSubmitRequest}>Submit Leave Request</button>
       </div>
@@ -126,7 +158,8 @@ const Leave = () => {
             <thead>
               <tr>
                 <th>Type</th>
-                <th>Days</th>
+                <th>Paid Days</th>
+                <th>Unpaid Days</th>
                 <th>Reason</th>
                 <th>Start Date</th>
                 <th>End Date</th>
@@ -137,11 +170,22 @@ const Leave = () => {
               {leaveRequests.map((request) => (
                 <tr key={request._id}>
                   <td>{request.type}</td>
-                  <td>{request.days}</td>
+                  <td>{request.paidLeave}</td>
+                  <td>{request.unpaidLeave}</td>
                   <td>{request.reason}</td>
                   <td>{new Date(request.startDate).toLocaleDateString()}</td>
                   <td>{new Date(request.endDate).toLocaleDateString()}</td>
-                  <td>{request.status}</td>
+                  <td
+                    className={
+                      request.status === "Approved"
+                        ? "status-approved"
+                        : request.status === "Rejected"
+                        ? "status-rejected"
+                        : "status-pending"
+                    }
+                  >
+                    {request.status}
+                  </td>
                 </tr>
               ))}
             </tbody>

@@ -37,9 +37,9 @@ const EmployeeDetail = ({ email }) => {
     }; 
 
     const payrolldata = async () => {
-      const response = await axios.get('http://localhost:3000/Payroll/payroll-with-details');
+      const response = await axios.get(`http://localhost:3000/Payroll/payroll/${email}`);
       console.log(response) 
-      setPayroll(response?.data?.payrollData?.[0] ?? {});
+      setPayroll(response?.data?.payrollData ?? {});
      
     }
 

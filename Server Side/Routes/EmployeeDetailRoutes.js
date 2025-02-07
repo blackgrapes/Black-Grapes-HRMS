@@ -62,7 +62,7 @@ router.post("/add_employee", upload.single('image'), async (req, res) => {
       return res.status(409).json({ message: "Employee already exists" });
     }
 
-    // Create an employee object
+    // Step 1️⃣: Insert Employee Data
     const employeeData = {
       name,
       email,
@@ -74,20 +74,36 @@ router.post("/add_employee", upload.single('image'), async (req, res) => {
       dob,
       joiningDate,
       company,
-      createdAt: new Date(), // Store creation time for sorting
-      image: req.file ? req.file.filename : null, // Save image filename if uploaded
+      createdAt: new Date(),
+      image: req.file ? req.file.filename : null,
     };
 
-    // Insert employee data into the collection
-    const result = await db.collection("employees_detail").insertOne(employeeData);
-    console.log("Employee added:", result.insertedId);
+    const employeeResult = await db.collection("employees_detail").insertOne(employeeData);
+    console.log("Employee added:", employeeResult.insertedId);
 
-    return res.status(200).json({ message: "Employee added successfully", employeeId: result.insertedId });
+    // Step 2️⃣: Add Initial Leave Balance in leave_requests Collection
+    const currentYear = new Date().getFullYear();
+    const leaveBalanceData = {
+      employeeId: employeeResult.insertedId,
+      email: email,
+      year: currentYear,
+      paidLeavesRemaining: 30,
+      createdAt: new Date(),
+    };
+
+    await db.collection("leave_requests").insertOne(leaveBalanceData);
+    console.log("Leave balance initialized for:", employeeResult.insertedId);
+
+    return res.status(200).json({
+      message: "Employee added successfully with initial leave balance",
+      employeeId: employeeResult.insertedId,
+    });
   } catch (err) {
     console.error("Error adding employee:", err);
     return res.status(500).json({ Error: "Internal server error" });
   }
 });
+
 
 // Route to fetch all employees (sorted by latest created)
 router.get('/all', async (req, res) => {
