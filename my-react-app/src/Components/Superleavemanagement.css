@@ -1,4 +1,4 @@
-/* Superleavemanagement.css */
+/* Superleavemanagement.css
 .leave-container {
     max-width: 1000px;
     margin: 20px auto;
@@ -59,5 +59,3 @@
   
   button.approve-btn {
     margin-right: 10px; /* Add space between approve and reject buttons */
-  }
-  

@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./Attendance.css";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const Attendance = () => {
   const [attendanceData, setAttendanceData] = useState([]);
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const today = new Date(); // Always use today's date
   const navigate = useNavigate();
 
   // Fetch attendance data from backend
@@ -17,7 +15,6 @@ const Attendance = () => {
         "http://localhost:3000/attendance/attendance-with-details"
       );
       if (response.status === 200) {
-        console.log(response.data);
         setAttendanceData(response.data);
       }
     } catch (error) {
@@ -29,10 +26,10 @@ const Attendance = () => {
     fetchAttendance();
   }, []);
 
-  // Filter attendance data for the selected date
+  // Filter attendance data for today's date
   const filteredData = attendanceData.map((employee) => {
     const attendanceForDate = employee.attendance.find(
-      (record) => record.date === selectedDate.toISOString().split("T")[0]
+      (record) => record.date === today.toISOString().split("T")[0]
     );
     return {
       ...employee,
@@ -47,7 +44,7 @@ const Attendance = () => {
         "http://localhost:3000/attendance/attendance",
         {
           employeeEmail: email,
-          date: selectedDate.toISOString().split("T")[0],
+          date: today.toISOString().split("T")[0], // Always use today's date
           status,
         }
       );
@@ -71,15 +68,9 @@ const Attendance = () => {
     <div className="attendance-container">
       <h2 className="attendance-title">Employee Attendance</h2>
 
-      {/* Date Picker */}
-      <div className="datepicker-container">
-        <label htmlFor="attendance-date">Select Date: </label>
-        <DatePicker
-          id="attendance-date"
-          selected={selectedDate}
-          onChange={(date) => setSelectedDate(date)}
-          dateFormat="yyyy-MM-dd"
-        />
+      {/* Display Today's Date */}
+      <div className="today-date">
+        <strong>Today's Date:</strong> {today.toISOString().split("T")[0]}
       </div>
 
       {/* Show Attendance Report Button */}

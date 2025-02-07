@@ -71,6 +71,18 @@ const SignupEmployee = () => {
         </div>
 
         <div className="form-group">
+          <label htmlFor="dob">Date of Birth</label>
+          <input
+            type="date"
+            id="dob"
+            value={dob}
+            onChange={(e) => setDob(e.target.value)}
+            className="form-control"
+            required
+          />
+        </div>
+
+        <div className="form-group">
           <label htmlFor="password">Password</label>
           <input
             type="password"
@@ -83,17 +95,7 @@ const SignupEmployee = () => {
           />
         </div>
 
-        <div className="form-group">
-          <label htmlFor="dob">Date of Birth</label>
-          <input
-            type="date"
-            id="dob"
-            value={dob}
-            onChange={(e) => setDob(e.target.value)}
-            className="form-control"
-            required
-          />
-        </div>
+       
 
         <button type="submit" className="btn btn-success">
           Sign Up

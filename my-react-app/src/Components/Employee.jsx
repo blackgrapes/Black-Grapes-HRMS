@@ -30,8 +30,6 @@ const Employee = () => {
       const searchValue = searchTerm.toLowerCase();
       if (category === "name") return e.name?.toLowerCase().includes(searchValue);
       if (category === "email") return e.email?.toLowerCase().includes(searchValue);
-      if (category === "role") return e.designation?.toLowerCase().includes(searchValue);
-      if (category === "department") return e.Department?.toLowerCase().includes(searchValue);
       return true; // Default return to show all if no category matches
     });
     setFilteredEmployees(filteredData);
@@ -81,8 +79,6 @@ const Employee = () => {
         >
           <option value="name">Search by Name</option>
           <option value="email">Search by Email</option>
-          <option value="role">Search by Role</option>
-          <option value="department">Search by Department</option>
         </select>
         <input
           type="text"
@@ -109,7 +105,7 @@ const Employee = () => {
               <th>Company</th>
               <th>Department</th>
               <th>Role</th>
-              <th>Action</th>
+              <th>DELETE</th>
             </tr>
           </thead>
           <tbody>
@@ -126,7 +122,7 @@ const Employee = () => {
              
                <td>
                  <button className="btn btn-danger" onClick={() => handleDelete(emp._id)}>
-                   Delete
+                 🗑️
                  </button>
                </td>
              </tr>

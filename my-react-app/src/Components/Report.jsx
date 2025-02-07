@@ -137,7 +137,7 @@ const Report = () => {
             <th>Role</th>
             <th>Total Salary (Rs.)</th>
             <th>Paid Upto</th>
-            <th>Actions</th>
+            <th>Download</th>
           </tr>
         </thead>
         <tbody>
@@ -156,7 +156,7 @@ const Report = () => {
                 <td>{payroll.paidUpto}</td>
                 <td>
                   <button className="button" onClick={() => downloadEmployeePDF(employee)}>
-                  <i className="fa-solid fa-arrow-circle-down"></i>
+                  <h6>⬇️</h6>
                   {/* Font Awesome download icon */}
                   </button>
                 </td>
