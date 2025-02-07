@@ -10,9 +10,8 @@ const Leave = () => {
   const [leaveStartDate, setLeaveStartDate] = useState("");
   const [leaveEndDate, setLeaveEndDate] = useState("");
   const [leaveRequests, setLeaveRequests] = useState([]);
-  const [leaveBalance, setLeaveBalance] = useState(30);
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(null);
+  const [leaveBalance, setLeaveBalance] = useState(0); // Default to 0
+  const [loading, setLoading] = useState(false); // Loading state for API calls
   const [searchParams] = useSearchParams();
   const email = searchParams.get("email");
 
@@ -22,10 +21,12 @@ const Leave = () => {
       const startDateObj = new Date(leaveStartDate);
       startDateObj.setDate(startDateObj.getDate() + (leaveDays - 1));
       setLeaveEndDate(startDateObj.toISOString().split("T")[0]);
+    } else {
+      setLeaveEndDate(""); // Clear end date if inputs are invalid
     }
   }, [leaveStartDate, leaveDays]);
 
-  // Fetch leave requests for the employee
+  // Fetch leave requests
   const fetchLeaveRequests = async () => {
     if (!email) return;
     try {
@@ -35,22 +36,22 @@ const Leave = () => {
       setLeaveRequests(response.data.leaveRequests || []);
     } catch (err) {
       console.error("Failed to fetch leave requests:", err);
-      setError("Failed to fetch leave requests.");
     }
   };
 
-  // Fetch current leave balance
+  // Fetch leave balance
   const fetchLeaveBalance = async () => {
     try {
       const response = await axios.get(
         `http://localhost:3000/employeeLeave/leave-balance/${email}`
       );
-      setLeaveBalance(response.data.paidLeavesRemaining);
+      setLeaveBalance(response.data.paidLeavesRemaining || 0);
     } catch (err) {
       console.error("Failed to fetch leave balance:", err);
     }
   };
 
+  // Initial fetch for leave data
   useEffect(() => {
     if (email) {
       fetchLeaveRequests();
@@ -60,12 +61,23 @@ const Leave = () => {
 
   // Handle Leave Request Submission
   const handleSubmitRequest = async () => {
-    setError(null);
-    setSuccess(null);
+    setLoading(true); // Start loading
 
     if (!leaveStartDate || leaveDays <= 0 || !leaveType || !leaveReason) {
-      setError("Please fill in all fields correctly.");
+      alert("Please fill in all fields correctly.");
+      setLoading(false);
       return;
+    }
+
+    // Check for expired leave balance
+    if (leaveBalance <= 0) {
+      const proceed = window.confirm(
+        "Your leave balance has expired. Do you still want to submit this leave request?"
+      );
+      if (!proceed) {
+        setLoading(false);
+        return;
+      }
     }
 
     const body = {
@@ -74,7 +86,6 @@ const Leave = () => {
       type: leaveType,
       reason: leaveReason,
       startDate: leaveStartDate,
-      endDate: leaveEndDate,
     };
 
     try {
@@ -84,40 +95,47 @@ const Leave = () => {
       setLeaveReason("");
       setLeaveStartDate("");
       setLeaveEndDate("");
-      setSuccess("Leave request submitted successfully.");
 
-      // Refresh data
-      fetchLeaveRequests();
-      fetchLeaveBalance();
+      // Success Alert
+      alert("Leave request submitted successfully.");
+
+      // Refresh data after submission
+      await Promise.all([fetchLeaveRequests(), fetchLeaveBalance()]);
     } catch (err) {
       console.error("Failed to submit leave request:", err);
-      setError("Failed to submit leave request.");
+      alert("Failed to submit leave request. Please try again later.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="leave-management-container">
-      <h2>Leave Management</h2>
+      <h2>Leave Management System</h2>
 
       <div className="leave-balance">
         <h3>Leave Balance</h3>
-        <p>Paid Leaves Remaining: <strong>{leaveBalance}</strong> days</p>
+        <p>
+          Paid Leaves Remaining:{" "}
+          <strong>{leaveBalance}</strong> {leaveBalance === 1 ? "day" : "days"}
+        </p>
       </div>
-
-      {error && <div className="error">{error}</div>}
-      {success && <div className="success">{success}</div>}
 
       <div className="leave-form">
         <h3>Request Leave</h3>
         <label>
           Leave Type:
-          <select value={leaveType} onChange={(e) => setLeaveType(e.target.value)}>
+          <select
+            value={leaveType}
+            onChange={(e) => setLeaveType(e.target.value)}
+          >
             <option value="">Select</option>
             <option value="Sick">Sick Leave</option>
             <option value="Vacation">Vacation Leave</option>
             <option value="Casual">Casual Leave</option>
           </select>
         </label>
+
         <label>
           Start Date:
           <input
@@ -126,6 +144,7 @@ const Leave = () => {
             onChange={(e) => setLeaveStartDate(e.target.value)}
           />
         </label>
+
         <label>
           Number of Days:
           <input
@@ -135,10 +154,12 @@ const Leave = () => {
             min="1"
           />
         </label>
+
         <label>
           End Date:
           <input type="date" value={leaveEndDate} readOnly />
         </label>
+
         <label>
           Reason:
           <textarea
@@ -146,7 +167,10 @@ const Leave = () => {
             onChange={(e) => setLeaveReason(e.target.value)}
           />
         </label>
-        <button onClick={handleSubmitRequest}>Submit Leave Request</button>
+
+        <button onClick={handleSubmitRequest} disabled={loading}>
+          {loading ? "Submitting..." : "Submit Leave Request"}
+        </button>
       </div>
 
       <div className="leave-requests">
@@ -176,13 +200,13 @@ const Leave = () => {
                   <td>{new Date(request.startDate).toLocaleDateString()}</td>
                   <td>{new Date(request.endDate).toLocaleDateString()}</td>
                   <td
-                    className={
+                    className={`status ${
                       request.status === "Approved"
                         ? "status-approved"
                         : request.status === "Rejected"
                         ? "status-rejected"
                         : "status-pending"
-                    }
+                    }`}
                   >
                     {request.status}
                   </td>

@@ -4,6 +4,26 @@ import { db } from "../utils/db.js";
 
 const router = express.Router();
 
+// ✅ Utility Function: Initialize or Reset Leave Balance
+const initializeOrUpdateLeaveBalance = async (employee, email) => {
+  const currentYear = new Date().getFullYear();
+
+  if (!employee.leaveBalance) {
+    employee.leaveBalance = { year: currentYear, paidLeavesRemaining: 30 };
+    await db.collection("employees_detail").updateOne(
+      { email },
+      { $set: { leaveBalance: employee.leaveBalance } }
+    );
+  } else if (employee.leaveBalance.year < currentYear) {
+    employee.leaveBalance = { year: currentYear, paidLeavesRemaining: 30 };
+    await db.collection("employees_detail").updateOne(
+      { email },
+      { $set: { leaveBalance: employee.leaveBalance } }
+    );
+  }
+  return employee.leaveBalance;
+};
+
 // Route to create a new leave request
 router.post("/leave-request", async (req, res) => {
   const { email, type, days, reason, startDate } = req.body;
@@ -15,30 +35,19 @@ router.post("/leave-request", async (req, res) => {
       });
     }
 
-    const employee = await db.collection("employees_detail").findOne({ email });
+    let employee = await db.collection("employees_detail").findOne({ email });
     if (!employee) {
-      return res.status(404).json({ error: "Employee not found" });
+      // ✅ Auto-create employee if not found
+      const newEmployee = {
+        email,
+        leaveBalance: { year: new Date().getFullYear(), paidLeavesRemaining: 30 },
+      };
+      await db.collection("employees_detail").insertOne(newEmployee);
+      employee = newEmployee;
     }
 
-    const currentYear = new Date().getFullYear();
-
-    // ✅ Fixed Leave Balance Reset Logic
-    if (!employee.leaveBalance) {
-      // Initialize leave balance if not present
-      employee.leaveBalance = { year: currentYear, paidLeavesRemaining: 30 };
-      await db.collection("employees_detail").updateOne(
-        { email },
-        { $set: { leaveBalance: employee.leaveBalance } }
-      );
-    } else if (employee.leaveBalance.year < currentYear) {
-      // Reset leave balance only if the year has changed
-      employee.leaveBalance = { year: currentYear, paidLeavesRemaining: 30 };
-      await db.collection("employees_detail").updateOne(
-        { email },
-        { $set: { leaveBalance: employee.leaveBalance } }
-      );
-    }
-    // ❌ No reset if it's the current year and balance exists
+    // ✅ Initialize or reset leave balance if needed
+    await initializeOrUpdateLeaveBalance(employee, email);
 
     const startDateObj = new Date(startDate);
     startDateObj.setDate(startDateObj.getDate() + (days - 1));
@@ -134,18 +143,21 @@ router.get("/leave-request/:email", async (req, res) => {
   }
 });
 
-// Route to get leave balance
+// ✅ Route to get leave balance
 router.get("/leave-balance/:email", async (req, res) => {
   const { email } = req.params;
 
   try {
-    const employee = await db.collection("employees_detail").findOne({ email });
+    let employee = await db.collection("employees_detail").findOne({ email });
     if (!employee) {
       return res.status(404).json({ error: "Employee not found" });
     }
-    console.log(employee);
+
+    // ✅ Initialize or reset leave balance if needed
+    await initializeOrUpdateLeaveBalance(employee, email);
+
     return res.status(200).json({
-      paidLeavesRemaining: employee.leaveBalance?.paidLeavesRemaining || 0,
+      paidLeavesRemaining: employee.leaveBalance.paidLeavesRemaining,
     });
   } catch (err) {
     console.error("Error fetching leave balance:", err);
@@ -153,7 +165,7 @@ router.get("/leave-balance/:email", async (req, res) => {
   }
 });
 
-// Route to approve/reject a leave request
+// ✅ Route to approve/reject a leave request
 router.put("/leave-requests/:id", async (req, res) => {
   const { id } = req.params;
   const { decision } = req.body;
@@ -185,17 +197,10 @@ router.put("/leave-requests/:id", async (req, res) => {
       return res.status(404).json({ error: "Employee not found" });
     }
 
+    // ✅ Initialize or reset leave balance if needed
+    await initializeOrUpdateLeaveBalance(employee, employee.email);
+
     if (decision === "approved") {
-      const currentYear = new Date().getFullYear();
-
-      // ✅ Fixed Leave Balance Reset Logic
-      if (!employee.leaveBalance) {
-        employee.leaveBalance = { year: currentYear, paidLeavesRemaining: 30 };
-      } else if (employee.leaveBalance.year < currentYear) {
-        employee.leaveBalance = { year: currentYear, paidLeavesRemaining: 30 };
-      }
-      // ❌ Skip resetting if leave balance is for the current year
-
       let paidLeave = 0;
       let unpaidLeave = 0;
 
@@ -234,13 +239,20 @@ router.put("/leave-requests/:id", async (req, res) => {
       );
 
       return res.status(200).json({
-        message: "Leave request approved successfully",
+        message:
+          unpaidLeave > 0
+            ? "Leave approved with unpaid days"
+            : "Leave request approved successfully",
         leaveRequest: {
           ...leaveRequest,
           status: "Approved",
           paidLeave,
           unpaidLeave,
         },
+        unpaidAlert:
+          unpaidLeave > 0
+            ? "⚠️ Some of the approved leave days are unpaid."
+            : null,
       });
     } else {
       // Rejected leave request
