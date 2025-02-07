@@ -34,6 +34,9 @@ import ShowAttendance from './Components/ShowAttendance';
 import Employeeforgot from './Components/Employeeforgot';
 import Adminforgot from './Components/Adminforgot';
 import Superadminforgot from './Components/Superadminforgot';
+import Superpayroll from './Components/Superpayroll';
+import Superleavemanagement from './Components/Superleavemanagement';
+import Superattendance from './Components/Superattendance';
 
 function App() {
   return (
@@ -60,6 +63,9 @@ function App() {
         <Route path="/SuperProfile" element={<SuperProfile />} />
         <Route path="/SuperAdminSignup" element={<SuperAdminSignup />} />
         <Route path="/Superadminforgot" element={<Superadminforgot />} /> 
+        <Route path="/Superpayroll" element={<Superpayroll/>} /> 
+        <Route path="/Superleavemanagement" element={<Superleavemanagement/>} /> 
+        <Route path="/Superattendance" element={<Superattendance/>} /> 
 
         {/* Protected Routes */}
         <Route path="/dashboard" element={
