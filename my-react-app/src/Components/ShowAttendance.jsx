@@ -21,7 +21,9 @@ const ShowAttendance = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:3000/attendance/attendance?employeeEmail=${email}&fromDate=${fromDate}&toDate=${toDate}`);
+      const response = await fetch(
+        `http://localhost:3000/attendance/attendance?employeeEmail=${email}&fromDate=${fromDate}&toDate=${toDate}`
+      );
       const data = await response.json();
 
       if (response.ok) {
@@ -41,20 +43,23 @@ const ShowAttendance = () => {
     fetchAttendance();
   };
 
+  // ✅ Count attendance statuses, including Paid and Unpaid Leaves
   const countStatuses = () => {
     let presentCount = 0;
     let absentCount = 0;
-    let leaveCount = 0;
+    let paidLeaveCount = 0;
+    let unpaidLeaveCount = 0;
     let halfDayCount = 0;
 
-    attendanceData.forEach(record => {
+    attendanceData.forEach((record) => {
       if (record.status === 'Present') presentCount++;
       if (record.status === 'Absent') absentCount++;
-      if (record.status === 'On Leave') leaveCount++;
+      if (record.status === 'Paid Leave') paidLeaveCount++;
+      if (record.status === 'Unpaid Leave') unpaidLeaveCount++;
       if (record.status === 'Half Day') halfDayCount++;
     });
 
-    return { presentCount, absentCount, leaveCount, halfDayCount };
+    return { presentCount, absentCount, paidLeaveCount, unpaidLeaveCount, halfDayCount };
   };
 
   const formatDate = (dateString) => {
@@ -63,53 +68,50 @@ const ShowAttendance = () => {
     return date.toLocaleDateString(undefined, options);
   };
 
+  // ✅ Generate PDF with Paid/Unpaid Leave
   const downloadPDF = () => {
     const doc = new jsPDF();
 
-    // Add header
+    // Header
     doc.setFontSize(18);
     doc.setFont("bold");
     doc.text("BLACK GRAPES GROUP", 105, 15, null, null, "center");
 
-    // Add subheading
+    // Subheading
     doc.setFontSize(12);
-    doc.text("Employee Detail Report", 105, 22, null, null, "center");
+    doc.text("Employee Attendance Report", 105, 22, null, null, "center");
 
-    // Add download date
+    // Date Info
     const downloadDate = new Date().toLocaleDateString();
     doc.setFontSize(10);
     doc.text(`Date: ${downloadDate}`, 14, 35);
 
-    // Add employee email in bold
+    // Employee Email & Date Range
     doc.setFont("bold");
     doc.text(`Employee Email: ${email}`, 14, 45);
-
-    // Add date range in words
     doc.setFont("normal");
     doc.text(`From: ${formatDate(fromDate)}`, 14, 55);
     doc.text(`To: ${formatDate(toDate)}`, 14, 60);
 
-    // Calculate attendance status counts
-    const { presentCount, absentCount, leaveCount, halfDayCount } = countStatuses();
-
-    // Add attendance status counts
+    // Attendance Summary
+    const { presentCount, absentCount, paidLeaveCount, unpaidLeaveCount, halfDayCount } = countStatuses();
     doc.text(`Present: ${presentCount}`, 14, 70);
     doc.text(`Absent: ${absentCount}`, 14, 75);
-    doc.text(`On Leave: ${leaveCount}`, 14, 80);
-    doc.text(`Half Day: ${halfDayCount}`, 14, 85);
+    doc.text(`Paid Leave: ${paidLeaveCount}`, 14, 80);
+    doc.text(`Unpaid Leave: ${unpaidLeaveCount}`, 14, 85);
+    doc.text(`Half Day: ${halfDayCount}`, 14, 90);
 
-    // Add the attendance data table
+    // Attendance Data Table
     const tableColumn = ['Date', 'Status'];
-    const tableRows = attendanceData.map(record => [record.date, record.status]);
+    const tableRows = attendanceData.map((record) => [record.date, record.status]);
 
-    // Corrected autoTable usage to ensure proper positioning
     doc.autoTable({
       head: [tableColumn],
       body: tableRows,
-      startY: 95, // Adjust startY position after adding counts and other details
+      startY: 100,
     });
 
-    // Save the PDF
+    // Save PDF
     doc.save(`Attendance_Report_${email}_${fromDate}_to_${toDate}.pdf`);
   };
 
@@ -118,7 +120,13 @@ const ShowAttendance = () => {
       <h2>Attendance Tracker</h2>
       <form onSubmit={handleSubmit} className="email-form">
         <label htmlFor="email">Email Address:</label>
-        <input type="email" id="email" value={email} onChange={handleEmailChange} placeholder="example@domain.com" />
+        <input
+          type="email"
+          id="email"
+          value={email}
+          onChange={handleEmailChange}
+          placeholder="example@domain.com"
+        />
 
         <label htmlFor="fromDate">From Date:</label>
         <input type="date" id="fromDate" value={fromDate} onChange={handleFromDateChange} />
@@ -140,7 +148,8 @@ const ShowAttendance = () => {
               <p><strong>To:</strong> {formatDate(toDate)}</p>
               <p><strong>Present:</strong> {countStatuses().presentCount}</p>
               <p><strong>Absent:</strong> {countStatuses().absentCount}</p>
-              <p><strong>On Leave:</strong> {countStatuses().leaveCount}</p>
+              <p><strong>Paid Leave:</strong> {countStatuses().paidLeaveCount}</p>
+              <p><strong>Unpaid Leave:</strong> {countStatuses().unpaidLeaveCount}</p>
               <p><strong>Half Day:</strong> {countStatuses().halfDayCount}</p>
             </div>
 

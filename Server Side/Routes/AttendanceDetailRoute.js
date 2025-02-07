@@ -3,7 +3,7 @@ import { db } from "../utils/db.js";
 
 const router = express.Router();
 
-// Fetch attendance with employee details
+// ✅ Fetch attendance with employee details (Modified)
 router.get("/attendance-with-details", async (req, res) => {
   try {
     const currentDate = new Date().toISOString().split("T")[0]; // Format: YYYY-MM-DD
@@ -22,13 +22,13 @@ router.get("/attendance-with-details", async (req, res) => {
 
     const newAttendanceEntries = [];
 
-    // Process employee attendance
+    // ✅ Process employee attendance
     const mergedData = employees.map((employee) => {
       const attendanceRecords = attendanceData.filter(
         (a) => a.employeeEmail === employee.email
       );
 
-      const isOnLeave = leaveData.some(
+      const approvedLeave = leaveData.find(
         (leave) => leave.email === employee.email
       );
 
@@ -36,17 +36,22 @@ router.get("/attendance-with-details", async (req, res) => {
         (record) => record.date === currentDate
       );
 
-      if (isOnLeave) {
+      if (approvedLeave) {
+        const leaveStatus =
+          approvedLeave.paidLeave > 0 ? "Paid Leave" : "Unpaid Leave";
+
         if (hasAttendanceToday) {
+          // ✅ Update existing attendance record
           db.collection("attendance").updateOne(
             { employeeEmail: employee.email, date: currentDate },
-            { $set: { status: "On Leave" } }
+            { $set: { status: leaveStatus } }
           );
         } else {
+          // ✅ Insert new attendance record for leave
           const newAttendance = {
             employeeEmail: employee.email,
             date: currentDate,
-            status: "On Leave",
+            status: leaveStatus,
             createdAt: new Date(),
           };
           newAttendanceEntries.push(newAttendance);
@@ -66,6 +71,7 @@ router.get("/attendance-with-details", async (req, res) => {
       };
     });
 
+    // ✅ Insert any new attendance records
     if (newAttendanceEntries.length > 0) {
       await db.collection("attendance").insertMany(newAttendanceEntries);
     }

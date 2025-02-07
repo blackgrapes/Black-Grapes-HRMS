@@ -10,8 +10,8 @@ const Leave = () => {
   const [leaveStartDate, setLeaveStartDate] = useState("");
   const [leaveEndDate, setLeaveEndDate] = useState("");
   const [leaveRequests, setLeaveRequests] = useState([]);
-  const [leaveBalance, setLeaveBalance] = useState(0); // Default to 0
-  const [loading, setLoading] = useState(false); // Loading state for API calls
+  const [leaveBalance, setLeaveBalance] = useState(0); 
+  const [loading, setLoading] = useState(false); 
   const [searchParams] = useSearchParams();
   const email = searchParams.get("email");
 
@@ -22,7 +22,7 @@ const Leave = () => {
       startDateObj.setDate(startDateObj.getDate() + (leaveDays - 1));
       setLeaveEndDate(startDateObj.toISOString().split("T")[0]);
     } else {
-      setLeaveEndDate(""); // Clear end date if inputs are invalid
+      setLeaveEndDate(""); 
     }
   }, [leaveStartDate, leaveDays]);
 
@@ -59,12 +59,36 @@ const Leave = () => {
     }
   }, [email]);
 
-  // Handle Leave Request Submission
+  // ✅ Check for overlapping leave dates
+  const isDateOverlapping = (startDate, endDate) => {
+    return leaveRequests.some((request) => {
+      const requestStart = new Date(request.startDate);
+      const requestEnd = new Date(request.endDate);
+      const newStart = new Date(startDate);
+      const newEnd = new Date(endDate);
+
+      return (
+        (newStart >= requestStart && newStart <= requestEnd) ||
+        (newEnd >= requestStart && newEnd <= requestEnd) ||
+        (newStart <= requestStart && newEnd >= requestEnd)
+      );
+    });
+  };
+
+  // 📝 Handle Leave Request Submission
   const handleSubmitRequest = async () => {
-    setLoading(true); // Start loading
+    setLoading(true); 
 
     if (!leaveStartDate || leaveDays <= 0 || !leaveType || !leaveReason) {
       alert("Please fill in all fields correctly.");
+      setLoading(false);
+      return;
+    }
+
+    // ❗ Check for overlapping leave dates
+    if (isDateOverlapping(leaveStartDate, leaveEndDate)) {
+      alert("Leave has already been applied for the selected dates.");
+      clearForm(); 
       setLoading(false);
       return;
     }
@@ -90,16 +114,10 @@ const Leave = () => {
 
     try {
       await axios.post("http://localhost:3000/employeeLeave/leave-request", body);
-      setLeaveType("");
-      setLeaveDays(0);
-      setLeaveReason("");
-      setLeaveStartDate("");
-      setLeaveEndDate("");
+      clearForm();
 
-      // Success Alert
       alert("Leave request submitted successfully.");
 
-      // Refresh data after submission
       await Promise.all([fetchLeaveRequests(), fetchLeaveBalance()]);
     } catch (err) {
       console.error("Failed to submit leave request:", err);
@@ -107,6 +125,15 @@ const Leave = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  // 🗑️ Clear the leave form
+  const clearForm = () => {
+    setLeaveType("");
+    setLeaveDays(0);
+    setLeaveReason("");
+    setLeaveStartDate("");
+    setLeaveEndDate("");
   };
 
   return (
@@ -125,10 +152,7 @@ const Leave = () => {
         <h3>Request Leave</h3>
         <label>
           Leave Type:
-          <select
-            value={leaveType}
-            onChange={(e) => setLeaveType(e.target.value)}
-          >
+          <select value={leaveType} onChange={(e) => setLeaveType(e.target.value)}>
             <option value="">Select</option>
             <option value="Sick">Sick Leave</option>
             <option value="Vacation">Vacation Leave</option>
