@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import "./Adminforgot.css";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +8,6 @@ const Adminforgot = () => {
   const [dob, setDob] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -23,23 +22,31 @@ const Adminforgot = () => {
     setLoading(true);
 
     axios
-      .post("http://localhost:3000/admin/reset-password", { email, dob, newPassword })
+      .post("http://localhost:3000/auth/forgotpassword", { email, dob, newPassword })
       .then((response) => {
-        if (response.data.success) {
-          setSuccess("Password updated successfully!");
+        if (response.data.message === "Password reset successfully") {
+          alert("Password updated successfully!");
           setEmail("");
           setDob("");
           setNewPassword("");
           setError(null);
-          setTimeout(() => {
-            navigate("/login"); // Redirect to the login page after success
-          }, 2000);
+          navigate("/adminlogin");
         } else {
-          setError(response.data.message || "Incorrect details. Please try again.");
+          setError(response.data.message || "Incorrect credentials. Please try again.");
         }
       })
       .catch((err) => {
-        setError("Something went wrong. Please try again later.");
+        if (err.response) {
+          if (err.response.status === 400 || err.response.status === 401) {
+            setError("Incorrect credentials. Please try again.");
+          } else {
+            setError("Something went wrong on the server. Please try again later.");
+          }
+        } else if (err.request) {
+          setError("No response from server. Please check your network connection.");
+        } else {
+          setError("An unexpected error occurred. Please try again.");
+        }
         console.error(err);
       })
       .finally(() => {
@@ -47,21 +54,11 @@ const Adminforgot = () => {
       });
   };
 
-  // Clear success or error after some time to improve UX
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setSuccess(null);
-      setError(null);
-    }, 5000);
-    return () => clearTimeout(timer);
-  }, [success, error]);
-
   return (
     <div className="forgot-container">
       <div className="forgot-form">
-        <h2>Admin - Forgot Password</h2>
+        <h2>HR - Forgot Password</h2>
         {error && <div className="error-message">{error}</div>}
-        {success && <div className="success-message">{success}</div>}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="email">Email</label>

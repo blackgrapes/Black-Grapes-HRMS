@@ -68,19 +68,6 @@ const SignupAdmin = () => {
           />
         </div>
         <div className="form-group">
-          <label>Password</label>
-          <input
-            type="password"
-            name="password"
-            value={adminData.password}
-            onChange={handleChange}
-            className="form-control"
-            placeholder="Enter password"
-          />
-        </div>
-        
-        {/* DOB Field Added */}
-        <div className="form-group">
           <label>Date of Birth</label>
           <input
             type="date"
@@ -89,6 +76,17 @@ const SignupAdmin = () => {
             onChange={handleChange}
             className="form-control"
             required
+          />
+        </div>
+        <div className="form-group">
+          <label>Password</label>
+          <input
+            type="password"
+            name="password"
+            value={adminData.password}
+            onChange={handleChange}
+            className="form-control"
+            placeholder="Enter password"
           />
         </div>
 
