@@ -1,100 +1,89 @@
-import axios from "axios";
-import React, { useState } from "react";
-import './Superadminforgot.css'; // Import the CSS file for styling
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import './SuperadminForgot.css';
 
-const Superadminforgot = () => {
-  const [email, setEmail] = useState(""); // For Email
-  const [dob, setDob] = useState(""); // For Date of Birth
-  const [newPassword, setNewPassword] = useState(""); // For New Password
-  const [confirmPassword, setConfirmPassword] = useState(""); // For Confirm New Password
-  const [error, setError] = useState(null);
-  const [message, setMessage] = useState(null); // For success messages
+const SuperadminForgot = () => {
+  const [email, setEmail] = useState('');
+  const [dob, setDob] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-    // Step 2: Check if new password and confirm password match
-    if (newPassword !== confirmPassword) {
-      setError("Passwords do not match. Please try again.");
+    if (!email || !dob || !newPassword) {
+      setError('❗ Please fill in all the fields.');
       return;
     }
 
-    // Step 2: Change the password
+    setError('');
+
     try {
-      const response = await axios.post("http://localhost:3000/superadmin/resetpassword", { email, dob, newPassword });
+      const response = await axios.post('http://localhost:3000/superadmin/forgotpassword', {
+        email,
+        dob,
+        newPassword,
+      });
 
       if (response.data.Status) {
-        setMessage("Your password has been successfully updated!");
+        alert('✅ Password changed successfully! Please log in.');
+        navigate('/superadmin_login');
       } else {
-        setError("Failed to update the password. Please try again.");
+        setError(response.data.Error || '❌ Failed to update password. Please check your details.');
       }
     } catch (err) {
-      setError("An error occurred. Please try again later.");
+      setError('⚠️ An error occurred. Please try again later.');
+      console.error(err);
     }
   };
 
   return (
-    <div className="forgot-password-container">
-      <h2>Reset Your Password</h2>
+    <div className="superadmin-forgot-container">
+      <div className="superadmin-forgot-form">
+        <h2>Super Admin Forgot Password</h2>
 
-      {error && <div className="error-message">{error}</div>}
-      {message && <div className="success-message">{message}</div>}
+        {error && <div className="superadmin-error-message">{error}</div>}
 
-      <form onSubmit={handleSubmit}>
-        {/* Email Input Field */}
-        <div className="form-group">
-          <label>Email:</label>
-          <input
-            type="email"
-            placeholder="Enter your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
+        <form onSubmit={handleSubmit}>
+          <div className="superadmin-form-group">
+            <label>Email:</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email"
+              required
+            />
+          </div>
 
-        {/* Date of Birth Input Field */}
-        <div className="form-group">
-          <label>Date of Birth:</label>
-          <input
-            type="date"
-            value={dob}
-            onChange={(e) => setDob(e.target.value)}
-            required
-          />
-        </div>
+          <div className="superadmin-form-group">
+            <label>Date of Birth:</label>
+            <input
+              type="date"
+              value={dob}
+              onChange={(e) => setDob(e.target.value)}
+              required
+            />
+          </div>
 
-        {/* New Password Input Field */}
-        <div className="form-group">
-          <label>New Password:</label>
-          <input
-            type="password"
-            placeholder="Enter your new password"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            required
-          />
-        </div>
+          <div className="superadmin-form-group">
+            <label>New Password:</label>
+            <input
+              type="password"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              placeholder="Enter your new password"
+              required
+            />
+          </div>
 
-        {/* Confirm Password Input Field */}
-        <div className="form-group">
-          <label>Confirm New Password:</label>
-          <input
-            type="password"
-            placeholder="Confirm your new password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
-        </div>
-
-        {/* Reset Password Button */}
-        <button type="submit" className="btn btn-submit">
-          Reset Password
-        </button>
-      </form>
+          <button type="submit">Reset Password</button>
+        </form>
+      </div>
     </div>
   );
 };
 
-export default Superadminforgot;
+export default SuperadminForgot;

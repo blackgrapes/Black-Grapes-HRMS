@@ -6,8 +6,8 @@ const SuperAdminSignup = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    dob: '', // ✅ Added DOB field
     password: '',
-    confirmPassword: '',
   });
 
   const [error, setError] = useState('');
@@ -24,15 +24,10 @@ const SuperAdminSignup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate password matching
-    if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
-      return;
-    }
-
     const newUser = {
       name: formData.name,
       email: formData.email,
+      dob: formData.dob, // ✅ Send DOB to backend
       password: formData.password,
     };
 
@@ -44,8 +39,8 @@ const SuperAdminSignup = () => {
         setFormData({
           name: '',
           email: '',
+          dob: '',
           password: '',
-          confirmPassword: '',
         });
       }
     } catch (err) {
@@ -86,6 +81,18 @@ const SuperAdminSignup = () => {
             />
           </div>
           <div className="form-group">
+            <label htmlFor="dob">Date of Birth</label> {/* ✅ Added DOB */}
+            <input
+              type="date"
+              className="form-control"
+              id="dob"
+              name="dob"
+              value={formData.dob}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
             <label htmlFor="password">Password</label>
             <input
               type="password"
@@ -93,18 +100,6 @@ const SuperAdminSignup = () => {
               id="password"
               name="password"
               value={formData.password}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="confirmPassword">Confirm Password</label>
-            <input
-              type="password"
-              className="form-control"
-              id="confirmPassword"
-              name="confirmPassword"
-              value={formData.confirmPassword}
               onChange={handleChange}
               required
             />

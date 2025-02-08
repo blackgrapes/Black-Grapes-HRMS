@@ -1,95 +1,117 @@
-/* Container to center the form */
-.forgot-password-container {
+/* ✅ Super Admin Forgot Password Container */
+.superadmin-forgot-container {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Full screen height */
-  background-color: #f4f7fc; /* Soft background color */
-  padding: 0 20px; /* Padding on left and right for responsiveness */
-}
-
-/* Heading Style */
-h2 {
-  font-size: 24px;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 20px; /* Space between heading and form */
-}
-
-/* Form container with padding and shadow */
-form {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 400px; /* Max width for form */
-  display: flex;
-  flex-direction: column;
-  gap: 15px; /* Space between form elements */
+  height: 100vh; 
+  background: #ffffff; /* Light Gray Background */
 }
 
-/* Style for each form group (label + input) */
-.form-group {
-  display: flex;
-  flex-direction: column;
+/* ✅ Super Admin Forgot Password Form */
+.superadmin-forgot-form {
+  width: 100%;
+  max-width: 480px;
+  padding: 30px;
+  text-align: center;
+  background: #cfe2ff; /* Light Beige for Super Admin */
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-label {
+/* ✅ Heading */
+.superadmin-forgot-form h2 {
+  font-size: 28px;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 30px;
+}
+
+/* ✅ Error Message */
+.superadmin-error-message {
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #ffffff;
+  color: #d8000c;
+  border-radius: 5px;
   font-size: 14px;
-  font-weight: 500;
-  color: #555;
-  margin-bottom: 5px;
+  font-weight: bold;
 }
 
-input {
+/* ✅ Form Groups */
+.superadmin-form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+/* ✅ Input Styles */
+.superadmin-form-group input[type="email"],
+.superadmin-form-group input[type="date"],
+.superadmin-form-group input[type="password"] {
+  width: 100%;
   padding: 12px;
+  margin-top: 6px;
+  font-size: 16px;
   border-radius: 8px;
-  border: 1px solid #ddd;
-  font-size: 14px;
-  background-color: #f9f9f9;
-  box-sizing: border-box;
+  border: 2px solid #ccc;
+  background-color: #fafafa;
+  transition: all 0.3s ease;
 }
 
+.superadmin-form-group input:focus {
+  outline: none;
+  border-color: #bbd6fe; /* Coral Highlight */
+  background-color: #fff;
+}
+
+.superadmin-form-group input::placeholder {
+  color: #aaa;
+}
+
+/* ✅ Submit Button */
 button {
-  padding: 12px;
+  background-color: #bbd6fe; /* Coral Color */
+  color: white;
+  padding: 12px 20px;
+  font-size: 16px;
+  width: 100%;
   border-radius: 8px;
   border: none;
-  background-color: #007bff;
-  color: white;
-  font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #bbd6fe; /* Darker Coral on Hover */
 }
 
-/* Error and success messages */
-.error-message,
-.success-message {
-  text-align: center;
-  font-size: 14px;
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
 }
 
-.error-message {
-  color: red;
-}
-
-.success-message {
-  color: green;
-}
-
-/* Responsive design for smaller screens */
-@media (max-width: 480px) {
-  h2 {
-    font-size: 20px;
+/* ✅ Mobile Responsiveness */
+@media (max-width: 768px) {
+  .superadmin-forgot-container {
+    padding: 20px;
   }
 
-  input,
+  .superadmin-forgot-form {
+    padding: 20px;
+  }
+
+  .superadmin-forgot-form h2 {
+    font-size: 24px;
+  }
+
+  .superadmin-form-group input {
+    font-size: 14px;
+    padding: 10px;
+  }
+
   button {
     padding: 10px;
+    font-size: 14px;
   }
 }
