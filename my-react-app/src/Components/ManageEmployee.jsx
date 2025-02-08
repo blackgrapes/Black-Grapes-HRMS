@@ -6,7 +6,7 @@ import "./ManageEmployee.css"; // Import CSS
 const ManageEmployeeDetails = () => {
   const [employees, setEmployees] = useState([]);
   const [hrDetails, setHrDetails] = useState([]);
-  const [searchTerm, setSearchTerm] = useState(""); // For search
+  const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,7 +24,7 @@ const ManageEmployeeDetails = () => {
 
     // Fetch HR Details
     axios
-      .get("http://localhost:3000/hrdetail/all") // Corrected URL
+      .get("http://localhost:3000/hrdetail/all")
       .then((result) => {
         if (result.data.Result) {
           setHrDetails(result.data.Result);
@@ -40,9 +40,9 @@ const ManageEmployeeDetails = () => {
       axios
         .delete(`http://localhost:3000/employeedetail/delete_employee/${id}`)
         .then((result) => {
-          if (result.data.Status) {
+          if (result.status === 200) {
             alert("Employee deleted successfully");
-            setEmployees(employees.filter((emp) => emp.id !== id));
+            setEmployees(employees.filter((emp) => emp._id !== id));
           } else {
             alert("Error deleting employee");
           }
@@ -68,20 +68,12 @@ const ManageEmployeeDetails = () => {
   };
 
   const filteredEmployees = employees.filter((employee) =>
-    employee.name.toLowerCase().includes(searchTerm.toLowerCase())
+    employee.name?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const filteredHrDetails = hrDetails.filter((hr) =>
-    hr.name.toLowerCase().includes(searchTerm.toLowerCase())
+    hr.name?.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
-  const scrollToHRSection = () => {
-    document.getElementById("hr-section").scrollIntoView({ behavior: "smooth" });
-  };
-
-  const scrollToEmployeeSection = () => {
-    document.getElementById("employee-section").scrollIntoView({ behavior: "smooth" });
-  };
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
@@ -93,10 +85,7 @@ const ManageEmployeeDetails = () => {
 
       {/* Back Button */}
       <div className="d-flex justify-content-start mb-3">
-        <button
-          className="btn btn-secondary"
-          onClick={() => navigate(-1)} // Navigate to the previous page
-        >
+        <button className="btn btn-secondary" onClick={() => navigate(-1)}>
           Back
         </button>
       </div>
@@ -122,9 +111,6 @@ const ManageEmployeeDetails = () => {
           <Link to="/SuperSignupEmployee" className="btn btn-primary">
             SignUp Employee
           </Link>
-          <button className="btn btn-info" onClick={scrollToHRSection}>
-          HR List
-        </button>
         </div>
 
         {/* Employee Table */}
@@ -139,32 +125,31 @@ const ManageEmployeeDetails = () => {
                 <th>Email</th>
                 <th>Address</th>
                 <th>Phone</th>
-                <th>Designation</th>
                 <th>Manager</th>
-                <th>Joining Date</th>
-                <th>Salary</th>
-                <th>Actions</th>
+                <th>Company</th>
+                <th>Department</th>
+                <th>Role</th>
+                <th>DELETE</th>
               </tr>
             </thead>
             <tbody>
               {filteredEmployees.map((employee, index) => (
-                <tr key={employee.id}>
+                <tr key={employee._id}>
                   <td>{index + 1}</td>
-                  <td>{employee.name}</td>
-                  <td>{employee.email}</td>
-                  <td>{employee.address}</td>
-                  <td>{employee.phone}</td>
-                  <td>{employee.designation}</td>
-                  <td>{employee.manager}</td>
-                  <td>{employee.joiningDate}</td>
-                  <td>{employee.salary}</td>
+                  <td>{employee.name || "N/A"}</td>
+                  <td>{employee.email || "N/A"}</td>
+                  <td>{employee.address || "N/A"}</td>
+                  <td>{employee.phone || "N/A"}</td>
+                  <td>{employee.manager || "N/A"}</td>
+                  <td>{employee.company || "N/A"}</td>
+                  <td>{employee.department || "N/A"}</td>
+                  <td>{employee.role || "N/A"}</td>
                   <td>
-                   
                     <button
                       className="btn btn-danger btn-sm"
-                      onClick={() => handleDeleteEmployee(employee.id)}
+                      onClick={() => handleDeleteEmployee(employee._id)}
                     >
-                      Delete
+                      🗑️
                     </button>
                   </td>
                 </tr>
@@ -184,10 +169,6 @@ const ManageEmployeeDetails = () => {
           <Link to="/SignupHR" className="btn btn-primary">
             SignUp HR
           </Link>
-          {/* Back to Employee List Button */}
-          <button className="btn btn-info" onClick={scrollToEmployeeSection}>
-            Back to Employee List
-          </button>
         </div>
 
         {/* HR Table */}
@@ -201,7 +182,6 @@ const ManageEmployeeDetails = () => {
                 <th>Name</th>
                 <th>Email</th>
                 <th>Phone</th>
-                <th>Salary</th>
                 <th>DOB</th>
                 <th>Joining Date</th>
                 <th>Actions</th>
@@ -214,16 +194,14 @@ const ManageEmployeeDetails = () => {
                   <td>{hr.name}</td>
                   <td>{hr.email}</td>
                   <td>{hr.phone}</td>
-                  <td>{hr.salary}</td>
                   <td>{hr.dob}</td>
                   <td>{hr.joiningDate}</td>
                   <td>
-                    
                     <button
                       className="btn btn-danger btn-sm"
                       onClick={() => handleDeleteHR(hr.id)}
                     >
-                      Delete
+                      🗑️
                     </button>
                   </td>
                 </tr>
