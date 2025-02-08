@@ -19,6 +19,7 @@ const router = express.Router();
 
 // Companies and their departments and roles
 const companies = {
+  "Black Grapes Group":{},
   "Black Grapes Associate": {
     "Finance": ["Financial Analyst", "Accountant", "Auditor"],
     "Marketing": ["Marketing Manager", "SEO Specialist", "Content Strategist"],

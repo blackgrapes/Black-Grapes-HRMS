@@ -133,7 +133,7 @@ const Dashboard = () => {
         </div>
         <div className="col p-0 m-0">
           <div className="p-2 justify-content-center shadow justify-content: center">
-            <h3>________________________Employee Management System_______________________</h3>
+            <h3>Black-Grapes-Group Employee Management System</h3>
           </div>
           <Outlet />
         </div>

@@ -14,6 +14,7 @@ const departments = {
 
 // Mapping companies to departments and roles
 const companies = {
+  "Black Grapes Group":{},
   "Black Grapes Associate": {
     departments: ["Finance", "Marketing", "Sales"],
     roles: {

@@ -27,7 +27,7 @@ const SignupEmployee = () => {
         if (response.data.signupStatus) {
           navigate("/dashboard/employee"); 
           // Redirect on success
-          alert("Employee SignedUp successfully.");
+          alert("Employee SignedUp successfully.Please set Payroll details");
         } else {
           setError(response.data.Error); // Handle backend errors
         }
