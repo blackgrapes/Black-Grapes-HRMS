@@ -104,7 +104,6 @@ const Employee = () => {
               <th>Manager</th>
               <th>Company</th>
               <th>Department</th>
-              <th>Role</th>
               <th>DELETE</th>
             </tr>
           </thead>
@@ -118,7 +117,6 @@ const Employee = () => {
                <td>{emp.manager || "N/A"}</td>
                <td>{emp.company || "N/A"}</td> 
                <td>{emp.Department || emp.department || "N/A"}</td>
-               <td>{emp.designation || emp.role || "N/A"}</td>
              
                <td>
                  <button className="btn btn-danger" onClick={() => handleDelete(emp._id)}>

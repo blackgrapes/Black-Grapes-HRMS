@@ -57,7 +57,6 @@ const Report = () => {
     const filtered = employees.filter((employee) =>
       employee.name.toLowerCase().includes(value) ||
       employee.email.toLowerCase().includes(value) ||
-      employee.role.toLowerCase().includes(value) ||
       (employee.department && employee.department.toLowerCase().includes(value)) ||
       (employee.company && employee.company.toLowerCase().includes(value))
     );
@@ -91,7 +90,6 @@ const Report = () => {
       ["Phone", employee.phone],
       ["Company", employee.company || "-"],
       ["Department", employee.department || "-"],
-      ["Role", employee.role],
       ["Manager", employee.manager || "-"],
       ["Date of Birth", employee.dob || "-"],
       ["Joining Date", employee.joiningDate || "-"],
@@ -117,7 +115,7 @@ const Report = () => {
         <input
           type="text"
           className="search-input"
-          placeholder="Search by name, email, role, department, or company"
+          placeholder="Search by name, email, department, or company"
           value={searchTerm}
           onChange={handleSearch}
         />
@@ -134,7 +132,6 @@ const Report = () => {
             <th>Phone</th>
             <th>Company</th>
             <th>Department</th>
-            <th>Role</th>
             <th>Total Salary (Rs.)</th>
             <th>Paid Upto</th>
             <th>Download</th>
@@ -151,7 +148,6 @@ const Report = () => {
                 <td>{employee.phone}</td>
                 <td>{employee.company || "-"}</td>
                 <td>{employee.department || "-"}</td>
-                <td>{employee.role}</td>
                 <td>{payroll.totalSalary}</td>
                 <td>{payroll.paidUpto}</td>
                 <td>

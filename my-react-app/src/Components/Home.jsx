@@ -11,7 +11,7 @@ const Card = ({ title, value, buttonText, buttonClass, onClick }) => (
       <h4>{title}</h4>
       <br />
     </div>
-    <h5>Total : {value !== undefined ? value : 'Loading...'}</h5> {/* Added fallback */}
+    <h5>Total: {value !== undefined ? value : 'Loading...'}</h5> 
     <button className={`btn ${buttonClass}`} onClick={onClick}>
       {buttonText}
     </button>
@@ -29,8 +29,8 @@ const PieChartComponent = ({ title, data, colors }) => (
             data={data}
             dataKey="value"
             nameKey="name"
-            cx="50%"  // Horizontal center
-            cy="50%"  // Vertical center
+            cx="50%"
+            cy="50%"
             outerRadius={120}
             label
           >
@@ -42,11 +42,7 @@ const PieChartComponent = ({ title, data, colors }) => (
         </PieChart>
       </div>
       <div className="pie-chart-details">
-        <Legend
-          verticalAlign="middle"
-          layout="vertical"
-          align="left" // Align legend to the left within its container
-        />
+        <Legend verticalAlign="middle" layout="vertical" align="left" />
       </div>
     </div>
   </div>
@@ -83,10 +79,10 @@ const HRTable = ({ hrRecords }) => (
 const Home = () => {
   const [employeeTotal, setEmployeeTotal] = useState(0);
   const [salaryTotal, setSalaryTotal] = useState(0);
-  const [leaveCount, setLeaveCount] = useState(0); // ✅ New state for Leave Count
+  const [leaveCount, setLeaveCount] = useState(0);
   const [hrRecords, setHrRecords] = useState([]);
   const [employeeCategories, setEmployeeCategories] = useState([]);
-  const [roleDistribution, setRoleDistribution] = useState([]);
+  const [companyDistribution, setCompanyDistribution] = useState([]); // ✅ Replacing roleDistribution with companyDistribution
 
   const navigate = useNavigate();
 
@@ -96,7 +92,7 @@ const Home = () => {
         fetchEmployeeData(),
         fetchSalaryData(),
         fetchHRData(),
-        fetchLeaveData(), // ✅ Fetch Leave Data
+        fetchLeaveData(),
       ]);
     };
     fetchData();
@@ -113,19 +109,20 @@ const Home = () => {
       setEmployeeTotal(employees.length);
 
       const departmentCount = {};
-      const roleCount = {};
+      const companyCount = {}; // ✅ New object for Company Count
 
       employees.forEach((emp) => {
         departmentCount[emp.department] = (departmentCount[emp.department] || 0) + 1;
-        roleCount[emp.role] = (roleCount[emp.role] || 0) + 1;
+        companyCount[emp.company] = (companyCount[emp.company] || 0) + 1; // ✅ Count companies
       });
 
       setEmployeeCategories(
         Object.entries(departmentCount).map(([name, value]) => ({ name, value }))
       );
-      setRoleDistribution(
-        Object.entries(roleCount).map(([name, value]) => ({ name, value }))
-      );
+
+      setCompanyDistribution(
+        Object.entries(companyCount).map(([name, value]) => ({ name, value }))
+      ); // ✅ Set Company Distribution
     } catch (error) {
       console.error('Error fetching employee data:', error);
     }
@@ -143,7 +140,7 @@ const Home = () => {
     }
   };
 
-  // ✅ Fetch Salary Data (Calculate Total Salary)
+  // ✅ Fetch Salary Data
   const fetchSalaryData = async () => {
     try {
       const response = await axios.get('http://localhost:3000/Payroll/payroll-with-details', {
@@ -162,7 +159,7 @@ const Home = () => {
     }
   };
 
-  // ✅ Fetch Leave Data (Count People on Leave)
+  // ✅ Fetch Leave Data
   const fetchLeaveData = async () => {
     try {
       const response = await axios.get('http://localhost:3000/employeeLeave/leave-requests', {
@@ -170,11 +167,7 @@ const Home = () => {
       });
 
       const leaveRequests = response.data?.leaveRequests || [];
-
-      // ✅ Filter approved leaves
       const approvedLeaves = leaveRequests.filter(request => request.status === 'Approved');
-
-      // ✅ Count unique employees currently on leave
       const uniqueEmployeesOnLeave = new Set(approvedLeaves.map(request => request.email));
       setLeaveCount(uniqueEmployeesOnLeave.size);
     } catch (error) {
@@ -200,14 +193,14 @@ const Home = () => {
         />
         <Card
           title="Salary"
-          value={`Rs. ${salaryTotal.toLocaleString()}`} // ✅ Formatting for better readability
+          value={`Rs. ${salaryTotal.toLocaleString()}`}
           buttonText="Salary Action"
           buttonClass="salary-btn"
           onClick={handleSalaryAction}
         />
         <Card
           title="Leave"
-          value={leaveCount} // ✅ Display the leave count
+          value={leaveCount}
           buttonText="Leave"
           buttonClass="btn-warning"
           onClick={handleLeaveAction}
@@ -217,13 +210,13 @@ const Home = () => {
       {/* ✅ Pie Charts */}
       <section className="pie-charts-row">
         <PieChartComponent
-          title="Employee Category Distribution"
+          title="Employee Department"
           data={employeeCategories}
           colors={['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#A569BD']}
         />
         <PieChartComponent
-          title="Employee Role Distribution"
-          data={roleDistribution}
+          title="Employee in Company" // ✅ Changed the title
+          data={companyDistribution} // ✅ Changed data source
           colors={['#FF6347', '#48C9B0', '#F39C12', '#8E44AD', '#5DADE2']}
         />
       </section>
