@@ -1,69 +1,99 @@
 import express from 'express';
 import multer from 'multer';
 import path from 'path';
-import { ObjectId } from 'mongodb'; // Import ObjectId to handle MongoDB IDs
-import { db } from "../utils/db.js"; // Assuming db is your MongoDB connection
+import { ObjectId } from 'mongodb';
+import { db } from "../utils/db.js";
 
-// Set up multer for image upload
+const router = express.Router();
+
+// Multer configuration for image upload
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // Save uploaded images to the "uploads" folder
+    cb(null, 'uploads/');
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname)); // Use a timestamp + file extension for unique filenames
+    cb(null, Date.now() + path.extname(file.originalname));
   },
 });
 const upload = multer({ storage });
 
-const router = express.Router();
-
-// Companies and their departments and roles
+// Updated Companies, Departments, and Roles
 const companies = {
-  "Black Grapes Group":{},
+  "Black Grapes Group": {
+    departments: ["Accounting and Finance", "Education Services", "E-Commerce Solutions", "Social Media Marketing", "Government Training Programs"],
+    roles: {
+      "Accounting and Finance": ["Financial Analyst", "Senior Accountant", "Auditor"],
+      "Education Services": ["Training Coordinator", "Curriculum Developer", "Education Consultant"],
+      "E-Commerce Solutions": ["E-commerce Manager", "Web Analyst", "Product Listing Specialist"],
+      "Social Media Marketing": ["Social Media Manager", "Content Creator", "Digital Marketing Strategist"],
+      "Government Training Programs": ["Program Manager", "Policy Trainer", "Compliance Officer"],
+    },
+  },
   "Black Grapes Associate": {
-    "Finance": ["Financial Analyst", "Accountant", "Auditor"],
-    "Marketing": ["Marketing Manager", "SEO Specialist", "Content Strategist"],
-    "IT Support": ["IT Technician", "Help Desk Support"],
+    departments: ["Finance", "Marketing", "Sales"],
+    roles: {
+      Finance: ["Financial Analyst", "Accountant"],
+      Marketing: ["SEO Specialist", "Content Strategist"],
+      Sales: ["Sales Executive", "Business Development Manager"],
+    },
   },
   "Black Grapes Softech": {
-    "Software Engineering": ["Frontend Developer", "Backend Developer", "Full Stack Developer"],
-    "Sales": ["Sales Executive", "Business Development Manager"],
+    departments: ["Software Engineering", "IT Support", "Marketing"],
+    roles: {
+      "Software Engineering": ["Frontend Developer", "Backend Developer", "Full Stack Developer"],
+      "IT Support": ["IT Technician", "Help Desk Support"],
+      Marketing: ["SEO Specialist", "Content Strategist"],
+    },
   },
   "Black Grapes Real Estate": {
-    "Sales": ["Real Estate Agent", "Property Manager"],
-    "Marketing": ["Marketing Coordinator", "SEO Specialist"],
+    departments: ["Sales", "Accounting", "Housekeeping"],
+    roles: {
+      Sales: ["Sales Executive", "Business Development Manager"],
+      Accounting: ["Senior Accountant", "Tax Specialist"],
+      Housekeeping: ["Housekeeping Supervisor", "Cleaning Staff"],
+    },
   },
   "Black Grapes Valuers & Engineers": {
-    "Engineering": ["Civil Engineer", "Structural Engineer"],
-    "Accounting": ["Accountant", "Auditor"],
+    departments: ["Finance", "Software Engineering", "Sales"],
+    roles: {
+      Finance: ["Financial Analyst", "Accountant"],
+      "Software Engineering": ["Frontend Developer", "Backend Developer", "Full Stack Developer"],
+      Sales: ["Sales Executive", "Business Development Manager"],
+    },
   },
   "Black Grapes Investment Pvt. Ltd.": {
-    "Finance": ["Investment Analyst", "Portfolio Manager"],
-    "Accounting": ["Senior Accountant", "Tax Specialist"],
+    departments: ["Finance", "Accounting", "Sales"],
+    roles: {
+      Finance: ["Financial Analyst", "Accountant", "Auditor"],
+      Accounting: ["Senior Accountant", "Tax Specialist"],
+      Sales: ["Sales Executive", "Business Development Manager"],
+    },
   },
   "Black Grapes Insurance Surveyors & Loss Assessors Pvt. Ltd.": {
-    "Insurance": ["Claims Adjuster", "Loss Assessor"],
-    "Finance": ["Financial Analyst", "Accountant"],
+    departments: ["Sales", "Marketing", "Accounting"],
+    roles: {
+      Sales: ["Sales Executive", "Business Development Manager"],
+      Marketing: ["SEO Specialist", "Content Strategist"],
+      Accounting: ["Senior Accountant", "Tax Specialist"],
+    },
   },
 };
 
-// Route to add a new employee
+// Add Employee Route (handles image upload)
 router.post("/add_employee", upload.single('image'), async (req, res) => {
   const { name, email, address, phone, role, department, manager, dob, joiningDate, company } = req.body;
+  const image = req.file ? req.file.filename : null;
 
   try {
-    // Validate input data
-    if (!name || !email || !address || !phone || !role || !department || !manager || !dob || !joiningDate || !company) {
+    if (!name || !email || !phone || !role || !manager || !dob || !joiningDate || !department || !company) {
       return res.status(400).json({ Error: "All fields are required" });
     }
 
-    // Check if the employee already exists
     const existingEmployee = await db.collection("employees_detail").findOne({ email });
     if (existingEmployee) {
       return res.status(409).json({ message: "Employee already exists" });
     }
 
-    // Insert Employee Data
     const employeeData = {
       name,
       email,
@@ -76,7 +106,7 @@ router.post("/add_employee", upload.single('image'), async (req, res) => {
       joiningDate,
       company,
       createdAt: new Date(),
-      image: req.file ? req.file.filename : null,
+      image,
     };
 
     const employeeResult = await db.collection("employees_detail").insertOne(employeeData);
@@ -92,12 +122,10 @@ router.post("/add_employee", upload.single('image'), async (req, res) => {
   }
 });
 
-
-// Route to fetch all employees (sorted by latest created)
+// Fetch All Employees
 router.get('/all', async (req, res) => {
   try {
-    const employees = await db.collection("employees_detail").find({}).sort({ createdAt: -1 }).toArray(); // Sort by latest
-    console.log('Fetching employees...');
+    const employees = await db.collection("employees_detail").find({}).sort({ createdAt: -1 }).toArray();
     if (employees.length === 0) {
       return res.status(404).json({ Error: 'No employees found' });
     }
@@ -108,19 +136,16 @@ router.get('/all', async (req, res) => {
   }
 });
 
-// New Route: Fetch employee by email
+// Fetch Employee by Email
 router.get('/employee', async (req, res) => {
-  const { email } = req.query; // Extract query parameters
+  const { email } = req.query;
 
   try {
-    // Validate input
     if (!email) {
       return res.status(400).json({ Error: 'Email is required' });
     }
 
-    // Fetch employee data from the collection
     const employee = await db.collection("employees_detail").findOne({ email });
-
     if (!employee) {
       return res.status(404).json({ Error: 'Employee not found' });
     }
@@ -132,18 +157,16 @@ router.get('/employee', async (req, res) => {
   }
 });
 
-// Route to update employee details
+// Update Employee Details
 router.put('/update_employee/:email', async (req, res) => {
-  const { email } = req.params; // Extract email from the request parameters
-  const { address, phone, role, department, company } = req.body; // Get updated fields from the request body
+  const { email } = req.params;
+  const { address, phone, role, department, company } = req.body;
 
   try {
-    // Validate email
     if (!email) {
       return res.status(400).json({ Error: 'Email is required' });
     }
 
-    // Prepare update data
     const updateData = {};
     if (address) updateData.address = address;
     if (phone) updateData.phone = phone;
@@ -151,22 +174,19 @@ router.put('/update_employee/:email', async (req, res) => {
     if (department) updateData.department = department;
     if (company) updateData.company = company;
 
-    // Ensure there are fields to update
     if (Object.keys(updateData).length === 0) {
       return res.status(400).json({ Error: 'No fields to update' });
     }
 
-    // Update the employee in the collection
     const result = await db.collection('employees_detail').updateOne(
-      { email }, // Match by email
-      { $set: updateData } // Update only the provided fields
+      { email },
+      { $set: updateData }
     );
 
     if (result.matchedCount === 0) {
       return res.status(404).json({ Error: 'Employee not found' });
     }
 
-    console.log('Employee updated:', email);
     res.status(200).json({ message: 'Employee updated successfully' });
   } catch (err) {
     console.error('Error updating employee:', err.message);
@@ -174,7 +194,7 @@ router.put('/update_employee/:email', async (req, res) => {
   }
 });
 
-// Route to fetch all companies with their departments and roles
+// Fetch Companies with Departments and Roles
 router.get('/companies', async (req, res) => {
   try {
     res.status(200).json({ companies });
@@ -184,12 +204,11 @@ router.get('/companies', async (req, res) => {
   }
 });
 
+// Delete Employee by ID
 router.delete('/delete_employee/:id', async (req, res) => {
   const { id } = req.params;
-  console.log("Received ID for deletion:", id);  // Debug log
 
   try {
-    // Validate ObjectId
     if (!ObjectId.isValid(id)) {
       return res.status(400).json({ Error: `Invalid Employee ID: ${id}` });
     }
@@ -200,7 +219,6 @@ router.delete('/delete_employee/:id', async (req, res) => {
       return res.status(404).json({ Error: "Employee not found" });
     }
 
-    console.log("Employee deleted successfully:", id);
     res.status(200).json({ Status: true, message: "Employee deleted successfully" });
   } catch (err) {
     console.error("Error deleting employee:", err);

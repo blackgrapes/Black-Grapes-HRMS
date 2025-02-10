@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+// Updated departments with new entries
 const departments = {
   Finance: ["Financial Analyst", "Accountant", "Auditor"],
   Marketing: ["Marketing Manager", "SEO Specialist", "Content Strategist"],
@@ -10,11 +11,31 @@ const departments = {
   "IT Support": ["IT Technician", "Help Desk Support"],
   Sales: ["Sales Executive", "Business Development Manager"],
   "Software Engineering": ["Frontend Developer", "Backend Developer", "Full Stack Developer"],
+  "Accounting and Finance": ["Financial Analyst", "Senior Accountant", "Auditor"], // New
+  "Education Services": ["Training Coordinator", "Curriculum Developer", "Education Consultant"], // New
+  "E-Commerce Solutions": ["E-commerce Manager", "Web Analyst", "Product Listing Specialist"], // New
+  "Social Media Marketing": ["Social Media Manager", "Content Creator", "Digital Marketing Strategist"], // New
+  "Government Training Programs": ["Program Manager", "Policy Trainer", "Compliance Officer"], // New
 };
 
-// Mapping companies to departments and roles
+// Updated companies with departments and roles
 const companies = {
-  "Black Grapes Group":{},
+  "Black Grapes Group": {
+    departments: [
+      "Accounting and Finance",
+      "Education Services",
+      "E-Commerce Solutions",
+      "Social Media Marketing",
+      "Government Training Programs",
+    ],
+    roles: {
+      "Accounting and Finance": ["Financial Analyst", "Senior Accountant", "Auditor"],
+      "Education Services": ["Training Coordinator", "Curriculum Developer", "Education Consultant"],
+      "E-Commerce Solutions": ["E-commerce Manager", "Web Analyst", "Product Listing Specialist"],
+      "Social Media Marketing": ["Social Media Manager", "Content Creator", "Digital Marketing Strategist"],
+      "Government Training Programs": ["Program Manager", "Policy Trainer", "Compliance Officer"],
+    },
+  },
   "Black Grapes Associate": {
     departments: ["Finance", "Marketing", "Sales"],
     roles: {
@@ -84,24 +105,22 @@ const AddEmployee = () => {
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Handle company change and update departments dynamically
   const handleCompanyChange = (e) => {
     const selectedCompany = e.target.value;
     setEmployee({
       ...employee,
       company: selectedCompany,
-      department: "", // Reset department when company changes
-      role: "", // Reset role when company changes
+      department: "",
+      role: "",
     });
   };
 
-  // Handle department change and update roles dynamically
   const handleDepartmentChange = (e) => {
     const selectedDept = e.target.value;
     setEmployee({
       ...employee,
       department: selectedDept,
-      role: "", // Reset role when department changes
+      role: "",
     });
   };
 
