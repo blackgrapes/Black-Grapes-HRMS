@@ -99,7 +99,6 @@ const EmployeeDetail = ({ email }) => {
               <h3>Employee ID:</h3>
               <h3>Salary:</h3>
               <h3>Department:</h3>
-              <h3>Role:</h3>
               <h3>Manager:</h3>
               <h3>Contact:</h3>
               <h3>Address:</h3>
@@ -112,7 +111,6 @@ const EmployeeDetail = ({ email }) => {
               <h3>{employee._id || "-"}</h3>
               <h3>Rs.{payroll?.totalSalary || "-"}</h3>
               <h3>{employee.department || "-"}</h3>
-              <h3>{employee.role || "-"}</h3>
               <h3>{employee.manager || "-"}</h3>
               <h3>{employee.phone || "-"}</h3>
               <h3>{employee.address || "-"}</h3>

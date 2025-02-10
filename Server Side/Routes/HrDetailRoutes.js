@@ -18,11 +18,11 @@ const router = express.Router();
 
 // Route to add a new HR
 router.post("/add_hr", upload.single('image'), async (req, res) => {
-  const { name, email, phone, salary, dob, joiningDate, address, department } = req.body;
+  const { name, email, phone, dob, joiningDate, address, department } = req.body;
 
   try {
     // Validate input data
-    if (!name || !email || !phone || !salary || !dob || !joiningDate || !address || !department) {
+    if (!name || !email || !phone || !dob || !joiningDate || !address || !department) {
       return res.status(400).json({ Error: "All fields are required" });
     }
 
@@ -37,7 +37,6 @@ router.post("/add_hr", upload.single('image'), async (req, res) => {
       name,
       email,
       phone,
-      salary,
       dob,
       joiningDate,
       address,        // Save address
@@ -99,7 +98,7 @@ router.get('/hr', async (req, res) => {
 // Route to update HR details
 router.put('/update_hr/:email', upload.single('profilePicture'), async (req, res) => {
   const { email } = req.params; // Extract email from the request parameters
-  const { phone, address, department } = req.body; // Get updated fields from the request body
+  const { phone, address, } = req.body; // Get updated fields from the request body
   const profilePicture = req.file ? req.file.filename : null; // Handle profile picture upload
 
   try {
@@ -112,7 +111,6 @@ router.put('/update_hr/:email', upload.single('profilePicture'), async (req, res
     const updateData = {};
     if (phone) updateData.phone = phone;
     if (address) updateData.address = address;
-    if (department) updateData.department = department;
     if (profilePicture) updateData.image = profilePicture; // Update profile picture
 
     // Ensure there are fields to update
@@ -134,6 +132,49 @@ router.put('/update_hr/:email', upload.single('profilePicture'), async (req, res
     res.status(200).json({ message: 'HR updated successfully' });
   } catch (err) {
     console.error('Error updating HR:', err.message);
+    res.status(500).json({ Error: 'Internal server error' });
+  }
+});
+
+router.delete('/delete_hr/:email', async (req, res) => {
+  const { email } = req.params;
+
+  try {
+    // Validate email
+    if (!email) {
+      return res.status(400).json({ Error: 'Email is required' });
+    }
+
+    // Find the HR to get the image filename
+    const hr = await db.collection("hr_detail").findOne({ email });
+
+    if (!hr) {
+      return res.status(404).json({ Error: 'HR not found' });
+    }
+
+    // Delete the HR record from the database
+    const result = await db.collection("hr_detail").deleteOne({ email });
+
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ Error: 'HR not found or already deleted' });
+    }
+
+    // If there's an image associated with the HR, delete it from the "uploads" folder
+    if (hr.image) {
+      const imagePath = path.join('uploads', hr.image);
+      fs.unlink(imagePath, (err) => {
+        if (err) {
+          console.error('Error deleting image:', err);
+        } else {
+          console.log('Image deleted successfully:', hr.image);
+        }
+      });
+    }
+
+    console.log('HR deleted:', email);
+    res.status(200).json({ message: 'HR deleted successfully' });
+  } catch (err) {
+    console.error('Error deleting HR:', err.message);
     res.status(500).json({ Error: 'Internal server error' });
   }
 });

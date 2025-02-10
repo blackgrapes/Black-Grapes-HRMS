@@ -27,7 +27,6 @@ const AddHR = () => {
       !hr.name ||
       !hr.email ||
       !hr.phone ||
-      !hr.salary ||
       !hr.image ||
       !hr.dob ||
       !hr.joiningDate ||
@@ -56,7 +55,6 @@ const AddHR = () => {
             name: '',
             email: '',
             phone: '',
-            salary: '',
             image: '',
             dob: '',
             joiningDate: '',
@@ -121,18 +119,6 @@ const AddHR = () => {
           </div>
 
           <div className="col-12">
-            <label htmlFor="inputSalary" className="form-label">Salary</label>
-            <input
-              type="text"
-              className="form-control rounded-0"
-              id="inputSalary"
-              placeholder="Enter Salary"
-              value={hr.salary}
-              onChange={(e) => setHR({ ...hr, salary: e.target.value })}
-            />
-          </div>
-
-          <div className="col-12">
             <label htmlFor="inputDOB" className="form-label">Date of Birth</label>
             <input
               type="date"
@@ -166,10 +152,16 @@ const AddHR = () => {
             />
           </div>
 
-          {/* Fixed Department Field */}
+          {/* Fixed Department Field (Read-Only Input) */}
           <div className="col-12">
-            <label className="form-label">Department</label>
-            <p className="form-control-plaintext">Human Resource Department</p>
+            <label htmlFor="inputDepartment" className="form-label">Department</label>
+            <input
+              type="text"
+              className="form-control rounded-0"
+              id="inputDepartment"
+              value={hr.department}
+              readOnly // Makes the field non-editable
+            />
           </div>
 
           <div className="col-12 mb-3">
