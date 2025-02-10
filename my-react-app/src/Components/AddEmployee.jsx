@@ -2,87 +2,38 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-// Updated departments with new entries
-const departments = {
-  Finance: ["Financial Analyst", "Accountant", "Auditor"],
-  Marketing: ["Marketing Manager", "SEO Specialist", "Content Strategist"],
-  Accounting: ["Senior Accountant", "Tax Specialist"],
-  Housekeeping: ["Housekeeping Supervisor", "Cleaning Staff"],
-  "IT Support": ["IT Technician", "Help Desk Support"],
-  Sales: ["Sales Executive", "Business Development Manager"],
-  "Software Engineering": ["Frontend Developer", "Backend Developer", "Full Stack Developer"],
-  "Accounting and Finance": ["Financial Analyst", "Senior Accountant", "Auditor"], // New
-  "Education Services": ["Training Coordinator", "Curriculum Developer", "Education Consultant"], // New
-  "E-Commerce Solutions": ["E-commerce Manager", "Web Analyst", "Product Listing Specialist"], // New
-  "Social Media Marketing": ["Social Media Manager", "Content Creator", "Digital Marketing Strategist"], // New
-  "Government Training Programs": ["Program Manager", "Policy Trainer", "Compliance Officer"], // New
-};
-
-// Updated companies with departments and roles
+// Updated companies with new departments and roles
 const companies = {
   "Black Grapes Group": {
     departments: [
-      "Accounting and Finance",
-      "Education Services",
-      "E-Commerce Solutions",
+      "Accounting",
+      "Finance",
+      "Marketing",
+      "IT Support",
+      "Education Service",
+      "E-Commerce Solution",
       "Social Media Marketing",
-      "Government Training Programs",
+      "Government Training Program",
+      "Operations",
     ],
-    roles: {
-      "Accounting and Finance": ["Financial Analyst", "Senior Accountant", "Auditor"],
-      "Education Services": ["Training Coordinator", "Curriculum Developer", "Education Consultant"],
-      "E-Commerce Solutions": ["E-commerce Manager", "Web Analyst", "Product Listing Specialist"],
-      "Social Media Marketing": ["Social Media Manager", "Content Creator", "Digital Marketing Strategist"],
-      "Government Training Programs": ["Program Manager", "Policy Trainer", "Compliance Officer"],
-    },
-  },
-  "Black Grapes Associate": {
-    departments: ["Finance", "Marketing", "Sales"],
-    roles: {
-      Finance: ["Financial Analyst", "Accountant"],
-      Marketing: ["SEO Specialist", "Content Strategist"],
-      Sales: ["Sales Executive", "Business Development Manager"],
-    },
   },
   "Black Grapes Softech": {
-    departments: ["Software Engineering", "IT Support", "Marketing"],
-    roles: {
-      "Software Engineering": ["Frontend Developer", "Backend Developer", "Full Stack Developer"],
-      "IT Support": ["IT Technician", "Help Desk Support"],
-      Marketing: ["SEO Specialist", "Content Strategist"],
-    },
+    departments: ["Senior Project Manager", "Project Manager", "Senior Developer", "Developer", "Intern"],
+  },
+  "Black Grapes Associate": {
+    departments: ["Management", "Business Development", "Associates"],
   },
   "Black Grapes Real Estate": {
-    departments: ["Sales", "Accounting", "Housekeeping"],
-    roles: {
-      Sales: ["Sales Executive", "Business Development Manager"],
-      Accounting: ["Senior Accountant", "Tax Specialist"],
-      Housekeeping: ["Housekeeping Supervisor", "Cleaning Staff"],
-    },
+    departments: ["Manager", "Executive"],
   },
   "Black Grapes Valuers & Engineers": {
-    departments: ["Finance", "Software Engineering", "Sales"],
-    roles: {
-      Finance: ["Financial Analyst", "Accountant"],
-      "Software Engineering": ["Frontend Developer", "Backend Developer", "Full Stack Developer"],
-      Sales: ["Sales Executive", "Business Development Manager"],
-    },
+    departments: ["Manager", "Executive", "Back Office"],
   },
-  "Black Grapes Investment Pvt. Ltd.": {
-    departments: ["Finance", "Accounting", "Sales"],
-    roles: {
-      Finance: ["Financial Analyst", "Accountant", "Auditor"],
-      Accounting: ["Senior Accountant", "Tax Specialist"],
-      Sales: ["Sales Executive", "Business Development Manager"],
-    },
+  "Black Grapes Investment & Securities": {
+    departments: ["Portfolio Manager", "Executive"],
   },
   "Black Grapes Insurance Surveyors & Loss Assessors Pvt. Ltd.": {
-    departments: ["Sales", "Marketing", "Accounting"],
-    roles: {
-      Sales: ["Sales Executive", "Business Development Manager"],
-      Marketing: ["SEO Specialist", "Content Strategist"],
-      Accounting: ["Senior Accountant", "Tax Specialist"],
-    },
+    departments: ["Manager", "Executive", "Back Office"],
   },
 };
 
@@ -111,7 +62,7 @@ const AddEmployee = () => {
       ...employee,
       company: selectedCompany,
       department: "",
-      role: "",
+      role: "", // Removed role dependency
     });
   };
 
@@ -120,7 +71,6 @@ const AddEmployee = () => {
     setEmployee({
       ...employee,
       department: selectedDept,
-      role: "",
     });
   };
 
@@ -131,7 +81,6 @@ const AddEmployee = () => {
       !employee.name ||
       !employee.email ||
       !employee.phone ||
-      !employee.role ||
       !employee.image ||
       !employee.manager ||
       !employee.dob ||
@@ -269,25 +218,6 @@ const AddEmployee = () => {
                 companies[employee.company].departments.map((dept) => (
                   <option key={dept} value={dept}>
                     {dept}
-                  </option>
-                ))}
-            </select>
-          </div>
-
-          {/* Role Dropdown */}
-          <div className="col-12">
-            <label className="form-label">Role</label>
-            <select
-              className="form-control rounded-0"
-              value={employee.role}
-              onChange={(e) => setEmployee({ ...employee, role: e.target.value })}
-              disabled={!employee.department}
-            >
-              <option value="">Select Role</option>
-              {employee.department &&
-                companies[employee.company].roles[employee.department].map((role) => (
-                  <option key={role} value={role}>
-                    {role}
                   </option>
                 ))}
             </select>

@@ -11,8 +11,8 @@ const AddHR = () => {
     image: '',
     dob: '',
     joiningDate: '',
-    address: '',   // New field for address
-    department: '' // New field for department
+    address: '',
+    department: 'Human Resource Department' // Fixed value for Department
   });
 
   const [errorMessage, setErrorMessage] = useState('');
@@ -31,8 +31,8 @@ const AddHR = () => {
       !hr.image ||
       !hr.dob ||
       !hr.joiningDate ||
-      !hr.address ||        // Check for the new address field
-      !hr.department        // Check for the new department field
+      !hr.address ||
+      !hr.department
     ) {
       setErrorMessage('Please fill all fields.');
       return;
@@ -40,7 +40,6 @@ const AddHR = () => {
 
     setIsSubmitting(true);
 
-    // Prepare form data for submission
     const formData = new FormData();
     Object.keys(hr).forEach((key) => {
       formData.append(key, hr[key]);
@@ -61,11 +60,11 @@ const AddHR = () => {
             image: '',
             dob: '',
             joiningDate: '',
-            address: '',   // Reset new fields
-            department: ''  // Reset new fields
+            address: '',
+            department: 'Human Resource Department' // Reset to fixed value
           });
-          navigate('/SignupHR'); // Redirect to HR management page
-          alert("Please Sign-Up HR with the same Email");
+          navigate('/SignupHR');
+          alert('Please Sign-Up HR with the same Email');
         } else {
           alert('Error adding HR');
         }
@@ -75,7 +74,7 @@ const AddHR = () => {
         setErrorMessage('An error occurred while adding HR.');
       })
       .finally(() => {
-        setIsSubmitting(false); // Re-enable the button
+        setIsSubmitting(false);
       });
   };
 
@@ -86,9 +85,7 @@ const AddHR = () => {
         {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
         <form className="row g-1" onSubmit={handleSubmit}>
           <div className="col-12">
-            <label htmlFor="inputName" className="form-label">
-              Name
-            </label>
+            <label htmlFor="inputName" className="form-label">Name</label>
             <input
               type="text"
               className="form-control rounded-0"
@@ -100,9 +97,7 @@ const AddHR = () => {
           </div>
 
           <div className="col-12">
-            <label htmlFor="inputEmail" className="form-label">
-              Email
-            </label>
+            <label htmlFor="inputEmail" className="form-label">Email</label>
             <input
               type="email"
               className="form-control rounded-0"
@@ -114,9 +109,7 @@ const AddHR = () => {
           </div>
 
           <div className="col-12">
-            <label htmlFor="inputPhone" className="form-label">
-              Phone Number
-            </label>
+            <label htmlFor="inputPhone" className="form-label">Phone Number</label>
             <input
               type="text"
               className="form-control rounded-0"
@@ -128,9 +121,7 @@ const AddHR = () => {
           </div>
 
           <div className="col-12">
-            <label htmlFor="inputSalary" className="form-label">
-              Salary
-            </label>
+            <label htmlFor="inputSalary" className="form-label">Salary</label>
             <input
               type="text"
               className="form-control rounded-0"
@@ -142,9 +133,7 @@ const AddHR = () => {
           </div>
 
           <div className="col-12">
-            <label htmlFor="inputDOB" className="form-label">
-              Date of Birth
-            </label>
+            <label htmlFor="inputDOB" className="form-label">Date of Birth</label>
             <input
               type="date"
               className="form-control rounded-0"
@@ -155,9 +144,7 @@ const AddHR = () => {
           </div>
 
           <div className="col-12">
-            <label htmlFor="inputJoiningDate" className="form-label">
-              Joining Date
-            </label>
+            <label htmlFor="inputJoiningDate" className="form-label">Joining Date</label>
             <input
               type="date"
               className="form-control rounded-0"
@@ -168,9 +155,7 @@ const AddHR = () => {
           </div>
 
           <div className="col-12">
-            <label htmlFor="inputAddress" className="form-label">
-              Address
-            </label>
+            <label htmlFor="inputAddress" className="form-label">Address</label>
             <input
               type="text"
               className="form-control rounded-0"
@@ -181,24 +166,14 @@ const AddHR = () => {
             />
           </div>
 
+          {/* Fixed Department Field */}
           <div className="col-12">
-            <label htmlFor="inputDepartment" className="form-label">
-              Department
-            </label>
-            <input
-              type="text"
-              className="form-control rounded-0"
-              id="inputDepartment"
-              placeholder="Enter Department"
-              value={hr.department}
-              onChange={(e) => setHR({ ...hr, department: e.target.value })}
-            />
+            <label className="form-label">Department</label>
+            <p className="form-control-plaintext">Human Resource Department</p>
           </div>
 
           <div className="col-12 mb-3">
-            <label className="form-label" htmlFor="inputImage">
-              Upload Image
-            </label>
+            <label className="form-label" htmlFor="inputImage">Upload Image</label>
             <input
               type="file"
               className="form-control rounded-0"
@@ -211,7 +186,7 @@ const AddHR = () => {
             <button
               type="submit"
               className="btn btn-primary w-100"
-              disabled={isSubmitting} // Disable button while submitting
+              disabled={isSubmitting}
             >
               {isSubmitting ? 'Adding...' : 'Add HR'}
             </button>
