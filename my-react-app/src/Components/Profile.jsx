@@ -98,6 +98,11 @@ const Profile = () => {
     sethrDetails(originalDetails); // Reset form to original details
   };
 
+  const handleHRLeave = () => {
+    // Implement the logic for HR Leave action here.
+    alert("UNDER DEVELOPMENT!");
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -173,6 +178,9 @@ const Profile = () => {
       <div className="profile-actions">
         <button className="save-btn" onClick={handleSaveChanges}>
           Save Changes
+        </button>
+        <button className="hr-leave-btn" onClick={handleHRLeave}>
+          HR Leave
         </button>
         <button className="cancel-btn" onClick={handleCancelChanges}>
           Cancel
