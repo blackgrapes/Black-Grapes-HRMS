@@ -64,7 +64,7 @@ const EmployeeDetail = ({ email }) => {
   };
 
   const handleLeave = () => {
-    const confirmLeave = window.confirm("Are you sure you want to apply for leave?  YOU HAVE TO RE-LOGIN.");
+    const confirmLeave = window.confirm("Apply For Leave Before The Day?  YOU HAVE TO RE-LOGIN.");
     if (confirmLeave) {
       navigate(`/employee/Leave?email=${email}`);
     }
