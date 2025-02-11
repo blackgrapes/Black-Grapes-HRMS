@@ -23,7 +23,7 @@ const Login = () => {
     }
 
     axios
-      .post("http://localhost:3000/auth/adminlogin", values)
+      .post("https://black-grapes-hrms-api.vercel.app/adminlogin", values)
       .then((result) => {
         if (result.data.loginStatus) {
           localStorage.setItem("valid", true);
