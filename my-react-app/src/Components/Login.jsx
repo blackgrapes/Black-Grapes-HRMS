@@ -24,7 +24,7 @@ const Login = () => {
     }
 
     axios
-      .post(`${API_URL}/auth/adminlogin`, values)
+      .post(`${API_URL}/adminlogin`, values)
       .then((result) => {
         if (result.data.loginStatus) {
           localStorage.setItem("valid", true);
