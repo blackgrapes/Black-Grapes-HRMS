@@ -30,6 +30,10 @@ connectToDatabase()
     app.use(express.json()); // Parse JSON request bodies
     app.use(cookieParser()); // Parse cookies
 
+    app.get('/', (req, res) => {
+      res.send('Backend is working!');
+    });
+
     // Routes
     app.use("/auth", adminRouter); // Admin login/signup routes
     app.use("/employee", EmployeeRouter); // Employee login/signup routes
