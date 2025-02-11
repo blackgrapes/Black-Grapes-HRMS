@@ -22,9 +22,9 @@ connectToDatabase()
     // Middleware setup
     app.use(
       cors({
-        origin: ["http://localhost:5173"], // Adjust the frontend URL if needed
+        origin: ["http://localhost:5173", "https://hrms-black-grapes.vercel.app/"], 
         methods: ["GET", "POST", "PUT", "DELETE"],
-        credentials: true, // Allow cookies to be sent
+        credentials: true, // Allow cookies & sessions
       })
     );
     app.use(express.json()); // Parse JSON request bodies
