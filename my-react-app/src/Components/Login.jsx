@@ -12,7 +12,7 @@ const Login = () => {
   const [attempts, setAttempts] = useState(0); // Track incorrect attempts
   const [isLocked, setIsLocked] = useState(false); // Lockout state
   const navigate = useNavigate();
-  const API_URL = "https://black-grapes-hrms-api.vercel.app/";
+  const API_URL = "https://black-grapes-hrms-api.vercel.app";
   axios.defaults.withCredentials = true;
 
   const handleSubmit = (event) => {
@@ -24,7 +24,7 @@ const Login = () => {
     }
 
     axios
-      .post(`${API_URL}/adminlogin`, values)
+      .post(`${API_URL}/auth/adminlogin`, values)
       .then((result) => {
         if (result.data.loginStatus) {
           localStorage.setItem("valid", true);
