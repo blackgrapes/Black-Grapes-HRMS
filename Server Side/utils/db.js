@@ -1,7 +1,5 @@
 import express from "express";
-import jwt from "jsonwebtoken";
 import { MongoClient } from "mongodb";
-import bcrypt from "bcryptjs"; // Recommended for password hashing
 
 const router = express.Router();
 
