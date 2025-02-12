@@ -24,7 +24,7 @@ connectToDatabase()
 // Middleware setup
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://hrms-black-grapes.vercel.app"], // Removed trailing slash
+    origin: ["http://localhost:5173"], // Removed trailing slash
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
@@ -50,8 +50,8 @@ app.use("/attendance", AttendanceDetailRouter); // Attendance
 app.use(express.static("Public")); // Serve static files
 
 // Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+app.listen(3000, () => {
+  console.log(`Server is running on http://localhost:3000`);
 });
 
 export default app;
