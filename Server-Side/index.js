@@ -45,13 +45,18 @@ connectToDatabase()
     app.use ("/attendance", AttendanceDetailRouter)// attence
 
 
-    app.use(express.static("Public")); // Serve static files from the 'Public' directory
-
-    // Start the server
-    app.listen(3000, () => {
-      console.log("Server is running on http://localhost:3000");
-    });
+    app.use(express.static("Public"));
   })
   .catch((err) => {
     console.error("Database connection failed:", err);
   });
+
+    // Start the server
+  //   app.listen(3000, () => {
+  //     console.log("Server is running on http://localhost:3000");
+  //   });
+  // })
+  // .catch((err) => {
+  //   console.error("Database connection failed:", err);
+  // });
+  export default app;
