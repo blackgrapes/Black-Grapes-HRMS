@@ -1,7 +1,6 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-
 import adminRouter from "./Routes/AdminRoute.js"; // Admin routes
 import EmployeeRouter from "./Routes/EmployeeRoute.js"; // Employee routes
 import SuperAdminRouter from "./Routes/SuperAdminRoute.js"; // SuperAdmin routes
@@ -11,10 +10,12 @@ import PayrollRouter from "./Routes/PayrollRoute.js";
 import HrDetailRouter from "./Routes/HrDetailRoutes.js";
 import AttendanceDetailRouter from "./Routes/AttendanceDetailRoute.js";
 
+import dotenv from "dotenv";
+
 import { connectToDatabase } from "./utils/db.js";
 
 const app = express();
-const PORT = process.env.PORT || 3000; // Use environment variable or default to 3000
+const PORT = process.env.PORT; // Use environment variable or default to 3000
 
 // Database connection
 connectToDatabase()
@@ -50,8 +51,8 @@ app.use("/attendance", AttendanceDetailRouter); // Attendance
 app.use(express.static("Public")); // Serve static files
 
 // Start the server
-app.listen(3000, () => {
-  console.log(`Server is running on http://localhost:3000`);
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
 
 export default app;
