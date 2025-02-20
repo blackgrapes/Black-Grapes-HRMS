@@ -15,7 +15,7 @@ import dotenv from "dotenv";
 import { connectToDatabase } from "./utils/db.js";
 
 const app = express();
-const PORT = process.env.PORT; // Use environment variable or default to 3000
+const PORT = process.env.PORT || 3000; // Use environment variable or default to 3000
 
 // Database connection
 connectToDatabase()
@@ -25,11 +25,12 @@ connectToDatabase()
 // Middleware setup
 app.use(
   cors({
-    origin: ["http://localhost:5173"], // Removed trailing slash
+    origin: ["http://localhost:5173", "https://hrms-black-grapes.vercel.app"], // Add frontend URL
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
 );
+
 app.use(express.json()); // Parse JSON request bodies
 app.use(cookieParser()); // Parse cookies
 
