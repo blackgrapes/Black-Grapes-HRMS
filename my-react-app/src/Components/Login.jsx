@@ -24,7 +24,7 @@ const Login = () => {
     }
 
     axios
-      .post("http://localhost:3000/auth/adminlogin", values)
+      .post(`${process.env.VITE_API_URL}/auth/adminlogin`, values)
       .then((result) => {
         if (result.data.loginStatus) {
           localStorage.setItem("valid", true);
