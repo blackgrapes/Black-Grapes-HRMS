@@ -54,7 +54,7 @@ const Login = () => {
         {/* Left Section */}
         <div className="logo-section d-flex flex-column align-items-center justify-content-center">
           <img
-            src="./src/assets/logo.png" // Replace with the actual path to your logo
+            src="./src/assets/logo.svg" // Replace with the actual path to your logo
             alt="Black Grapes Softech Logo"
             className="logo"
           />
