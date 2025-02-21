@@ -12,7 +12,7 @@ const Attendance = () => {
   const fetchAttendance = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3000/attendance/attendance-with-details"
+        `${process.env.VITE_API_URL}/attendance/attendance-with-details`
       );
       if (response.status === 200) {
         setAttendanceData(response.data);
