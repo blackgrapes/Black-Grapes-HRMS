@@ -12,7 +12,7 @@ const Login = () => {
   const [attempts, setAttempts] = useState(0); // Track incorrect attempts
   const [isLocked, setIsLocked] = useState(false); // Lockout state
   const navigate = useNavigate();
-  // const API_URL = "https://black-grapes-hrms-api.vercel.app";
+  
   axios.defaults.withCredentials = true;
 
   const handleSubmit = (event) => {
