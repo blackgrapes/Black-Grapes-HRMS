@@ -30,7 +30,7 @@ connectToDatabase()
 //     credentials: true,
 //   })
 // );
-app.use(cors({ origin:'*', credentials: true, allowedHeaders: 'Content-Type, Authorization, Origin, X-Requested-With, Accept' }));
+app.use(cors({ origin:'*', credentials: true,  methods: ["GET", "POST", "PUT", "DELETE"], allowedHeaders: 'Content-Type, Authorization, Origin, X-Requested-With, Accept' }));
 dotenv.config(); // Load environment variables from .env file
 
 app.use(express.json()); // Parse JSON request bodies
