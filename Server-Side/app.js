@@ -23,14 +23,14 @@ connectToDatabase()
   .catch((err) => console.error("Database connection failed:", err));
 
 // // Middleware setup
-// app.use(
-//   cors({
-//     origin: ["http://localhost:5173", "https://hrms-black-grapes.vercel.app"], // Add frontend URL
-//     methods: ["GET", "POST", "PUT", "DELETE"],
-//     credentials: true,
-//   })
-// );
-app.use(cors({ origin:'*', credentials: true,  methods: ["GET", "POST", "PUT", "DELETE"], allowedHeaders: 'Content-Type, Authorization, Origin, X-Requested-With, Accept' }));
+app.use(
+  cors({
+    origin: ["https://black-grapes-hrms.vercel.app"], // Add frontend URL
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
+// app.use(cors({ origin:'*', credentials: true,  methods: ["GET", "POST", "PUT", "DELETE"], allowedHeaders: 'Content-Type, Authorization, Origin, X-Requested-With, Accept' }));
 dotenv.config(); // Load environment variables from .env file
 
 app.use(express.json()); // Parse JSON request bodies
