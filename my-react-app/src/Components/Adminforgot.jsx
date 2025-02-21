@@ -22,7 +22,7 @@ const Adminforgot = () => {
     setLoading(true);
 
     axios
-      .post("http://localhost:3000/auth/forgotpassword", { email, dob, newPassword })
+      .post(`${process.env.VITE_API_URL}/auth/forgotpassword`, { email, dob, newPassword })
       .then((response) => {
         if (response.data.message === "Password reset successfully") {
           alert("Password updated successfully!");

@@ -19,7 +19,7 @@ const SuperAdminLogin = () => {
       return;
     }
 
-    axios.post('http://localhost:3000/superadmin/superadminlogin', { email, password })
+    axios.post(`${process.env.VITE_API_URL}/superadmin/superadminlogin`, { email, password })
       .then(response => {
         if (response.data.Status) {
           navigate('/superadmin_dashboard');

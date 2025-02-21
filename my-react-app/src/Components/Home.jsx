@@ -101,7 +101,7 @@ const Home = () => {
   // ✅ Fetch Employee Data
   const fetchEmployeeData = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/employeedetail/all', {
+      const response = await axios.get(`${process.env.VITE_API_URL}/employeedetail/all`, {
         withCredentials: true,
       });
 
@@ -131,7 +131,7 @@ const Home = () => {
   // ✅ Fetch HR Data
   const fetchHRData = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/hrdetail/all', {
+      const response = await axios.get(`${process.env.VITE_API_URL}/hrdetail/all`, {
         withCredentials: true,
       });
       setHrRecords(response.data?.Result || []);
@@ -143,7 +143,7 @@ const Home = () => {
   // ✅ Fetch Salary Data
   const fetchSalaryData = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/Payroll/payroll-with-details', {
+      const response = await axios.get(`${process.env.VITE_API_URL}/Payroll/payroll-with-details`, {
         withCredentials: true,
       });
 
@@ -162,7 +162,7 @@ const Home = () => {
   // ✅ Fetch Leave Data
   const fetchLeaveData = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/employeeLeave/leave-requests', {
+      const response = await axios.get(`${process.env.VITE_API_URL}/employeeLeave/leave-requests`, {
         withCredentials: true,
       });
 

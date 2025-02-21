@@ -19,7 +19,7 @@ const EmployeeDetail = ({ email }) => {
       }
 
       try {
-        const response = await axios.get('http://localhost:3000/employeedetail/employee', {
+        const response = await axios.get(`${process.env.VITE_API_URL}/employeedetail/employee`, {
           params: { email }, // Pass query parameters
         });
 
@@ -37,7 +37,7 @@ const EmployeeDetail = ({ email }) => {
     }; 
 
     const payrolldata = async () => {
-      const response = await axios.get(`http://localhost:3000/Payroll/payroll/${email}`);
+      const response = await axios.get(`${process.env.VITE_API_URL}/Payroll/payroll/${email}`);
       console.log(response) 
       setPayroll(response?.data?.payrollData ?? {});
      
@@ -86,7 +86,7 @@ const EmployeeDetail = ({ email }) => {
       <div className="employee-card">
         <div className="employee-image-container">
           <img
-            src={`http://localhost:3000/Images/${employee.image || 'default.png'}`}
+            src={`${process.env.VITE_API_URL}/Images/${employee.image || 'default.png'}`}
             className="employee-image"
             alt="Employee"
           />

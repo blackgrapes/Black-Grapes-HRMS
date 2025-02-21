@@ -45,7 +45,7 @@ const AddHR = () => {
     });
 
     axios
-      .post('http://localhost:3000/hrdetail/add_hr', formData, {
+      .post(`${process.env.VITE_API_URL}/hrdetail/add_hr`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       })
       .then((response) => {

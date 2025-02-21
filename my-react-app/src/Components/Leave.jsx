@@ -31,7 +31,7 @@ const Leave = () => {
     if (!email) return;
     try {
       const response = await axios.get(
-        `http://localhost:3000/employeeLeave/leave-request/${email}`
+        `${process.env.VITE_API_URL}/employeeLeave/leave-request/${email}`
       );
       setLeaveRequests(response.data.leaveRequests || []);
     } catch (err) {
@@ -43,7 +43,7 @@ const Leave = () => {
   const fetchLeaveBalance = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/employeeLeave/leave-balance/${email}`
+        `${process.env.VITE_API_URL}/employeeLeave/leave-balance/${email}`
       );
       setLeaveBalance(response.data.paidLeavesRemaining || 0);
     } catch (err) {
@@ -113,7 +113,7 @@ const Leave = () => {
     };
 
     try {
-      await axios.post("http://localhost:3000/employeeLeave/leave-request", body);
+      await axios.post(`${process.env.VITE_API_URL}/employeeLeave/leave-request`, body);
       clearForm();
 
       alert("Leave request submitted successfully.");

@@ -41,7 +41,7 @@ const Attendance = () => {
   const handleAttendanceChange = async (email, status) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/attendance/attendance",
+        `${process.env.VITE_API_URL}/attendance/attendance`,
         {
           employeeEmail: email,
           date: today.toISOString().split("T")[0], // Always use today's date

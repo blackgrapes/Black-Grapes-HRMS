@@ -95,7 +95,7 @@ const AddEmployee = () => {
     setIsSubmitting(true);
 
     axios
-      .post("http://localhost:3000/employeedetail/add_employee", employee)
+      .post(`${process.env.VITE_API_URL}/employeedetail/add_employee`, employee)
       .then((result) => {
         if (result.status === 409) {
           alert("Employee already exists");

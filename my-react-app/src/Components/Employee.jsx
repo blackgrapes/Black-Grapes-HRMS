@@ -12,7 +12,7 @@ const Employee = () => {
   useEffect(() => {
     // Fetching employee data
     axios
-      .get("http://localhost:3000/employeedetail/all")
+      .get(`${process.env.VITE_API_URL}/employeedetail/all`)
       .then((result) => {
         if (result.data.Result) {
           setEmployee(result.data.Result);
@@ -41,7 +41,7 @@ const Employee = () => {
 
     if (window.confirm("Are you sure you want to delete this employee?")) {
       axios
-        .delete(`http://localhost:3000/employeedetail/delete_employee/${id}`)
+        .delete(`${process.env.VITE_API_URL}/employeedetail/delete_employee/${id}`)
         .then((result) => {
           if (result.status === 200) { // Check HTTP status code
             // Remove employee from local state after deletion

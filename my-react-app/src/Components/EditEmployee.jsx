@@ -23,7 +23,7 @@ const EditEmployee = () => {
   useEffect(() => {
     // Fetch employee details
     axios
-      .get(`http://localhost:3000/employeedetail/employee/${email}`)
+      .get(`${process.env.VITE_API_URL}/employeedetail/employee/${email}`)
       .then((result) => {
         const data = result.data.Result;
         setEmployee({
@@ -45,7 +45,7 @@ const EditEmployee = () => {
     };
 
     axios
-      .put(`http://localhost:3000/employeedetail/update_employee/${email}`, updateData)
+      .put(`${process.env.VITE_API_URL}/employeedetail/update_employee/${email}`, updateData)
       .then((result) => {
         if (result.data.message) {
           alert('Details Updated Successfully, Please Re-Login');
@@ -72,7 +72,7 @@ const EditEmployee = () => {
     };
 
     axios
-      .put(`http://localhost:3000/employee/change_password`, passwordData)
+      .put(`${process.env.VITE_API_URL}/employee/change_password`, passwordData)
       .then((result) => {
         if (result.data.message) {
           alert('Password Changed Successfully, Please Re-Login');

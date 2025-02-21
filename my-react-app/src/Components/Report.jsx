@@ -17,7 +17,7 @@ const Report = () => {
   useEffect(() => {
     const fetchEmployeeData = async () => {
       try {
-        const employeeResult = await axios.get("http://localhost:3000/employeedetail/all");
+        const employeeResult = await axios.get(`${process.env.VITE_API_URL}/employeedetail/all`);
         if (employeeResult.data && employeeResult.data.Result) {
           setEmployees(employeeResult.data.Result);
           setFilteredEmployees(employeeResult.data.Result);
@@ -31,7 +31,7 @@ const Report = () => {
 
     const fetchPayrollData = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/Payroll/payroll-with-details');
+        const response = await axios.get(`${process.env.VITE_API_URL}/Payroll/payroll-with-details`);
         const payrollMap = {};
         response.data.payrollData.forEach((payroll) => {
           payrollMap[payroll.email] = {

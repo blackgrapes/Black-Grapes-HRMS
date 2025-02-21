@@ -21,7 +21,7 @@ const SuperadminForgot = () => {
     setError('');
 
     try {
-      const response = await axios.post('http://localhost:3000/superadmin/forgotpassword', {
+      const response = await axios.post(`${process.env.VITE_API_URL}/superadmin/forgotpassword`, {
         email,
         dob,
         newPassword,

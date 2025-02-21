@@ -27,7 +27,7 @@ const Profile = () => {
       }
 
       try {
-        const response = await axios.get("http://localhost:3000/hrdetail/hr", {
+        const response = await axios.get(`${process.env.VITE_API_URL}/hrdetail/hr`, {
           params: { email },
         });
 
@@ -74,7 +74,7 @@ const Profile = () => {
   const handleSaveChanges = async () => {
     try {
       const response = await axios.put(
-        `http://localhost:3000/hrdetail/update_hr/${hrDetails.email}`,
+        `${process.env.VITE_API_URL}/hrdetail/update_hr/${hrDetails.email}`,
         {
           phone: hrDetails.phone,
           address: hrDetails.address,

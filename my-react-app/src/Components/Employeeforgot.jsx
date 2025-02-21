@@ -21,7 +21,7 @@ const Employeeforgot = () => {
     setError('');
 
     axios
-      .post('http://localhost:3000/employee/forgot_password', {
+      .post(`${process.env.VITE_API_URL}/employee/forgot_password`, {
         email,
         dob,
         newPassword,

@@ -12,7 +12,7 @@ const LeaveManagement = () => {
     const fetchLeaveData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/employeeLeave/leave-requests"
+          `${process.env.VITE_API_URL}/employeeLeave/leave-requests`
         );
         setLeaveRequests(response.data.leaveRequests || []);
       } catch (err) {
@@ -29,7 +29,7 @@ const LeaveManagement = () => {
   const handleApproveReject = async (requestId, decision) => {
     try {
       const response = await axios.put(
-        `http://localhost:3000/employeeLeave/leave-requests/${requestId}`,
+        `${process.env.VITE_API_URL}/employeeLeave/leave-requests/${requestId}`,
         {
           decision: decision.toLowerCase(),
         }

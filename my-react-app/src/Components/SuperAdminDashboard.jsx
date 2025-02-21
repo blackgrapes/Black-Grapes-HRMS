@@ -9,7 +9,7 @@ const SuperAdminDashboard = () => {
 
   // Fetch user data (super admin profile)
   useEffect(() => {
-    axios.get("http://localhost:3000/superadmin/profile")
+    axios.get(`${process.env.VITE_API_URL}/superadmin/profile`)
       .then(response => {
         setUserData(response.data);
       })
@@ -21,7 +21,7 @@ const SuperAdminDashboard = () => {
   // Handle logout
   const handleLogout = () => {
     axios
-      .get("http://localhost:3000/superadmin/logout")
+      .get(`${process.env.VITE_API_URL}/superadmin/logout`)
       .then(() => {
         alert("Logged out successfully");
         navigate("/superadminlogin");

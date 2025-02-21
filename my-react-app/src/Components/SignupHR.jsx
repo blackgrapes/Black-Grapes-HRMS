@@ -27,7 +27,7 @@ const SignupAdmin = () => {
     }
 
     axios
-      .post('http://localhost:3000/auth/adminsignup', adminData)
+      .post(`${process.env.VITE_API_URL}/auth/adminsignup`, adminData)
       .then((response) => {
         if (response.data.signupStatus) {
           alert('Admin signed up successfully!');

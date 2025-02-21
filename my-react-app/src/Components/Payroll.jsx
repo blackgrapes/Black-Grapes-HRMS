@@ -9,7 +9,7 @@ const Payroll = () => {
   useEffect(() => {
     const fetchPayrollData = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/Payroll/payroll-with-details");
+        const response = await axios.get(`${process.env.VITE_API_URL}/Payroll/payroll-with-details`);
         setPayrollData(response.data.payrollData);
       } catch (error) {
         console.error("Error fetching payroll data:", error);
@@ -41,7 +41,7 @@ const Payroll = () => {
       };
 
       const response = await axios.put(
-        `http://localhost:3000/Payroll/payroll/${employee.email}`,
+        `${process.env.VITE_API_URL}/Payroll/payroll/${employee.email}`,
         updatedPayroll
       );
 

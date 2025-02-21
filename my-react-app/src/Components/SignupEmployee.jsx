@@ -22,7 +22,7 @@ const SignupEmployee = () => {
 
     // Send data to backend
     axios
-      .post("http://localhost:3000/employee/employee_signup", { name, email, password, dob })
+      .post(`${process.env.VITE_API_URL}/employee/employee_signup`, { name, email, password, dob })
       .then((response) => {
         if (response.data.signupStatus) {
           navigate("/dashboard/employee"); 

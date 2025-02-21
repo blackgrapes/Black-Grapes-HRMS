@@ -12,7 +12,7 @@ const ManageEmployeeDetails = () => {
   useEffect(() => {
     // Fetch Employee Details
     axios
-      .get("http://localhost:3000/employeedetail/all")
+      .get(`${process.env.VITE_API_URL}/employeedetail/all`)
       .then((result) => {
         if (result.data.Result) {
           setEmployees(result.data.Result);
@@ -24,7 +24,7 @@ const ManageEmployeeDetails = () => {
 
     // Fetch HR Details
     axios
-      .get("http://localhost:3000/hrdetail/all")
+      .get(`${process.env.VITE_API_URL}/hrdetail/all`)
       .then((result) => {
         if (result.data.Result) {
           setHrDetails(result.data.Result);
@@ -38,7 +38,7 @@ const ManageEmployeeDetails = () => {
   const handleDeleteEmployee = (id) => {
     if (window.confirm("Are you sure you want to delete this employee?")) {
       axios
-        .delete(`http://localhost:3000/employeedetail/delete_employee/${id}`)
+        .delete(`${process.env.VITE_API_URL}/employeedetail/delete_employee/${id}`)
         .then((result) => {
           if (result.status === 200) {
             alert("Employee deleted successfully");
@@ -54,7 +54,7 @@ const ManageEmployeeDetails = () => {
   const handleDeleteHR = (id) => {
     if (window.confirm("Are you sure you want to delete this HR?")) {
       axios
-        .delete(`http://localhost:3000/auth/delete_hr/${id}`)
+        .delete(`${process.env.VITE_API_URL}/auth/delete_hr/${id}`)
         .then((result) => {
           if (result.data.Status) {
             alert("HR deleted successfully");
