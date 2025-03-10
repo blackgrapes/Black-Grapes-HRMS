@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom"; // 🔥 Import useNavigate
 import axios from "axios";
 import "./Profile.css";
 
@@ -15,6 +16,8 @@ const Profile = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [originalDetails, setOriginalDetails] = useState({});
+
+  const navigate = useNavigate(); // ✅ Initialize useNavigate
 
   const email = localStorage.getItem("email");
 
@@ -96,8 +99,9 @@ const Profile = () => {
     sethrDetails(originalDetails);
   };
 
+  // ✅ HR Leave Button Click → Navigate to "/dashboard/HrLeave"
   const handleHRLeave = () => {
-    alert("UNDER DEVELOPMENT!");
+    navigate("/dashboard/HrLeave");
   };
 
   if (loading) {
@@ -192,3 +196,4 @@ const Profile = () => {
 };
 
 export default Profile;
+ 

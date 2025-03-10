@@ -37,6 +37,8 @@ import Superadminforgot from './Components/Superadminforgot';
 import Superpayroll from './Components/Superpayroll';
 import Superleavemanagement from './Components/Superleavemanagement';
 import Superattendance from './Components/Superattendance';
+import SuperShowAttendance from './Components/SuperShowAttendance';
+import HrLeave from'./Components/HrLeave';
 
 function App() {
   return (
@@ -66,6 +68,7 @@ function App() {
         <Route path="/Superpayroll" element={<Superpayroll/>} /> 
         <Route path="/Superleavemanagement" element={<Superleavemanagement/>} /> 
         <Route path="/Superattendance" element={<Superattendance/>} /> 
+        <Route path="/SuperShowAttendance" element={<SuperShowAttendance/>} /> 
 
         {/* Protected Routes */}
         <Route path="/dashboard" element={
@@ -85,6 +88,8 @@ function App() {
           <Route path="/dashboard/signup_employee" element={<SignupEmployee />} />
           <Route path="/dashboard/Attendance" element={<Attendance />} />
           <Route path="/dashboard/ShowAttendance" element={<ShowAttendance />} />
+          <Route path="/dashboard/HrLeave" element={<HrLeave />} />
+          
         </Route>
         <Route path="/adminforgot" element={<Adminforgot />} /></Routes>
     </BrowserRouter>

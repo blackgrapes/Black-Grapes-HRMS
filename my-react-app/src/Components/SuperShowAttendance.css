@@ -1,0 +1,117 @@
+/* Main Attendance Report Container */
+.attendance-container {
+    width: 100%;
+    min-height: 100vh;
+    padding: 40px 5%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Title */
+  .attendance-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  /* Search Bar */
+  .search-bar {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .search-bar input {
+    width: 50%;
+    max-width: 500px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  /* Table Container */
+  .attendance-table-container {
+    width: 100%;
+    max-width: 90%;
+    overflow-x: auto;
+  }
+  
+  /* Table */
+  .attendance-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    text-align: center;
+  }
+  
+  /* Table Headers & Cells */
+  .attendance-table th,
+  .attendance-table td {
+    padding: 12px;
+    border: 1px solid #ccc;
+    text-align: center;
+    vertical-align: middle;
+  }
+  
+  /* Table Header */
+  .attendance-table th {
+    background-color: #f4f4f4;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  /* Status Styling */
+  .status {
+    padding: 6px 12px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-transform: capitalize;
+  }
+  
+  .status.present {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .status.absent {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  .status.leave {
+    background-color: #ffc107;
+    color: black;
+  }
+  
+  /* 📥 Download Button */
+  .download-btn {
+    margin-top: 20px;
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .download-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .search-bar input {
+      width: 90%;
+    }
+  
+    .attendance-table th,
+    .attendance-table td {
+      padding: 8px;
+    }
+  }
+  

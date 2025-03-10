@@ -60,7 +60,7 @@ const Superattendance = () => {
 
   // Handle attendance report navigation
   const handleShowReport = () => {
-    navigate("/dashboard/ShowHrAttendance");
+    navigate("/SuperShowAttendance");
   };
 
   return (
