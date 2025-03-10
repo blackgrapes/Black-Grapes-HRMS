@@ -1,24 +1,41 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import './Superleavemanagement.css';
 
 const Superleavemanagement = () => {
-  // Example employee leave data
-  const [leaveRequests, setLeaveRequests] = useState([
-    { id: 1, name: 'John Doe', email: 'john.doe@example.com', type: 'Sick', days: 3, reason: 'Flu', startDate: '2025-02-10', endDate: '2025-02-13', status: 'Pending' },
-    { id: 2, name: 'Jane Smith', email: 'jane.smith@example.com', type: 'Vacation', days: 5, reason: 'Family trip', startDate: '2025-03-01', endDate: '2025-03-05', status: 'Approved' }
-  ]);
+  const [leaveRequests, setLeaveRequests] = useState([]);
+
+  // Fetch leave requests from the backend
+  useEffect(() => {
+    const fetchLeaveRequests = async () => {
+      try {
+        const response = await axios.get(`${process.env.VITE_API_URL}/hrleave/hr-leave-requests`); // Update with your backend URL
+        setLeaveRequests(response.data.leaveRequests);
+      } catch (error) {
+        console.error('Error fetching leave requests:', error);
+      }
+    };
+    
+    fetchLeaveRequests();
+  }, []);
 
   // Handle leave request approval or rejection
-  const handleStatusChange = (id, newStatus) => {
-    const updatedData = leaveRequests.map((leave) =>
-      leave.id === id ? { ...leave, status: newStatus } : leave
-    );
-    setLeaveRequests(updatedData);
+  const handleStatusChange = async (id, newStatus) => {
+    try {
+      await axios.put(`${process.env.VITE_API_URL}/hrleave/hr-leave-requests/${id}`, { decision: newStatus });
+      setLeaveRequests((prevRequests) =>
+        prevRequests.map((leave) =>
+          leave._id === id ? { ...leave, status: newStatus } : leave
+        )
+      );
+    } catch (error) {
+      console.error('Error updating leave status:', error);
+    }
   };
 
   return (
     <div className="leave-container">
-      <h1>Leave Management System</h1>
+      <h1>HR Leave Management System</h1>
       
       {/* Leave Requests Table */}
       <table className="leave-table">
@@ -37,9 +54,9 @@ const Superleavemanagement = () => {
         </thead>
         <tbody>
           {leaveRequests.map((request) => (
-            <tr key={request.id}>
+            <tr key={request._id}>
               <td>{request.email}</td>
-              <td>{request.name}</td>
+              <td>{request.employeeDetails?.name || 'N/A'}</td>
               <td>{request.type}</td>
               <td>{request.days}</td>
               <td>{request.reason}</td>
@@ -49,8 +66,8 @@ const Superleavemanagement = () => {
               <td>
                 {request.status === 'Pending' ? (
                   <>
-                    <button onClick={() => handleStatusChange(request.id, 'Approved')}>Approve</button>
-                    <button onClick={() => handleStatusChange(request.id, 'Rejected')}>Reject</button>
+                    <button onClick={() => handleStatusChange(request._id, 'Approved')}>Approve</button>
+                    <button onClick={() => handleStatusChange(request._id, 'Rejected')}>Reject</button>
                   </>
                 ) : (
                   <span>Completed</span>

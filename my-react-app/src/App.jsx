@@ -5,12 +5,10 @@ import Dashboard from './Components/Dashboard';
 import Home from './Components/Home';
 import Employee from './Components/Employee';
 import Profile from './Components/Profile';
-// import AddCategory from './Components/AddCategory';
 import AddEmployee from './Components/AddEmployee';
 import EditEmployee from './Components/EditEmployee';
 import Start from './Components/Start';
 import Payroll from './Components/Payroll';
-// import CustomCalendar from './Components/CustomCalendar';
 import EmployeeLogin from './Components/EmployeeLogin';
 import EmployeeDetail from './Components/EmployeeDetail';
 import PrivateRoute from './Components/PrivateRoute';
@@ -26,9 +24,7 @@ import SignupHR from './Components/SignupHR';
 import Hradd from './Components/Hradd';
 import SuperAddEmployee from './Components/SuperAddEmployee';
 import SuperSignupEmployee from './Components/SuperSignupEmployee';
-// import Category from './Components/Category';
 import SuperAdminReport from './Components/SuperAdminReport';
-import SuperProfile from './Components/SuperProfile';
 import SuperAdminSignup from './Components/SuperAdminSignup';
 import ShowAttendance from './Components/ShowAttendance';
 import Employeeforgot from './Components/Employeeforgot';
@@ -62,7 +58,6 @@ function App() {
         <Route path="/SuperAddEmployee" element={<SuperAddEmployee />} />
         <Route path="/SuperSignupEmployee" element={<SuperSignupEmployee />} />
         <Route path="/SuperAdminReport" element={<SuperAdminReport />} />
-        <Route path="/SuperProfile" element={<SuperProfile />} />
         <Route path="/SuperAdminSignup" element={<SuperAdminSignup />} />
         <Route path="/Superadminforgot" element={<Superadminforgot />} /> 
         <Route path="/Superpayroll" element={<Superpayroll/>} /> 
