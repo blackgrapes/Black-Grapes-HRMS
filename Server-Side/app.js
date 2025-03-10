@@ -25,10 +25,10 @@ connectToDatabase()
 // // Middleware setup
 app.use(
   cors({
-    origin: ["https://black-grapes-hrms.vercel.app"], // Add frontend URL
+    origin: ["https://black-grapes-hrms.vercel.app", "http://localhost:5173"], 
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
-  })
+  })  
 );
 // app.use(cors({ origin:'*', credentials: true,  methods: ["GET", "POST", "PUT", "DELETE"], allowedHeaders: 'Content-Type, Authorization, Origin, X-Requested-With, Accept' }));
 dotenv.config(); // Load environment variables from .env file
