@@ -1,91 +1,147 @@
-import React, { useState } from 'react';
-import './Superpayroll.css';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "./Superpayroll.css";
 
 const Superpayroll = () => {
-  const [employeeData, setEmployeeData] = useState([
-    { id: 1, name: 'John Doe', position: 'Software Developer', salary: 5000 },
-    { id: 2, name: 'Jane Smith', position: 'HR Manager', salary: 6000 },
-    { id: 3, name: 'Michael Johnson', position: 'Designer', salary: 4500 }
-  ]);
+  const [payrollData, setPayrollData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const [newEmployee, setNewEmployee] = useState({
-    name: '',
-    position: '',
-    salary: ''
-  });
+  useEffect(() => {
+    const fetchHRPayrollData = async () => {
+      try {
+        const response = await axios.get(`${process.env.VITE_API_URL}/hrpayroll/hr-payroll-with-details`);
+        setPayrollData(response.data.payrollData);
+      } catch (error) {
+        console.error("Error fetching HR payroll data:", error);
+      }
+    };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setNewEmployee({
-      ...newEmployee,
-      [name]: value
-    });
+    fetchHRPayrollData();
+  }, []);
+
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
   };
 
-  const handleAddEmployee = () => {
-    const { name, position, salary } = newEmployee;
-    if (name && position && salary) {
-      setEmployeeData([
-        ...employeeData,
-        { id: employeeData.length + 1, name, position, salary: parseInt(salary) }
-      ]);
-      setNewEmployee({ name: '', position: '', salary: '' });
+  const handleInputChange = (email, field, value) => {
+    setPayrollData((prevData) =>
+      prevData.map((employee) =>
+        employee.email === email ? { ...employee, [field]: value } : employee
+      )
+    );
+  };
+
+  const handleSavePayroll = async (employee) => {
+    try {
+      const updatedPayroll = {
+        basicSalary: parseFloat(employee.basicSalary) || 0,
+        allowances: parseFloat(employee.allowances) || 0,
+        deductions: parseFloat(employee.deductions) || 0,
+        paidUpto: employee.paidUpto || "",
+      };
+
+      const response = await axios.put(
+        `${process.env.VITE_API_URL}/hrpayroll/hr-payroll/${employee.email}`,
+        updatedPayroll
+      );
+
+      if (response.status === 200 || response.status === 201) {
+        setPayrollData((prevData) =>
+          prevData.map((emp) =>
+            emp.email === employee.email ? { ...emp, ...updatedPayroll } : emp
+          )
+        );
+
+        alert(`✅ Payroll updated successfully for ${employee.name}!`);
+      } else {
+        alert(`❌ Failed to update payroll for ${employee.name}.`);
+      }
+    } catch (error) {
+      console.error("Error updating HR payroll:", error);
+      alert(`❌ Failed to update payroll for ${employee.name}.`);
     }
   };
 
+  const filteredData = payrollData.filter((employee) =>
+    employee.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
-    <div className="payroll-container">
-      <h1>Employee Payroll Management</h1>
-      
-      {/* Employee Table */}
-      <table className="payroll-table">
+    <div className="hr-payroll-container">
+      <h1>HR Payroll Management</h1>
+      <input
+        type="text"
+        placeholder="Search HR Employee"
+        value={searchTerm}
+        onChange={handleSearch}
+        className="search-bar"
+      />
+
+      <table className="hr-payroll-table">
         <thead>
           <tr>
             <th>Name</th>
-            <th>Position</th>
-            <th>Salary ($)</th>
+            <th>Email</th>
+            <th>Department</th>
+            <th>Basic Salary</th>
+            <th>Allowances</th>
+            <th>Deductions</th>
+            <th>Total Salary</th>
+            <th>Paid Upto</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {employeeData.map((employee) => (
-            <tr key={employee.id}>
-              <td>{employee.name}</td>
-              <td>{employee.position}</td>
-              <td>{employee.salary}</td>
-            </tr>
-          ))}
+          {filteredData.map((employee) => {
+            const totalSalary =
+              parseFloat(employee.basicSalary) +
+              parseFloat(employee.allowances) -
+              parseFloat(employee.deductions);
+
+            return (
+              <tr key={employee.email}>
+                <td>{employee.name}</td>
+                <td>{employee.email}</td>
+                <td>{employee.department}</td>
+                <td>
+                  <input
+                    type="number"
+                    value={employee.basicSalary}
+                    onChange={(e) => handleInputChange(employee.email, "basicSalary", e.target.value)}
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    value={employee.allowances}
+                    onChange={(e) => handleInputChange(employee.email, "allowances", e.target.value)}
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    value={employee.deductions}
+                    onChange={(e) => handleInputChange(employee.email, "deductions", e.target.value)}
+                  />
+                </td>
+                <td>Rs.{totalSalary.toFixed(2)}</td>
+                <td>
+                  <input
+                    type="date"
+                    value={employee.paidUpto || ""}
+                    onChange={(e) => handleInputChange(employee.email, "paidUpto", e.target.value)}
+                  />
+                </td>
+                <td>
+                  <button onClick={() => handleSavePayroll(employee)} className="save-btn">
+                    Save
+                  </button>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
-
-      {/* Add New Employee Form */}
-      <div className="add-employee-form">
-        <h2>Add New Employee</h2>
-        <label>Name:
-          <input
-            type="text"
-            name="name"
-            value={newEmployee.name}
-            onChange={handleChange}
-          />
-        </label>
-        <label>Position:
-          <input
-            type="text"
-            name="position"
-            value={newEmployee.position}
-            onChange={handleChange}
-          />
-        </label>
-        <label>Salary:
-          <input
-            type="number"
-            name="salary"
-            value={newEmployee.salary}
-            onChange={handleChange}
-          />
-        </label>
-        <button onClick={handleAddEmployee}>Add Employee</button>
-      </div>
     </div>
   );
 };
