@@ -11,6 +11,7 @@ import HrDetailRouter from "./Routes/HrDetailRoutes.js";
 import AttendanceDetailRouter from "./Routes/AttendanceDetailRoute.js";
 import HrPayrollRouter from "./Routes/HrPayrollRoute.js";
 import HrAttendanceRouter from "./Routes/HrAttendanceRoute.js";
+import HrleaveRequestRouter from "./Routes/HrleaveRequestRoute.js";
 
 import dotenv from "dotenv";
 
@@ -54,6 +55,7 @@ app.use("/Payroll", PayrollRouter); // Payroll
 app.use("/attendance", AttendanceDetailRouter); // Attendance
 app.use("/hrpayroll", HrPayrollRouter); // hr payroll
 app.use("/hrattendance", HrAttendanceRouter); // hr payroll
+app.use("/hrleave", HrleaveRequestRouter); // hr payroll
 
 
 app.use(express.static("Public")); // Serve static files
