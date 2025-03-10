@@ -1,61 +1,103 @@
-/* Superleavemanagement.css
+Container Styling
 .leave-container {
-    max-width: 1000px;
-    margin: 20px auto;
-    padding: 20px;
-    border: 2px solid #ccc;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    font-family: Arial, sans-serif;
+  max-width: 90%;
+  margin: 40px auto;
+  padding: 20px;
+  background: #f9f9f9;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  text-align: center;
+}
+
+/* Heading */
+.leave-container h1 {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Table Styling */
+.leave-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Table Head */
+.leave-table thead {
+  background: #007bff;
+  color: white;
+}
+
+.leave-table th {
+  padding: 12px;
+  text-align: left;
+  font-size: 1rem;
+}
+
+/* Table Rows */
+.leave-table td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+/* Hover effect on rows */
+.leave-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Status text */
+.leave-table td:nth-child(8) {
+  font-weight: bold;
+}
+
+/* Button Styles */
+button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin: 2px;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Approve Button */
+/* button:nth-child(1) {
+  background-color: #28a745;
+  color: white;
+} */
+
+button:nth-child(1):hover {
+  background-color: #218838;
+}
+
+/* Completed status */
+span {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #6c757d;
+}
+
+/* Responsive Table */
+@media (max-width: 768px) {
+  .leave-container {
+      max-width: 100%;
+      padding: 15px;
   }
-  
-  h1 {
-    text-align: center;
-    color: #333;
-  }
-  
-  .leave-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
-  
+
   .leave-table th, .leave-table td {
-    padding: 12px;
-    text-align: center;
-    border: 1px solid #ddd;
+      font-size: 0.85rem;
+      padding: 8px;
   }
-  
-  .leave-table th {
-    background-color: #4CAF50;
-    color: white;
-  }
-  
-  .leave-table td {
-    background-color: #f2f2f2;
-  }
-  
+
   button {
-    padding: 8px 12px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
+      font-size: 0.8rem;
+      padding: 6px 10px;
   }
-  
-  button:hover {
-    background-color: #45a049;
-  }
-  
-  button:focus {
-    outline: none;
-  }
-  
-  button:active {
-    background-color: #3e8e41;
-  }
-  
-  button.approve-btn {
-    margin-right: 10px; /* Add space between approve and reject buttons */
+}

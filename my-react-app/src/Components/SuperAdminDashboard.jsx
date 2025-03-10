@@ -58,7 +58,7 @@ const SuperAdminDashboard = () => {
               <li><button onClick={() => navigate("/SuperAdminSignup")}>Add Super Admin</button></li>
               <li><button onClick={() => navigate("/Superpayroll")}>Payroll</button></li>
               <li><button onClick={() => navigate("/Superattendance")}>Attendance</button></li>
-              <li><button onClick={() => navigate("Superleavemanagement")}>LeaveManagement</button></li>
+              <li><button onClick={() => navigate("/Superleavemanagement")}>LeaveManagement</button></li>
               
             </ul>
           </nav>
