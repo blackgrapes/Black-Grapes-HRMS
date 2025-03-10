@@ -137,6 +137,7 @@ const SuperAdminReport = () => {
   };
 
   return (
+    
     <div className="superadmin-report-container">
       <h1 className="report-title">Super Admin Report</h1>
 

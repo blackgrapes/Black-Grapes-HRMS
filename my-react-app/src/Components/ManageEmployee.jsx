@@ -80,15 +80,10 @@ const ManageEmployeeDetails = () => {
   };
 
   return (
+    
     <div className="container mt-4">
       <h3 className="text-center">Manage Employee Details</h3>
 
-      {/* Back Button */}
-      <div className="d-flex justify-content-start mb-3">
-        <button className="btn btn-secondary" onClick={() => navigate(-1)}>
-          Back
-        </button>
-      </div>
 
       {/* Search Bar */}
       <div className="d-flex justify-content-between mb-3">
@@ -112,6 +107,9 @@ const ManageEmployeeDetails = () => {
             SignUp Employee
           </Link>
         </div>
+        <div className="container-fluid">  {/* Replace .container with container-fluid */}
+  <h3 className="text-center">Manage Employee Details</h3>
+</div>
 
         {/* Employee Table */}
         {filteredEmployees.length === 0 ? (
@@ -161,7 +159,8 @@ const ManageEmployeeDetails = () => {
 
       {/* HR Section */}
       <div className="hr-section mt-4" id="hr-section">
-        <h4>HR List</h4>
+  <h4>HR List</h4>
+
         <div className="d-flex justify-content-start gap-2 mb-3">
           <Link to="/add_HR" className="btn btn-success">
             Add HR

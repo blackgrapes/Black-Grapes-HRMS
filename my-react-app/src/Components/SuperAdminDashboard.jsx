@@ -87,10 +87,11 @@ const SuperAdminDashboard = () => {
             </div>
 
             <div className="action-card">
-              <h3>Profile</h3>
+              <h3>Add Admin</h3>
               <p>Configure system-wide settings.</p>
-              <button className="btn btn-action" onClick={() => navigate("/SuperProfile")}>Go to Settings</button>
-            </div>
+              <button className="btn btn-action" onClick={() => navigate("/SuperAdminSignup")}>ADD</button>
+            </div> 
+         
           </section>
         </main>
       </div>

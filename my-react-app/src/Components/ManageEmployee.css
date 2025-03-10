@@ -1,201 +1,55 @@
-/* General Styles */
 .container {
-  margin-top: 20px;
-  display: block; /* Ensure the container is block-level */
-}
-
-/* Heading Styles */
-h3 {
-  font-size: 20px; /* Increased font size */
-  font-weight: bold;
-  margin-bottom: 25px; /* Increased margin */
-}
-
-h4 {
-  font-size: 22px; /* Increased font size */
-  font-weight: bold;
-  margin-bottom: 20px; /* Increased margin */
-}
-
-/* Employee Section Styles */
-.employee-section {
-  background-color: #f9f9f9;
-  padding: 30px; /* Increased padding */
-  border-radius: 8px;
-  margin-bottom: 40px; /* Increased bottom margin */
-  width: 100%; /* Ensure full width */
-  display: block; /* Stack content vertically */
-}
-
-.employee-section table {
   width: 100%;
-  margin-bottom: 30px; /* Increased margin at the bottom */
-}
-
-.employee-section th,
-.employee-section td {
-  text-align: center;
-  padding: 15px; /* Increased padding for table cells */
-}
-
-.employee-section th {
-  font-size: 16px; /* Increased font size for table headers */
-  background-color: #4CAF50;
-  color: white;
-}
-
-.employee-section td {
-  font-size: 14px; /* Increased font size for table data */
-}
-
-/* Button Spacing for Employee Section */
-.employee-section .btn-container {
+  max-width: none;
+  padding: 20px;
+  background-color: #cde1f8;
+  min-height: 100vh; /* Full screen height */
   display: flex;
-  gap: 15px; /* Spacing between buttons */
-  justify-content: flex-start;
-  margin-bottom: 20px; /* Space between buttons and table */
+  flex-direction: column; /* Keep elements in column */
+  align-items: center;
 }
 
-.employee-section .btn {
-  font-size: 14px; /* Increased font size for buttons */
-  padding: 8px 15px; /* Increased padding for buttons */
-  margin: 0; /* Remove extra margin from buttons */
+/* Ensure full-width alignment */
+.employee-section, .hr-section {
+  width: 90%;
+  max-width: 1200px;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
 }
 
-.employee-section .btn-success,
-.employee-section .btn-primary {
-  width: auto; /* Ensure the buttons don't take full width */
-}
-
-/* HR Section Styles */
-.hr-section {
-  background-color: #f9f9f9;
-  padding: 30px; /* Increased padding */
-  border-radius: 8px;
-  width: 100%; /* Ensure full width */
-  display: block; /* Stack content vertically */
-}
-
-.hr-section table {
+/* Adjust table width */
+.table {
   width: 100%;
-  margin-bottom: 30px; /* Increased margin at the bottom */
+  border-collapse: collapse;
 }
 
-.hr-section th,
-.hr-section td {
-  text-align: center;
-  padding: 15px; /* Increased padding for table cells */
-}
-
-.hr-section th {
-  font-size: 16px; /* Increased font size for table headers */
-  background-color: #4CAF50;
-  color: white;
-}
-
-.hr-section td {
-  font-size: 14px; /* Increased font size for table data */
-}
-
-/* Button Spacing for HR Section */
-.hr-section .btn-container {
-  display: flex;
-  gap: 15px; /* Spacing between buttons */
-  justify-content: flex-start;
-  margin-bottom: 20px; /* Space between buttons and table */
-}
-
-.hr-section .btn {
-  font-size: 14px; /* Increased font size for buttons */
-  padding: 8px 15px; /* Increased padding for buttons */
-  margin: 0; /* Remove extra margin from buttons */
-}
-
-.hr-section .btn-success,
-.hr-section .btn-primary {
-  width: auto; /* Ensure the buttons don't take full width */
-}
-
-/* Additional Styling for Buttons */
-.btn-warning {
-  background-color: #ff9800;
-  border-color: #ff9800;
-}
-
-.btn-danger {
-  background-color: #f44336;
-  border-color: #f44336;
-}
-
-.btn-sm {
-  font-size: 12px; /* Smaller font size for smaller buttons */
-  padding: 6px 12px; /* Reduced padding for smaller buttons */
-}
-
-/* Back Button */
-.btn-secondary {
-  padding: 6px 12px; /* Smaller padding for the Back button */
-  font-size: 12px; /* Smaller font size for the Back button */
-  width: auto; /* Ensure Back button does not take full space */
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-/* Search Bar and HR Scroll Button */
+/* Fix button alignment */
 .d-flex {
-  display: flex; /* Use flexbox for row layout */
-  justify-content: center; /* Center the search bar */
-  gap: 15px; /* Space between buttons */
-  margin-bottom: 20px; /* Add space between the search bar and the sections */
+  display: flex;
+  flex-direction: column; /* Keep buttons one below another */
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+}.hr-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Horizontally center */
+  text-align: center; /* Text bhi center hoga */
+  width: 100%;
+}
+.btn {
+  width: 90%;
+  max-width: 400px;
+  padding: 12px;
+  font-size: 16px;
+  text-align: center;
 }
 
-/* Search Bar styling */
-.d-flex .form-control {
-  /* Ensure search bar takes the same width as buttons */
-  margin-right: 10px;
-}
-
-/* HR List Button and Back Button */
-.d-flex .btn-info,
-.d-flex .btn-primary {
-  width: auto; /* HR List button should not stretch */
-}
-
-.d-flex .btn-secondary {
-  width: auto; /* Back button should also have an auto width */
-}
-
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-  table {
-    font-size: 13px; /* Slightly reduced font size for small screens */
-  }
-
-  th, td {
-    padding: 12px; /* Adjust padding for smaller screens */
-  }
-
-  /* Adjust button sizes */
-  .employee-section .btn,
-  .hr-section .btn {
-    padding: 8px 12px; /* Reduced padding for buttons on small screens */
-    font-size: 12px; /* Reduced font size for buttons */
-  }
-
-  .d-flex {
-    flex-direction: column; /* Stack buttons vertically on smaller screens */
-    gap: 15px; /* Increased space between buttons on small screens */
-  }
-
-  /* Adjust form input for small screens */
-  .d-flex .form-control {
-    width: 100%;
-    margin-bottom: 10px;
-  }
-
-  .employee-section .btn-container,
-  .hr-section .btn-container {
-    flex-direction: column;
-    gap: 10px;
-  }
+.search-bar {
+  width: 90%;
+  max-width: 400px;
+  margin-bottom: 15px;
 }
