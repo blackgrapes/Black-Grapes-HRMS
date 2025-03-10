@@ -1,12 +1,19 @@
+/* Superpayroll.css */
+
+body {
+  background-color: #cce0ff;
+  font-family: Arial, sans-serif;
+}
 
 .hr-payroll-container {
-  max-width: 900px;
+  max-width: 95%; /* Full width ke kareeb le aaya */
   margin: 50px auto;
   background: white;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   text-align: center;
+  overflow-x: auto; /* Ensure responsiveness */
 }
 
 h1 {
@@ -38,26 +45,32 @@ th, td {
   text-align: center;
 }
 
-/* Increase width of the "Actions" column */
-th:nth-child(9),
-td:nth-child(9) {
-  width: 120px; /* Adjust width to give more space */
+/* Increase width of the entire table */
+.hr-payroll-table th,
+.hr-payroll-table td {
+  padding: 12px 15px;
 }
 
-/* Make sure inputs are properly aligned */
+/* Ensure Actions column is within the box */
+th:nth-child(9),
+td:nth-child(9) {
+  width: 150px; /* Thoda aur width diya */
+}
+
+/* Input fields alignment */
 input[type="number"],
 input[type="date"] {
-  width: 100%;
+  width: 95%;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 5px;
   text-align: center;
 }
 
-/* Ensure Save button is centered and properly sized */
+/* Save button alignment */
 .save-btn {
-  width: 90px;  /* Adjust button width */
-  padding: 8px 12px;
+  width: 100px;
+  padding: 8px;
   margin: 5px auto;
   border: none;
   cursor: pointer;
