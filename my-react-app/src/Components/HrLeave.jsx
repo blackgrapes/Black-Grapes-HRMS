@@ -1,77 +1,232 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useSearchParams } from "react-router-dom";
 import "./HrLeave.css";
 
 const HrLeave = () => {
-  const [leaveData, setLeaveData] = useState({
-    name: "",
-    email: "",
-    fromDate: "",
-    toDate: "",
-    reason: "",
-  });
+  const [leaveType, setLeaveType] = useState("");
+  const [leaveDays, setLeaveDays] = useState(0);
+  const [leaveReason, setLeaveReason] = useState("");
+  const [leaveStartDate, setLeaveStartDate] = useState("");
+  const [leaveEndDate, setLeaveEndDate] = useState("");
+  const [leaveRequests, setLeaveRequests] = useState([]);
+  const [leaveBalance, setLeaveBalance] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [searchParams] = useSearchParams();
+  const hrEmail = searchParams.get("email");
 
-  const handleChange = (e) => {
-    setLeaveData({ ...leaveData, [e.target.name]: e.target.value });
+  useEffect(() => {
+    if (leaveStartDate && leaveDays > 0) {
+      const startDateObj = new Date(leaveStartDate);
+      startDateObj.setDate(startDateObj.getDate() + (leaveDays - 1));
+      setLeaveEndDate(startDateObj.toISOString().split("T")[0]);
+    } else {
+      setLeaveEndDate("");
+    }
+  }, [leaveStartDate, leaveDays]);
+
+  const fetchLeaveRequests = async () => {
+    if (!hrEmail) return;
+    try {
+      const response = await axios.get(
+        `${process.env.VITE_API_URL}/hrLeave/leave-request/${hrEmail}`
+      );
+      setLeaveRequests(response.data.leaveRequests || []);
+    } catch (err) {
+      console.error("Failed to fetch leave requests:", err);
+    }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Leave Request Submitted:", leaveData);
-    alert("Leave request submitted successfully!");
-    setLeaveData({ name: "", email: "", fromDate: "", toDate: "", reason: "" });
+  const fetchLeaveBalance = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.VITE_API_URL}/hrLeave/leave-balance/${hrEmail}`
+      );
+      setLeaveBalance(response.data.paidLeavesRemaining || 0);
+    } catch (err) {
+      console.error("Failed to fetch leave balance:", err);
+    }
+  };
+
+  useEffect(() => {
+    if (hrEmail) {
+      fetchLeaveRequests();
+      fetchLeaveBalance();
+    }
+  }, [hrEmail]);
+
+  const isDateOverlapping = (startDate, endDate) => {
+    return leaveRequests.some((request) => {
+      const requestStart = new Date(request.startDate);
+      const requestEnd = new Date(request.endDate);
+      const newStart = new Date(startDate);
+      const newEnd = new Date(endDate);
+
+      return (
+        (newStart >= requestStart && newStart <= requestEnd) ||
+        (newEnd >= requestStart && newEnd <= requestEnd) ||
+        (newStart <= requestStart && newEnd >= requestEnd)
+      );
+    });
+  };
+
+  const handleSubmitRequest = async () => {
+    setLoading(true);
+
+    if (!leaveStartDate || leaveDays <= 0 || !leaveType || !leaveReason) {
+      alert("Please fill in all fields correctly.");
+      setLoading(false);
+      return;
+    }
+
+    if (isDateOverlapping(leaveStartDate, leaveEndDate)) {
+      alert("Leave has already been applied for the selected dates.");
+      clearForm();
+      setLoading(false);
+      return;
+    }
+
+    if (leaveBalance <= 0) {
+      const proceed = window.confirm(
+        "Your leave balance has expired. Do you still want to submit this leave request?"
+      );
+      if (!proceed) {
+        setLoading(false);
+        return;
+      }
+    }
+
+    const body = {
+      email: hrEmail,
+      days: leaveDays,
+      type: leaveType,
+      reason: leaveReason,
+      startDate: leaveStartDate,
+    };
+
+    try {
+      await axios.post(`${process.env.VITE_API_URL}/hrLeave/leave-request`, body);
+      clearForm();
+
+      alert("Leave request submitted successfully.");
+      await Promise.all([fetchLeaveRequests(), fetchLeaveBalance()]);
+    } catch (err) {
+      console.error("Failed to submit leave request:", err);
+      alert("Failed to submit leave request. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const clearForm = () => {
+    setLeaveType("");
+    setLeaveDays(0);
+    setLeaveReason("");
+    setLeaveStartDate("");
+    setLeaveEndDate("");
   };
 
   return (
-    <div className="leave-container">
-      <h2 className="leave-title">HR Leave Request</h2>
-      
-      <form className="leave-form" onSubmit={handleSubmit}>
-        <label>Name:</label>
-        <input
-          type="text"
-          name="name"
-          value={leaveData.name}
-          onChange={handleChange}
-          required
-        />
+    <div className="leave-management-container">
+      <h2>HR Leave Management</h2>
 
-        <label>Email:</label>
-        <input
-          type="email"
-          name="email"
-          value={leaveData.email}
-          onChange={handleChange}
-          required
-        />
+      <div className="leave-balance">
+        <h3>Leave Balance</h3>
+        <p>
+          Paid Leaves Remaining: <strong>{leaveBalance}</strong>{" "}
+          {leaveBalance === 1 ? "day" : "days"}
+        </p>
+      </div>
 
-        <label>Leave From:</label>
-        <input
-          type="date"
-          name="fromDate"
-          value={leaveData.fromDate}
-          onChange={handleChange}
-          required
-        />
+      <div className="leave-form">
+        <h3>Request Leave</h3>
+        <label>
+          Leave Type:
+          <select value={leaveType} onChange={(e) => setLeaveType(e.target.value)}>
+            <option value="">Select</option>
+            <option value="Sick">Sick Leave</option>
+            <option value="Vacation">Vacation Leave</option>
+            <option value="Casual">Casual Leave</option>
+          </select>
+        </label>
 
-        <label>Leave To:</label>
-        <input
-          type="date"
-          name="toDate"
-          value={leaveData.toDate}
-          onChange={handleChange}
-          required
-        />
+        <label>
+          Start Date:
+          <input
+            type="date"
+            value={leaveStartDate}
+            onChange={(e) => setLeaveStartDate(e.target.value)}
+          />
+        </label>
 
-        <label>Reason for Leave:</label>
-        <textarea
-          name="reason"
-          value={leaveData.reason}
-          onChange={handleChange}
-          required
-        ></textarea>
+        <label>
+          Number of Days:
+          <input
+            type="number"
+            value={leaveDays}
+            onChange={(e) => setLeaveDays(Number(e.target.value))}
+            min="1"
+          />
+        </label>
 
-        <button type="submit" className="submit-btn">Submit Request</button>
-      </form>
+        <label>
+          End Date:
+          <input type="date" value={leaveEndDate} readOnly />
+        </label>
+
+        <label>
+          Reason:
+          <textarea value={leaveReason} onChange={(e) => setLeaveReason(e.target.value)} />
+        </label>
+
+        <button onClick={handleSubmitRequest} disabled={loading}>
+          {loading ? "Submitting..." : "Submit Leave Request"}
+        </button>
+      </div>
+
+      <div className="leave-requests">
+        <h3>Your Leave Requests</h3>
+        {leaveRequests.length === 0 ? (
+          <p>No leave requests found.</p>
+        ) : (
+          <table>
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Paid Days</th>
+                <th>Unpaid Days</th>
+                <th>Reason</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {leaveRequests.map((request) => (
+                <tr key={request._id}>
+                  <td>{request.type}</td>
+                  <td>{request.paidLeave}</td>
+                  <td>{request.unpaidLeave}</td>
+                  <td>{request.reason}</td>
+                  <td>{new Date(request.startDate).toLocaleDateString()}</td>
+                  <td>{new Date(request.endDate).toLocaleDateString()}</td>
+                  <td
+                    className={`status ${
+                      request.status === "Approved"
+                        ? "status-approved"
+                        : request.status === "Rejected"
+                        ? "status-rejected"
+                        : "status-pending"
+                    }`}
+                  >
+                    {request.status}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
     </div>
   );
 };

@@ -101,8 +101,9 @@ const Profile = () => {
 
   // ✅ HR Leave Button Click → Navigate to "/dashboard/HrLeave"
   const handleHRLeave = () => {
-    navigate("/dashboard/HrLeave");
+    navigate(`/dashboard/HrLeave?email=${hrDetails.email}`);
   };
+  
 
   if (loading) {
     return <div>Loading...</div>;
