@@ -44,10 +44,15 @@ const HRAttendanceReport = () => {
   };
 
   const countAttendanceStats = () => {
-    let stats = { present: 0, absent: 0, paidLeave: 0, unpaidLeave: 0, halfDay: 0 };
+    let stats = { present: 0, absent: 0, paidleave: 0, unpaidleave: 0, halfday: 0 };
+    
     attendanceRecords.forEach((record) => {
-      stats[record.status.replace(' ', '').toLowerCase()]++;
+      let statusKey = record.status.trim().toLowerCase().replace(' ', '');
+      if (stats.hasOwnProperty(statusKey)) {
+        stats[statusKey]++;
+      }
     });
+
     return stats;
   };
 
@@ -67,12 +72,12 @@ const HRAttendanceReport = () => {
     doc.text(`From: ${formatDate(startDate)}`, 14, 55);
     doc.text(`To: ${formatDate(endDate)}`, 14, 60);
 
-    const { present, absent, paidLeave, unpaidLeave, halfDay } = countAttendanceStats();
+    const { present, absent, paidleave, unpaidleave, halfday } = countAttendanceStats();
     doc.text(`Present: ${present}`, 14, 70);
     doc.text(`Absent: ${absent}`, 14, 75);
-    doc.text(`Paid Leave: ${paidLeave}`, 14, 80);
-    doc.text(`Unpaid Leave: ${unpaidLeave}`, 14, 85);
-    doc.text(`Half Day: ${halfDay}`, 14, 90);
+    doc.text(`Paid Leave: ${paidleave}`, 14, 80);
+    doc.text(`Unpaid Leave: ${unpaidleave}`, 14, 85);
+    doc.text(`Half Day: ${halfday}`, 14, 90);
 
     const tableData = attendanceRecords.map((record) => [record.date, record.status]);
     doc.autoTable({ head: [['Date', 'Status']], body: tableData, startY: 100 });
@@ -104,9 +109,9 @@ const HRAttendanceReport = () => {
           <p><strong>To:</strong> {formatDate(endDate)}</p>
           <p><strong>Present:</strong> {countAttendanceStats().present}</p>
           <p><strong>Absent:</strong> {countAttendanceStats().absent}</p>
-          <p><strong>Paid Leave:</strong> {countAttendanceStats().paidLeave}</p>
-          <p><strong>Unpaid Leave:</strong> {countAttendanceStats().unpaidLeave}</p>
-          <p><strong>Half Day:</strong> {countAttendanceStats().halfDay}</p>
+          <p><strong>Paid Leave:</strong> {countAttendanceStats().paidleave}</p>
+          <p><strong>Unpaid Leave:</strong> {countAttendanceStats().unpaidleave}</p>
+          <p><strong>Half Day:</strong> {countAttendanceStats().halfday}</p>
 
           <table>
             <thead>

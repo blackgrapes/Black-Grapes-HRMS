@@ -99,14 +99,14 @@
 }
 
 .absent:hover {
-  background-color: #c82333;
+  background-color: #401d98;
 }
 
 .half-day {
-  background-color: #ffc107;
+  background-color: #176fa6;
   color: black;
 }
 
 .half-day:hover {
-  background-color: #e0a800;
+  background-color: #401d98;
 }
