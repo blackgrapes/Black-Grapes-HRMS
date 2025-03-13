@@ -21,7 +21,7 @@ const SuperAdminDashboard = () => {
   // Handle logout
   const handleLogout = () => {
     axios
-      .get(`${process.env.VITE_API_URL}/superadmin/logout`)
+      .get(`${process.env.VITE_API_URL}/superadmin//superadminlogout`)
       .then(() => {
         alert("Logged out successfully");
         navigate("/superadminlogin");
@@ -68,35 +68,33 @@ const SuperAdminDashboard = () => {
 
         <main className="dashboard-content">
           <section className="welcome-section">
-            <h2>Welcome, {userData ? userData.name : 'Super Admin'}!</h2>
-            <p>Manage the system efficiently with the tools available below.</p>
+            <p>Manage Employees efficiently with the tools available below.</p>
           </section>
 
           <section className="dashboard-actions">
             <div className="action-card">
               <h3>Manage Employees</h3>
-              <p>Add, edit, or remove employee accounts.</p>
+              <p>Add, edit, or Delete Employee / Hr accounts.</p>
               <button className="btn btn-action" onClick={() => navigate("/manage_employees")}>Go to Employees</button>
             </div>
 
             <div className="action-card">
               <h3>View Reports</h3>
-              <p>Analyze system reports and statistics.</p>
+              <p>View and Download the Report of Employees.</p>
               <button className="btn btn-action" onClick={() => navigate("/SuperAdminReport")}>View Reports</button>
             </div>
 
             <div className="action-card">
               <h3>Add Admin</h3>
-              <p>Configure system-wide settings.</p>
+              <p>Add another admin to access this system</p>
               <button className="btn btn-action" onClick={() => navigate("/SuperAdminSignup")}>ADD</button>
             </div> 
-         
           </section>
         </main>
       </div>
 
       <footer className="dashboard-footer">
-        <p>© 2025 Super Admin Panel. All rights reserved.</p>
+        <p>© 2025 BGG HRMS, All rights reserved.</p>
       </footer>
     </div>
   );

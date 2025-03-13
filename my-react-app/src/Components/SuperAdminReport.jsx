@@ -52,8 +52,7 @@ const SuperAdminReport = () => {
       ["Email", user.email],
       ["Phone", user.phone || "-"],
       ["Department", user.department || "-"],
-      ["Company", user.company || "-"],
-      ["Role", user.role || "-"],
+      ["Company", user.company || "N/A"],
       ["Address", user.address || "N/A"],
       ["Manager", user.manager || "N/A"],
       ["Date of Birth", user.dob || "N/A"],
@@ -89,7 +88,6 @@ const SuperAdminReport = () => {
               <th>Department</th>
               <th>Phone</th>
               <th>Address</th>
-              <th>Manager</th>
               <th>DOB</th>
               <th>Joining Date</th>
               <th>Download</th>
@@ -103,7 +101,6 @@ const SuperAdminReport = () => {
                 <td>{hr.department || "N/A"}</td>
                 <td>{hr.phone || "N/A"}</td>
                 <td>{hr.address || "N/A"}</td>
-                <td>{hr.manager || "N/A"}</td>
                 <td>{hr.dob || "N/A"}</td>
                 <td>{hr.joiningDate || "N/A"}</td>
                 <td><button className="button" onClick={() => downloadPDF(hr, "HR")}>&#x2B07;</button></td>

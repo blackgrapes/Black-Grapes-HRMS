@@ -1,72 +1,43 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import './SuperAddEmployee.css'; 
 
-const departments = {
-  Finance: ["Financial Analyst", "Accountant", "Auditor"],
-  Marketing: ["Marketing Manager", "SEO Specialist", "Content Strategist"],
-  Accounting: ["Senior Accountant", "Tax Specialist"],
-  Housekeeping: ["Housekeeping Supervisor", "Cleaning Staff"],
-  "IT Support": ["IT Technician", "Help Desk Support"],
-  Sales: ["Sales Executive", "Business Development Manager"],
-  "Software Engineering": ["Frontend Developer", "Backend Developer", "Full Stack Developer"],
-};
-
-// Mapping companies to departments and roles
+// Updated companies with new departments and roles
 const companies = {
-  "Black Grapes Group":{},
-  "Black Grapes Associate": {
-    departments: ["Finance", "Marketing", "Sales"],
-    roles: {
-      Finance: ["Financial Analyst", "Accountant"],
-      Marketing: ["SEO Specialist", "Content Strategist"],
-      Sales: ["Sales Executive", "Business Development Manager"],
-    },
+  "Black Grapes Group": {
+    departments: [
+      "Accounting",
+      "Finance",
+      "Marketing",
+      "IT Support",
+      "Education Service",
+      "E-Commerce Solution",
+      "Social Media Marketing",
+      "Government Training Program",
+      "Operations",
+    ],
   },
   "Black Grapes Softech": {
-    departments: ["Software Engineering", "IT Support", "Marketing"],
-    roles: {
-      "Software Engineering": ["Frontend Developer", "Backend Developer", "Full Stack Developer"],
-      "IT Support": ["IT Technician", "Help Desk Support"],
-      Marketing: ["SEO Specialist", "Content Strategist"],
-    },
+    departments: ["Senior Project Manager", "Project Manager", "Senior Developer", "Developer", "Intern"],
+  },
+  "Black Grapes Associate": {
+    departments: ["Management", "Business Development", "Associates"],
   },
   "Black Grapes Real Estate": {
-    departments: ["Sales", "Accounting", "Housekeeping"],
-    roles: {
-      Sales: ["Sales Executive", "Business Development Manager"],
-      Accounting: ["Senior Accountant", "Tax Specialist"],
-      Housekeeping: ["Housekeeping Supervisor", "Cleaning Staff"],
-    },
+    departments: ["Manager", "Executive"],
   },
   "Black Grapes Valuers & Engineers": {
-    departments: ["Finance", "Software Engineering", "Sales"],
-    roles: {
-      Finance: ["Financial Analyst", "Accountant"],
-      "Software Engineering": ["Frontend Developer", "Backend Developer", "Full Stack Developer"],
-      Sales: ["Sales Executive", "Business Development Manager"],
-    },
+    departments: ["Manager", "Executive", "Back Office"],
   },
-  "Black Grapes Investment Pvt. Ltd.": {
-    departments: ["Finance", "Accounting", "Sales"],
-    roles: {
-      Finance: ["Financial Analyst", "Accountant", "Auditor"],
-      Accounting: ["Senior Accountant", "Tax Specialist"],
-      Sales: ["Sales Executive", "Business Development Manager"],
-    },
+  "Black Grapes Investment & Securities": {
+    departments: ["Portfolio Manager", "Executive"],
   },
   "Black Grapes Insurance Surveyors & Loss Assessors Pvt. Ltd.": {
-    departments: ["Sales", "Marketing", "Accounting"],
-    roles: {
-      Sales: ["Sales Executive", "Business Development Manager"],
-      Marketing: ["SEO Specialist", "Content Strategist"],
-      Accounting: ["Senior Accountant", "Tax Specialist"],
-    },
+    departments: ["Manager", "Executive", "Back Office"],
   },
 };
 
-const AddEmployee = () => {
+const SuperAddEmployee = () => {
   const [employee, setEmployee] = useState({
     name: "",
     email: "",
@@ -84,24 +55,21 @@ const AddEmployee = () => {
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Handle company change and update departments dynamically
   const handleCompanyChange = (e) => {
     const selectedCompany = e.target.value;
     setEmployee({
       ...employee,
       company: selectedCompany,
-      department: "", // Reset department when company changes
-      role: "", // Reset role when company changes
+      department: "",
+      role: "", // Removed role dependency
     });
   };
 
-  // Handle department change and update roles dynamically
   const handleDepartmentChange = (e) => {
     const selectedDept = e.target.value;
     setEmployee({
       ...employee,
       department: selectedDept,
-      role: "", // Reset role when department changes
     });
   };
 
@@ -112,7 +80,6 @@ const AddEmployee = () => {
       !employee.name ||
       !employee.email ||
       !employee.phone ||
-      !employee.role ||
       !employee.manager ||
       !employee.dob ||
       !employee.joiningDate ||
@@ -144,7 +111,7 @@ const AddEmployee = () => {
             department: "",
             company: "",
           });
-          navigate("/SuperSignupEmployee");
+          navigate("/dashboard/signup_employee");
           alert("Employee added successfully. Please sign up with the same email.");
         } else {
           alert("Error adding employee");
@@ -253,25 +220,6 @@ const AddEmployee = () => {
             </select>
           </div>
 
-          {/* Role Dropdown */}
-          <div className="col-12">
-            <label className="form-label">Role</label>
-            <select
-              className="form-control rounded-0"
-              value={employee.role}
-              onChange={(e) => setEmployee({ ...employee, role: e.target.value })}
-              disabled={!employee.department}
-            >
-              <option value="">Select Role</option>
-              {employee.department &&
-                companies[employee.company].roles[employee.department].map((role) => (
-                  <option key={role} value={role}>
-                    {role}
-                  </option>
-                ))}
-            </select>
-          </div>
-
           <div className="col-12">
             <label className="form-label">Address</label>
             <input
@@ -282,6 +230,7 @@ const AddEmployee = () => {
               onChange={(e) => setEmployee({ ...employee, address: e.target.value })}
             />
           </div>
+
           <div className="col-12">
             <button type="submit" className="btn btn-primary w-100" disabled={isSubmitting}>
               {isSubmitting ? "Adding..." : "Add Employee"}
@@ -293,4 +242,4 @@ const AddEmployee = () => {
   );
 };
 
-export default AddEmployee;
+export default SuperAddEmployee;
