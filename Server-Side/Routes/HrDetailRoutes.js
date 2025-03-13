@@ -1,7 +1,10 @@
 import express from 'express';
 import multer from 'multer';
 import path from 'path';
-import { db } from "../utils/db.js"; // Assuming db is your MongoDB connection
+import { db } from "../utils/db.js";
+import { ObjectId } from "mongodb"; // ✅ Import ObjectId from MongoDB
+
+const router = express.Router();
 
 // Set up multer for image upload
 const storage = multer.diskStorage({
@@ -9,42 +12,30 @@ const storage = multer.diskStorage({
     cb(null, 'uploads/'); // Save uploaded images to the "uploads" folder
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname)); // Use a timestamp + file extension for unique filenames
+    cb(null, Date.now() + path.extname(file.originalname)); // Unique filename
   },
 });
 const upload = multer({ storage });
-
-const router = express.Router();
 
 // Route to add a new HR
 router.post("/add_hr", upload.single('image'), async (req, res) => {
   const { name, email, phone, dob, joiningDate, address, department } = req.body;
 
   try {
-    // Validate input data
     if (!name || !email || !phone || !dob || !joiningDate || !address || !department) {
       return res.status(400).json({ Error: "All fields are required" });
     }
 
-    // Check if the HR already exists
     const existingHR = await db.collection("hr_detail").findOne({ email });
     if (existingHR) {
       return res.status(409).json({ message: "HR already exists" });
     }
 
-    // Create an HR object
     const hrData = {
-      name,
-      email,
-      phone,
-      dob,
-      joiningDate,
-      address,        // Save address
-      department,     // Save department
-      image: req.file ? req.file.filename : null, // Save image filename if uploaded
+      name, email, phone, dob, joiningDate, address, department,
+      image: req.file ? req.file.filename : null,
     };
 
-    // Insert HR data into the collection
     const result = await db.collection("hr_detail").insertOne(hrData);
     console.log("HR added:", result.insertedId);
 
@@ -55,12 +46,10 @@ router.post("/add_hr", upload.single('image'), async (req, res) => {
   }
 });
 
-
 // Route to fetch all HR records
 router.get('/all', async (req, res) => {
   try {
-    const hrRecords = await db.collection("hr_detail").find({}).toArray(); // Convert cursor to array
-    console.log('Fetching HR records...');
+    const hrRecords = await db.collection("hr_detail").find({}).toArray();
     if (hrRecords.length === 0) {
       return res.status(404).json({ Error: 'No HR records found' });
     }
@@ -73,17 +62,14 @@ router.get('/all', async (req, res) => {
 
 // Route to fetch HR by email
 router.get('/hr', async (req, res) => {
-  const { email } = req.query; // Extract query parameters
+  const { email } = req.query;
 
   try {
-    // Validate input
     if (!email) {
       return res.status(400).json({ Error: 'Email is required' });
     }
 
-    // Fetch HR data from the collection
     const hr = await db.collection("hr_detail").findOne({ email });
-
     if (!hr) {
       return res.status(404).json({ Error: 'HR not found' });
     }
@@ -97,31 +83,27 @@ router.get('/hr', async (req, res) => {
 
 // Route to update HR details
 router.put('/update_hr/:email', upload.single('profilePicture'), async (req, res) => {
-  const { email } = req.params; // Extract email from the request parameters
-  const { phone, address, } = req.body; // Get updated fields from the request body
-  const profilePicture = req.file ? req.file.filename : null; // Handle profile picture upload
+  const { email } = req.params;
+  const { phone, address } = req.body;
+  const profilePicture = req.file ? req.file.filename : null;
 
   try {
-    // Validate email
     if (!email) {
       return res.status(400).json({ Error: 'Email is required' });
     }
 
-    // Prepare update data
     const updateData = {};
     if (phone) updateData.phone = phone;
     if (address) updateData.address = address;
-    if (profilePicture) updateData.image = profilePicture; // Update profile picture
+    if (profilePicture) updateData.image = profilePicture;
 
-    // Ensure there are fields to update
     if (Object.keys(updateData).length === 0) {
       return res.status(400).json({ Error: 'No fields to update' });
     }
 
-    // Update the HR in the collection
     const result = await db.collection('hr_detail').updateOne(
-      { email }, // Match by email
-      { $set: updateData } // Update only the provided fields
+      { email },
+      { $set: updateData }
     );
 
     if (result.matchedCount === 0) {
@@ -136,27 +118,23 @@ router.put('/update_hr/:email', upload.single('profilePicture'), async (req, res
   }
 });
 
+// Route to delete HR
 router.delete('/delete_hr/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
-    // Validate ID
     if (!ObjectId.isValid(id)) {
       return res.status(400).json({ Error: 'Invalid HR ID' });
     }
 
     const objectId = new ObjectId(id);
-
-    // Find the HR to get the image filename
     const hr = await db.collection("hr_detail").findOne({ _id: objectId });
 
     if (!hr) {
       return res.status(404).json({ Error: 'HR not found' });
     }
 
-    // Delete the HR record from the database
     const result = await db.collection("hr_detail").deleteOne({ _id: objectId });
-
     if (result.deletedCount === 0) {
       return res.status(404).json({ Error: 'HR not found or already deleted' });
     }
