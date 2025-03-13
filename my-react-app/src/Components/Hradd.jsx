@@ -8,7 +8,6 @@ const AddHR = () => {
     email: '',
     phone: '',
     salary: '',
-    image: '',
     dob: '',
     joiningDate: '',
     address: '',
@@ -27,7 +26,6 @@ const AddHR = () => {
       !hr.name ||
       !hr.email ||
       !hr.phone ||
-      !hr.image ||
       !hr.dob ||
       !hr.joiningDate ||
       !hr.address ||
@@ -55,7 +53,6 @@ const AddHR = () => {
             name: '',
             email: '',
             phone: '',
-            image: '',
             dob: '',
             joiningDate: '',
             address: '',
@@ -161,16 +158,6 @@ const AddHR = () => {
               id="inputDepartment"
               value={hr.department}
               readOnly // Makes the field non-editable
-            />
-          </div>
-
-          <div className="col-12 mb-3">
-            <label className="form-label" htmlFor="inputImage">Upload Image</label>
-            <input
-              type="file"
-              className="form-control rounded-0"
-              id="inputImage"
-              onChange={(e) => setHR({ ...hr, image: e.target.files[0] })}
             />
           </div>
 

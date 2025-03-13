@@ -44,7 +44,6 @@ const AddEmployee = () => {
     address: "",
     phone: "",
     role: "",
-    image: "",
     manager: "",
     dob: "",
     joiningDate: "",
@@ -81,7 +80,6 @@ const AddEmployee = () => {
       !employee.name ||
       !employee.email ||
       !employee.phone ||
-      !employee.image ||
       !employee.manager ||
       !employee.dob ||
       !employee.joiningDate ||
@@ -107,7 +105,6 @@ const AddEmployee = () => {
             address: "",
             phone: "",
             role: "",
-            image: "",
             manager: "",
             dob: "",
             joiningDate: "",
@@ -231,16 +228,6 @@ const AddEmployee = () => {
               placeholder="1234 Main St"
               autoComplete="off"
               onChange={(e) => setEmployee({ ...employee, address: e.target.value })}
-            />
-          </div>
-
-          <div className="col-12 mb-3">
-            <label className="form-label">Select Image</label>
-            <input
-              type="file"
-              className="form-control rounded-0"
-              name="image"
-              onChange={(e) => setEmployee({ ...employee, image: e.target.files[0] })}
             />
           </div>
 

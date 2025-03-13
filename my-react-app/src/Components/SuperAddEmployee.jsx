@@ -73,7 +73,6 @@ const AddEmployee = () => {
     address: "",
     phone: "",
     role: "",
-    image: "",
     manager: "",
     dob: "",
     joiningDate: "",
@@ -114,7 +113,6 @@ const AddEmployee = () => {
       !employee.email ||
       !employee.phone ||
       !employee.role ||
-      !employee.image ||
       !employee.manager ||
       !employee.dob ||
       !employee.joiningDate ||
@@ -140,7 +138,6 @@ const AddEmployee = () => {
             address: "",
             phone: "",
             role: "",
-            image: "",
             manager: "",
             dob: "",
             joiningDate: "",
@@ -285,17 +282,6 @@ const AddEmployee = () => {
               onChange={(e) => setEmployee({ ...employee, address: e.target.value })}
             />
           </div>
-
-          <div className="col-12 mb-3">
-            <label className="form-label">Select Image</label>
-            <input
-              type="file"
-              className="form-control rounded-0"
-              name="image"
-              onChange={(e) => setEmployee({ ...employee, image: e.target.files[0] })}
-            />
-          </div>
-
           <div className="col-12">
             <button type="submit" className="btn btn-primary w-100" disabled={isSubmitting}>
               {isSubmitting ? "Adding..." : "Add Employee"}

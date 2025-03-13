@@ -3,6 +3,7 @@ import axios from "axios";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import "./SuperAdminReport.css";
+import gudda from "/src/assets/gudda.svg"; // ✅ Absolute Import for Vite
 
 const SuperAdminReport = () => {
   const [hrData, setHrData] = useState([]);
@@ -70,74 +71,7 @@ const SuperAdminReport = () => {
     employee.company?.toLowerCase().includes(searchTerm)
   );
 
-  // Download PDF Report for HR (with DOB)
-  const downloadHRPDF = (hr) => {
-    const doc = new jsPDF();
-    doc.setFontSize(18);
-    doc.text("BLACK GRAPES GROUP", 105, 15, null, null, "center");
-    doc.setFontSize(12);
-    doc.text("HR Detail Report", 105, 22, null, null, "center");
-    doc.setFontSize(10);
-    doc.text(`Date: ${new Date().toLocaleDateString()}`, 14, 35);
-
-    const tableData = [
-      ["Name", hr.name],
-      ["Email", hr.email],
-      ["Date of Birth", hr.dob ? new Date(hr.dob).toLocaleDateString() : "N/A"], // ✅ Added DOB
-      ["Address", hr.address || "N/A"],
-      ["Phone", hr.phone || "N/A"],
-      ["Department", hr.department || "N/A"],
-      ["Joining Date", hr.joiningDate ? new Date(hr.joiningDate).toLocaleDateString() : "N/A"],
-      ["Salary (Rs.)", hr.salary || "N/A"],
-    ];
-
-    doc.autoTable({
-      startY: 40,
-      head: [["Field", "Details"]],
-      body: tableData,
-    });
-
-    doc.save(`${hr.name}_HR_Report.pdf`);
-  };
-
-  // Download PDF Report for Employee (with DOB)
-  const downloadEmployeePDF = (employee) => {
-    const doc = new jsPDF();
-    const payroll = payrollData[employee.email] || { totalSalary: "N/A", paidUpto: "N/A" };
-
-    doc.setFontSize(18);
-    doc.text("BLACK GRAPES GROUP", 105, 15, null, null, "center");
-    doc.setFontSize(12);
-    doc.text("Employee Detail Report", 105, 22, null, null, "center");
-    doc.setFontSize(10);
-    doc.text(`Date: ${new Date().toLocaleDateString()}`, 14, 35);
-
-    const tableData = [
-      ["Name", employee.name],
-      ["Email", employee.email],
-      ["Date of Birth", employee.dob ? new Date(employee.dob).toLocaleDateString() : "N/A"], // ✅ Added DOB
-      ["Company", employee.company || "N/A"],
-      ["Address", employee.address || "N/A"],
-      ["Phone", employee.phone || "N/A"],
-      ["Department", employee.department || "N/A"],
-      ["Role", employee.role || "N/A"],
-      ["Manager", employee.manager || "N/A"],
-      ["Joining Date", employee.joiningDate ? new Date(employee.joiningDate).toLocaleDateString() : "N/A"],
-      ["Total Salary (Rs.)", payroll.totalSalary],
-      ["Paid Upto", payroll.paidUpto],
-    ];
-
-    doc.autoTable({
-      startY: 40,
-      head: [["Field", "Details"]],
-      body: tableData,
-    });
-
-    doc.save(`${employee.name}_Employee_Report.pdf`);
-  };
-
   return (
-    
     <div className="superadmin-report-container">
       <h1 className="report-title">Super Admin Report</h1>
 
@@ -165,14 +99,17 @@ const SuperAdminReport = () => {
               <th>Phone</th>
               <th>Joining Date</th>
               <th>Salary (Rs.)</th>
-              <th>Download</th>
             </tr>
           </thead>
           <tbody>
             {filteredHRs.map((hr) => (
               <tr key={hr.id || hr._id}>
                 <td>
-                  <img src={hr.image || "https://via.placeholder.com/50"} alt={hr.name} className="hr-image" />
+                  <img
+                    src={hr.image || gudda} // ✅ Use `gudda.svg` if no image available
+                    alt={hr.name}
+                    className="hr-image"
+                  />
                 </td>
                 <td>{hr.name}</td>
                 <td>{hr.email}</td>
@@ -180,9 +117,6 @@ const SuperAdminReport = () => {
                 <td>{hr.phone || "N/A"}</td>
                 <td>{hr.joiningDate ? new Date(hr.joiningDate).toLocaleDateString() : "N/A"}</td>
                 <td>{hr.salary || "N/A"}</td>
-                <td>
-                  <button className="download-button" onClick={() => downloadHRPDF(hr)}>⬇️</button>
-                </td>
               </tr>
             ))}
           </tbody>
@@ -204,35 +138,28 @@ const SuperAdminReport = () => {
               <th>Manager</th>
               <th>Phone</th>
               <th>Joining Date</th>
-              <th>Total Salary (Rs.)</th>
-              <th>Paid Upto</th>
-              <th>Download</th>
             </tr>
           </thead>
           <tbody>
-            {filteredEmployees.map((employee) => {
-              const payroll = payrollData[employee.email] || { totalSalary: "N/A", paidUpto: "N/A" };
-              return (
-                <tr key={employee.id || employee._id}>
-                  <td>
-                    <img src={employee.image || "https://via.placeholder.com/50"} alt={employee.name} className="employee-image" />
-                  </td>
-                  <td>{employee.name}</td>
-                  <td>{employee.email}</td>
-                  <td>{employee.company || "N/A"}</td>
-                  <td>{employee.department || "N/A"}</td>
-                  <td>{employee.role || "N/A"}</td>
-                  <td>{employee.manager || "N/A"}</td>
-                  <td>{employee.phone || "N/A"}</td>
-                  <td>{employee.joiningDate ? new Date(employee.joiningDate).toLocaleDateString() : "N/A"}</td>
-                  <td>{payroll.totalSalary}</td>
-                  <td>{payroll.paidUpto}</td>
-                  <td>
-                    <button className="download-button" onClick={() => downloadEmployeePDF(employee)}>⬇️</button>
-                  </td>
-                </tr>
-              );
-            })}
+            {filteredEmployees.map((employee) => (
+              <tr key={employee.id || employee._id}>
+                <td>
+                  <img
+                    src={employee.image || gudda} // ✅ Use `gudda.svg` if no image available
+                    alt={employee.name}
+                    className="employee-image"
+                  />
+                </td>
+                <td>{employee.name}</td>
+                <td>{employee.email}</td>
+                <td>{employee.company || "N/A"}</td>
+                <td>{employee.department || "N/A"}</td>
+                <td>{employee.role || "N/A"}</td>
+                <td>{employee.manager || "N/A"}</td>
+                <td>{employee.phone || "N/A"}</td>
+                <td>{employee.joiningDate ? new Date(employee.joiningDate).toLocaleDateString() : "N/A"}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

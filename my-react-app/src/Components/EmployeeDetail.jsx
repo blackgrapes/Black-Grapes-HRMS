@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './EmployeeDetail.css';
+import gudda from "/src/assets/gudda.svg"; // ✅ Import gudda.svg
 
 const EmployeeDetail = ({ email }) => {
   const [employee, setEmployee] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [payroll, setPayroll] = useState({}); 
+  const [payroll, setPayroll] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,7 +21,7 @@ const EmployeeDetail = ({ email }) => {
 
       try {
         const response = await axios.get(`${process.env.VITE_API_URL}/employeedetail/employee`, {
-          params: { email }, // Pass query parameters
+          params: { email },
         });
 
         if (response.data && response.data.Result) {
@@ -34,17 +35,15 @@ const EmployeeDetail = ({ email }) => {
       } finally {
         setLoading(false);
       }
-    }; 
+    };
 
-    const payrolldata = async () => {
+    const fetchPayrollData = async () => {
       const response = await axios.get(`${process.env.VITE_API_URL}/Payroll/payroll/${email}`);
-      console.log(response) 
       setPayroll(response?.data?.payrollData ?? {});
-     
-    }
+    };
 
     fetchEmployeeDetails();
-    payrolldata();
+    fetchPayrollData();
   }, [email]);
 
   const handleLogout = () => {
@@ -52,19 +51,19 @@ const EmployeeDetail = ({ email }) => {
     if (confirmLogout) {
       localStorage.removeItem('valid');
       alert("You have been logged out. Please log in again.");
-      navigate('/'); // Redirect to homepage after logout
+      navigate('/');
     }
   };
 
   const handleEdit = () => {
-    const confirmEdit = window.confirm("Are you sure you want to edit the details?  YOU HAVE TO RE-LOGIN");
+    const confirmEdit = window.confirm("Are you sure you want to edit the details? YOU HAVE TO RE-LOGIN.");
     if (confirmEdit) {
-      navigate(`/employee/edit_employee?email=${email}`); // Navigate to edit page with employee ID
+      navigate(`/employee/edit_employee?email=${email}`);
     }
   };
 
   const handleLeave = () => {
-    const confirmLeave = window.confirm("Apply For Leave Before The Day?  YOU HAVE TO RE-LOGIN.");
+    const confirmLeave = window.confirm("Apply For Leave Before The Day? YOU HAVE TO RE-LOGIN.");
     if (confirmLeave) {
       navigate(`/employee/Leave?email=${email}`);
     }
@@ -83,10 +82,11 @@ const EmployeeDetail = ({ email }) => {
       <header className="header">
         <h4>Employee Management System</h4>
       </header>
+
       <div className="employee-card">
         <div className="employee-image-container">
           <img
-            src={`${process.env.VITE_API_URL}/Images/${employee.image || 'default.png'}`}
+            src={employee.image ? `${process.env.VITE_API_URL}/Images/${employee.image}` : gudda} // ✅ Gudda used as default
             className="employee-image"
             alt="Employee"
           />

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"; // 🔥 Import useNavigate
 import axios from "axios";
 import "./Profile.css";
+import gudda from "/src/assets/gudda.svg"; // ✅ Import gudda.svg
 
 const Profile = () => {
   const [hrDetails, sethrDetails] = useState({
@@ -11,14 +12,13 @@ const Profile = () => {
     email: "",
     phone: "",
     address: "",
-    profilePicture: "https://via.placeholder.com/150",
+    profilePicture: gudda, // ✅ Default profile picture
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [originalDetails, setOriginalDetails] = useState({});
 
   const navigate = useNavigate(); // ✅ Initialize useNavigate
-
   const email = localStorage.getItem("email");
 
   useEffect(() => {
@@ -36,7 +36,10 @@ const Profile = () => {
 
         if (response.data && response.data.Result) {
           const fetchedDetails = response.data.Result;
-          sethrDetails(fetchedDetails);
+          sethrDetails({
+            ...fetchedDetails,
+            profilePicture: fetchedDetails.profilePicture || gudda, // ✅ Use `gudda.svg` if no image
+          });
           setOriginalDetails(fetchedDetails);
         } else {
           setError(response.data.Error || "Failed to fetch employee details.");
@@ -103,7 +106,6 @@ const Profile = () => {
   const handleHRLeave = () => {
     navigate(`/dashboard/HrLeave?email=${hrDetails.email}`);
   };
-  
 
   if (loading) {
     return <div>Loading...</div>;
@@ -119,7 +121,7 @@ const Profile = () => {
         <div className="profile-picture-container">
           <img
             className="profile-picture"
-            src={hrDetails.profilePicture}
+            src={hrDetails.profilePicture || gudda} // ✅ Fallback to `gudda.svg`
             alt="Profile"
           />
           <label htmlFor="profilePicture" className="change-profile-btn">
@@ -197,4 +199,3 @@ const Profile = () => {
 };
 
 export default Profile;
- 

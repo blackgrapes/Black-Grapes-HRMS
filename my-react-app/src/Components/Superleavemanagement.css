@@ -1,54 +1,57 @@
+/* Superleavemanagement.css */
 
 .leave-container {
-  max-width: 900px;
-  margin: 50px auto;
+  max-width: 90%;
+  margin: 20px auto;
   background: white;
   padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-h1 {
+.leave-container h1 {
+  text-align: center;
   font-size: 24px;
   font-weight: bold;
+  margin-bottom: 20px;
 }
 
-table {
+.leave-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
-  background: white;
-  border-radius: 8px;
-  overflow: hidden;
 }
 
-th, td {
-  padding: 12px;
+.leave-table th,
+.leave-table td {
+  padding: 10px;
   border: 1px solid #ddd;
   text-align: center;
 }
 
-th {
-  background: #f8f9fa;
-  font-weight: bold;
+.leave-table th {
+  background-color: #f4f4f4;
+  font-size: 16px;
 }
 
-td {
-  background: #ffffff;
+.leave-table tr:nth-child(even) {
+  background-color: #f9f9f9;
 }
 
-button {
-  padding: 8px 12px;
-  margin: 5px;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
+.leave-table td {
   font-size: 14px;
 }
 
-
+button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  margin: 3px;
+}
 
 button:hover {
-  opacity: 0.8;
+  opacity: 0.9;
 }
+
+

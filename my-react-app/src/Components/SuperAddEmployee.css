@@ -1,13 +1,12 @@
-/* The box container that holds the form */
-.form-box {
-  background-color: #fff;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15); /* Enhanced shadow for depth */
-  border-radius: 12px;
-  padding: 30px;
+.container {
   width: 100%;
-  max-width: 500px; /* Limit width for better form readability */
-  margin: auto;
-  transition: all 0.3s ease-in-out;
+  max-width: none;
+  padding: 20px;
+  background-color: #cde1f8;
+  min-height: 100vh; /* Full screen height */
+  display: flex;
+  flex-direction: column; /* Keep elements in column */
+  align-items: center;
 }
 
 /* Center the form */
