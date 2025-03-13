@@ -136,42 +136,32 @@ router.put('/update_hr/:email', upload.single('profilePicture'), async (req, res
   }
 });
 
-router.delete('/delete_hr/:email', async (req, res) => {
-  const { email } = req.params;
+router.delete('/delete_hr/:id', async (req, res) => {
+  const { id } = req.params;
 
   try {
-    // Validate email
-    if (!email) {
-      return res.status(400).json({ Error: 'Email is required' });
+    // Validate ID
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({ Error: 'Invalid HR ID' });
     }
 
+    const objectId = new ObjectId(id);
+
     // Find the HR to get the image filename
-    const hr = await db.collection("hr_detail").findOne({ email });
+    const hr = await db.collection("hr_detail").findOne({ _id: objectId });
 
     if (!hr) {
       return res.status(404).json({ Error: 'HR not found' });
     }
 
     // Delete the HR record from the database
-    const result = await db.collection("hr_detail").deleteOne({ email });
+    const result = await db.collection("hr_detail").deleteOne({ _id: objectId });
 
     if (result.deletedCount === 0) {
       return res.status(404).json({ Error: 'HR not found or already deleted' });
     }
 
-    // If there's an image associated with the HR, delete it from the "uploads" folder
-    if (hr.image) {
-      const imagePath = path.join('uploads', hr.image);
-      fs.unlink(imagePath, (err) => {
-        if (err) {
-          console.error('Error deleting image:', err);
-        } else {
-          console.log('Image deleted successfully:', hr.image);
-        }
-      });
-    }
-
-    console.log('HR deleted:', email);
+    console.log('HR deleted:', id);
     res.status(200).json({ message: 'HR deleted successfully' });
   } catch (err) {
     console.error('Error deleting HR:', err.message);

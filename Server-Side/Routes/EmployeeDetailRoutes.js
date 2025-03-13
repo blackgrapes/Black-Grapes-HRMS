@@ -188,44 +188,32 @@ router.get('/companies', async (req, res) => {
 });
 
 // ✅ Delete Employee by ID (unchanged)
-router.delete('/delete_hr/:id', async (req, res) => {
+router.delete('/delete_employee/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
     // Validate MongoDB ObjectId
     if (!ObjectId.isValid(id)) {
-      return res.status(400).json({ Error: `Invalid HR ID: ${id}` });
+      return res.status(400).json({ Error: `Invalid Employee ID: ${id}` });
     }
 
-    // Find the HR to get the image filename (if exists)
-    const hr = await db.collection("hr_detail").findOne({ _id: new ObjectId(id) });
+    // Find the Employee to get the image filename (if exists)
+    const employee = await db.collection("employees_detail").findOne({ _id: new ObjectId(id) });
 
-    if (!hr) {
-      return res.status(404).json({ Error: "HR not found" });
+    if (!employee) {
+      return res.status(404).json({ Error: "Employee not found" });
     }
 
-    // Delete HR from the database
-    const result = await db.collection("hr_detail").deleteOne({ _id: new ObjectId(id) });
+    // Delete Employee from the database
+    const result = await db.collection("employees_detail").deleteOne({ _id: new ObjectId(id) });
 
     if (result.deletedCount === 0) {
-      return res.status(404).json({ Error: "HR not found or already deleted" });
+      return res.status(404).json({ Error: "Employee not found or already deleted" });
     }
 
-    // If HR has an image, delete it from the "uploads" folder
-    if (hr.image) {
-      const imagePath = path.join('uploads', hr.image);
-      fs.unlink(imagePath, (err) => {
-        if (err) {
-          console.error(`Error deleting image (${hr.image}):`, err);
-        } else {
-          console.log('HR image deleted successfully:', hr.image);
-        }
-      });
-    }
-
-    res.status(200).json({ Status: true, message: "HR deleted successfully" });
+    res.status(200).json({ Status: true, message: "Employee deleted successfully" });
   } catch (err) {
-    console.error("Error deleting HR:", err);
+    console.error("Error deleting Employee:", err);
     res.status(500).json({ Error: "Internal server error" });
   }
 });

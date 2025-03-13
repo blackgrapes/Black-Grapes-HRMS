@@ -54,18 +54,23 @@ const ManageEmployeeDetails = () => {
   const handleDeleteHR = (id) => {
     if (window.confirm("Are you sure you want to delete this HR?")) {
       axios
-        .delete(`${process.env.VITE_API_URL}/auth/delete_hr/${id}`)
+        .delete(`${process.env.VITE_API_URL}/hrdetail/delete_hr/${id}`)
         .then((result) => {
-          if (result.data.Status) {
+          if (result.status === 200) {
             alert("HR deleted successfully");
-            setHrDetails(hrDetails.filter((hr) => hr.id !== id));
+            setHrDetails(hrDetails.filter((hr) => hr._id !== id)); // Correct filtering
           } else {
             alert("Error deleting HR");
           }
         })
-        .catch((err) => console.error("Error deleting HR:", err));
+        .catch((err) => {
+          console.error("Error deleting HR:", err);
+          alert("An error occurred while deleting the HR");
+        });
     }
   };
+  
+  
 
   const filteredEmployees = employees.filter((employee) =>
     employee.name?.toLowerCase().includes(searchTerm.toLowerCase())
