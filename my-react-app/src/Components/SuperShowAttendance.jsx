@@ -1,75 +1,134 @@
-import React from "react";
-import "./SuperShowAttendance.css";
+import React, { useState } from 'react';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import './SuperShowAttendance.css';
 
-const SuperShowAttendance = () => {
-  const attendanceData = [
-    { id: 1, name: "Amar Dubey", from: "2025-03-01", to: "2025-03-05", status: "Leave" },
-    { id: 2, name: "Shrivanshu Dubey", from: "2025-03-08", to: "2025-03-10", status: "Leave" },
-    { id: 3, name: "Ravi Kumar", from: "2025-03-02", to: "2025-03-02", status: "Absent" },
-    { id: 4, name: "Test Employee", from: "N/A", to: "N/A", status: "Present" },
-  ];
+const HRAttendanceReport = () => {
+  const [employeeEmail, setEmployeeEmail] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [attendanceRecords, setAttendanceRecords] = useState([]);
+  const [message, setMessage] = useState('');
 
-  // 🖨️ Function to download CSV
-  const downloadCSV = () => {
-    let csvContent = "data:text/csv;charset=utf-8,";
-    csvContent += "ID,Name,Leave From,Leave To,Status\n";
+  const handleEmailChange = (e) => setEmployeeEmail(e.target.value);
+  const handleStartDateChange = (e) => setStartDate(e.target.value);
+  const handleEndDateChange = (e) => setEndDate(e.target.value);
 
-    attendanceData.forEach((record) => {
-      csvContent += `${record.id},${record.name},${record.from},${record.to},${record.status}\n`;
+  const fetchAttendanceRecords = async () => {
+    if (!employeeEmail || !startDate || !endDate) {
+      setMessage('Please provide an email and select a date range.');
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/hrattendance/hr-attendance?hrEmail=${employeeEmail}&fromDate=${startDate}&toDate=${endDate}`
+      );
+      const data = await response.json();
+
+      if (response.ok) {
+        setAttendanceRecords(data.result || []);
+        setMessage('');
+      } else {
+        setAttendanceRecords([]);
+        setMessage(data.error || 'No attendance data found.');
+      }
+    } catch (err) {
+      setMessage('Error retrieving attendance records. Please try again.');
+    }
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    fetchAttendanceRecords();
+  };
+
+  const countAttendanceStats = () => {
+    let stats = { present: 0, absent: 0, paidLeave: 0, unpaidLeave: 0, halfDay: 0 };
+    attendanceRecords.forEach((record) => {
+      stats[record.status.replace(' ', '').toLowerCase()]++;
     });
+    return stats;
+  };
 
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "HR_Attendance_Report.csv");
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  const formatDate = (date) => new Date(date).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+
+  const generatePDF = () => {
+    const doc = new jsPDF();
+    doc.setFontSize(18);
+    doc.text('BLACK GRAPE GROUPS', 105, 15, null, null, 'center');
+    doc.setFontSize(12);
+    doc.text('HR Attendance Report', 105, 22, null, null, 'center');
+
+    const today = new Date().toLocaleDateString();
+    doc.setFontSize(10);
+    doc.text(`Date: ${today}`, 14, 35);
+    doc.text(`Employee Email: ${employeeEmail}`, 14, 45);
+    doc.text(`From: ${formatDate(startDate)}`, 14, 55);
+    doc.text(`To: ${formatDate(endDate)}`, 14, 60);
+
+    const { present, absent, paidLeave, unpaidLeave, halfDay } = countAttendanceStats();
+    doc.text(`Present: ${present}`, 14, 70);
+    doc.text(`Absent: ${absent}`, 14, 75);
+    doc.text(`Paid Leave: ${paidLeave}`, 14, 80);
+    doc.text(`Unpaid Leave: ${unpaidLeave}`, 14, 85);
+    doc.text(`Half Day: ${halfDay}`, 14, 90);
+
+    const tableData = attendanceRecords.map((record) => [record.date, record.status]);
+    doc.autoTable({ head: [['Date', 'Status']], body: tableData, startY: 100 });
+    doc.save(`HR_Attendance_${employeeEmail}_${startDate}_to_${endDate}.pdf`);
   };
 
   return (
-    <div className="attendance-container">
-      <h2 className="attendance-title">HR Attendance Report</h2>
+    <div className='hr-attendance-container'>
+      <h2>HR Attendance Report</h2>
+      <form onSubmit={handleFormSubmit} className='hr-form'>
+        <label>Email Address:</label>
+        <input type='email' value={employeeEmail} onChange={handleEmailChange} placeholder='Enter employee email' />
 
-      <div className="search-bar">
-        <input type="text" placeholder="Search HR..." />
-      </div>
+        <label>From Date:</label>
+        <input type='date' value={startDate} onChange={handleStartDateChange} />
 
-      <div className="attendance-table-container">
-        <table className="attendance-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Leave From</th>
-              <th>Leave To</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {attendanceData.map((record) => (
-              <tr key={record.id}>
-                <td>{record.id}</td>
-                <td>{record.name}</td>
-                <td>{record.from}</td>
-                <td>{record.to}</td>
-                <td>
-                  <span className={`status ${record.status.toLowerCase()}`}>
-                    {record.status}
-                  </span>
-                </td>
+        <label>To Date:</label>
+        <input type='date' value={endDate} onChange={handleEndDateChange} />
+
+        <button type='submit'>Retrieve Attendance</button>
+      </form>
+
+      {message && <div className='message-box'>{message}</div>}
+
+      {attendanceRecords.length > 0 && (
+        <div className='attendance-details'>
+          <h3>Attendance Summary</h3>
+          <p><strong>From:</strong> {formatDate(startDate)}</p>
+          <p><strong>To:</strong> {formatDate(endDate)}</p>
+          <p><strong>Present:</strong> {countAttendanceStats().present}</p>
+          <p><strong>Absent:</strong> {countAttendanceStats().absent}</p>
+          <p><strong>Paid Leave:</strong> {countAttendanceStats().paidLeave}</p>
+          <p><strong>Unpaid Leave:</strong> {countAttendanceStats().unpaidLeave}</p>
+          <p><strong>Half Day:</strong> {countAttendanceStats().halfDay}</p>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Status</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      {/* 📥 Download Button */}
-      <button className="download-btn" onClick={downloadCSV}>
-        Download Report 📥
-      </button>
+            </thead>
+            <tbody>
+              {attendanceRecords.map((record, index) => (
+                <tr key={index}>
+                  <td>{record.date}</td>
+                  <td>{record.status}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <button onClick={generatePDF} className='download-btn'>Download Report</button>
+        </div>
+      )}
     </div>
   );
 };
 
-export default SuperShowAttendance;
+export default HRAttendanceReport;
