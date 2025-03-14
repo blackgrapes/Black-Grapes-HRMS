@@ -8,7 +8,8 @@ import "./SuperAdminReport.css";
 const SuperAdminReport = () => {
   const [hrData, setHrData] = useState([]);
   const [employeeData, setEmployeeData] = useState([]);
-  const [payrollData, setPayrollData] = useState([]);
+  const [hrPayrollData, setHrPayrollData] = useState([]);
+  const [employeePayrollData, setEmployeePayrollData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
@@ -31,26 +32,41 @@ const SuperAdminReport = () => {
       }
     };
 
-    const fetchPayrollData = async () => {
+    const fetchHRPayrollData = async () => {
       try {
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/hrpayroll/hr-payroll-with-details`);
-        setPayrollData(response.data.payrollData || []);
+        setHrPayrollData(response.data.payrollData || []);
       } catch (error) {
-        console.error("Error fetching Payroll data:", error);
+        console.error("Error fetching HR Payroll data:", error);
+      }
+    };
+
+    const fetchEmployeePayrollData = async () => {
+      try {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/Payroll/payroll-with-details`);
+        setEmployeePayrollData(response.data.payrollData || []);
+      } catch (error) {
+        console.error("Error fetching Employee Payroll data:", error);
       }
     };
 
     fetchHRData();
     fetchEmployeeData();
-    fetchPayrollData();
+    fetchHRPayrollData();
+    fetchEmployeePayrollData();
   }, []);
 
-  const getPayrollInfo = (email) => {
-    return payrollData.find((pay) => pay.email === email) || {};
+  const getPayrollInfo = (email, type) => {
+    if (type === "HR") {
+      return hrPayrollData.find((pay) => pay.email === email) || {};
+    } else if (type === "Employee") {
+      return employeePayrollData.find((pay) => pay.email === email) || {};
+    }
+    return {};
   };
 
   const downloadPDF = (user, type) => {
-    const payrollInfo = getPayrollInfo(user.email);
+    const payrollInfo = getPayrollInfo(user.email, type);
     const doc = new jsPDF();
     doc.setFontSize(18);
     doc.text("BLACK GRAPES GROUP", 105, 15, null, null, "center");
@@ -73,7 +89,7 @@ const SuperAdminReport = () => {
     ];
 
     doc.autoTable({ startY: 40, head: [["Field", "Details"]], body: tableData });
-    doc.save(`${user.name}_Report.pdf`);
+    doc.save(`${user.name}_${type}_Report.pdf`);
   };
 
   return (
@@ -110,7 +126,7 @@ const SuperAdminReport = () => {
           </thead>
           <tbody>
             {hrData.map((hr) => {
-              const payrollInfo = getPayrollInfo(hr.email);
+              const payrollInfo = getPayrollInfo(hr.email, "HR");
               return (
                 <tr key={hr.id}>
                   <td>{hr.name}</td>
@@ -148,7 +164,7 @@ const SuperAdminReport = () => {
           </thead>
           <tbody>
             {employeeData.map((emp) => {
-              const payrollInfo = getPayrollInfo(emp.email);
+              const payrollInfo = getPayrollInfo(emp.email, "Employee");
               return (
                 <tr key={emp.id}>
                   <td>{emp.name}</td>
