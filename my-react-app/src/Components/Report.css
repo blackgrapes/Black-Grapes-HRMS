@@ -140,7 +140,6 @@
 
 /* Optional: Adding a search icon inside the input field */
 .search-input::before {
-  content: url('path_to_icon/search-icon.svg'); /* You can use a URL to your search icon */
   position: absolute;
   top: 50%;
   left: 15px;

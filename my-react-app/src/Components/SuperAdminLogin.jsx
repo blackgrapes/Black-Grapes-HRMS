@@ -49,7 +49,7 @@ const SuperAdminLogin = () => {
   return (
     <div className="main-container">
       <div className="superadmin-login-container">
-        <img src="./src/assets/logo.png" alt="Super Admin Logo" className="logo" />
+        <img src="./src/assets/logo.svg" alt="Super Admin Logo" className="logo" />
         <h2>Super Admin Login</h2>
         {error && <div className="error-message">{error}</div>}
         <form onSubmit={handleLogin}>

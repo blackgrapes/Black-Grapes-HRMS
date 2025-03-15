@@ -32,7 +32,7 @@ const Start = () => {
       <div className="login-form">
         {/* Logo Image */}
         <div className="logo">
-          <img src="./src/assets/logo.png" alt="Logo" />
+          <img src="./src/assets/logo.svg" alt="Logo" />
         </div>
         <h2>Login As</h2>
         <div className="button-group">
