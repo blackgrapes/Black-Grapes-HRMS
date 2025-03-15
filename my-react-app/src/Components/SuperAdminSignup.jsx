@@ -32,7 +32,7 @@ const SuperAdminSignup = () => {
     };
 
     try {
-      const response = await axios.post('http://localhost:3000/superadmin/superadminsignup', newUser);
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/superadmin/superadminsignup`, newUser);
       if (response.data.Status) {
         setSuccess('Super Admin registered successfully!');
         setError('');
